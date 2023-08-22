@@ -60,9 +60,10 @@ public class CaseDTO {
     }
 
     public static class Slot {
-        private interface Id {
-            @NotNull
-            Long getId();
+        private interface Name {
+            @NotBlank
+            @Length(min = 1, max = 64)
+            String getName();
         }
 
         public interface Percentage {
@@ -72,10 +73,12 @@ public class CaseDTO {
         }
 
         public interface NameItem<T> {
+            @NotNull
             T getItem();
         }
 
         public interface Item<T> {
+            @NotNull
             T getItem();
         }
 
@@ -98,6 +101,7 @@ public class CaseDTO {
                     return percentage;
                 }
 
+                @Override
                 public ItemDTO.Request.Name getItem() {
                     return item;
                 }
@@ -111,19 +115,20 @@ public class CaseDTO {
 
         public enum Response {
             ;
-
-            public static class Partial implements Percentage, Item<ItemDTO.Response.Partial>, Quantity {
+            public static class Partial implements Percentage, Item<ItemDTO.Response.Partial>, Quantity, Slot.Name {
                 BigDecimal percentage;
                 ItemDTO.Response.Partial item;
                 Integer quantity;
+                String name;
 
                 public Partial() {
                 }
 
-                public Partial(BigDecimal percentage, ItemDTO.Response.Partial item, Integer quantity) {
+                public Partial(BigDecimal percentage, ItemDTO.Response.Partial item, Integer quantity, String name) {
                     this.percentage = percentage;
                     this.item = item;
                     this.quantity = quantity;
+                    this.name = name;
                 }
 
                 @Override
@@ -139,6 +144,11 @@ public class CaseDTO {
                 @Override
                 public Integer getQuantity() {
                     return quantity;
+                }
+
+                @Override
+                public String getName() {
+                    return name;
                 }
             }
         }

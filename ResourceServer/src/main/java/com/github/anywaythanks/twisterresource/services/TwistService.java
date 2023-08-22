@@ -83,7 +83,7 @@ public class TwistService {
                 wonSlot.getQuantityItem(),
                 Instant.now(),
                 generalAccount);
-        return twistMapper.toDTO(twistRepository.save(twist));
+        return twistMapper.toDTO(wonSlot, twistRepository.save(twist));
     }
 
     private CaseSlot<Item> twist(Collection<CaseSlot<Item>> collectionOrderedByPercentage) throws NoSuchAlgorithmException {

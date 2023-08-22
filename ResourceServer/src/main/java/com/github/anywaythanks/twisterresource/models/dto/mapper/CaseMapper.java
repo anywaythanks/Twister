@@ -63,7 +63,9 @@ public class CaseMapper {
     }
 
     public CaseDTO.Slot.Response.Partial toPartialDTO(CaseSlot<?> slot) {
-        return new CaseDTO.Slot.Response.Partial(slot.getPercentageWining(), itemMapper.toPartialDTO(slot.getItem()), slot.getQuantityItem());
+        return new CaseDTO.Slot.Response.Partial(slot.getPercentageWining(),
+                itemMapper.toPartialDTO(slot.getItem()),
+                slot.getQuantityItem(), slot.getName().getName());
     }
 
     public CaseSlot<Item> toCaseSlot(Item item, CaseDTO.Slot.Request.Create request) {
