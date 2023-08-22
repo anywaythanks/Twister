@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:if test="${page.totalPage > 0}">
+<c:if test="${page.totalPages > 0}">
     <div class="paginator_full">
         <nav>
             <ul class="pagination">
