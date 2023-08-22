@@ -1,0 +1,41 @@
+header {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+}
+
+#about {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+#about > a {
+    color: #444;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#about > ul {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+#about > ul > li {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+#title > a{
+    color: #444;
+}
+
+#title {
+    display: flex;
+    flex: 1;
+    margin-left: 1em;
+}

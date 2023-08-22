@@ -1,0 +1,15 @@
+.cases-list{
+    display: flex;
+    max-width: 40%;
+    margin: 1em;
+    flex: 1;
+    flex-direction: column;
+}
+
+.home-content{
+    display: flex;
+    flex: 1;
+}
+.cases{
+    flex-direction: column;
+}

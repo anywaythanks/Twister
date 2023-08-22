@@ -1,0 +1,133 @@
+
+.paginator {
+    overflow-x: auto;
+    padding: 10px 0
+}
+
+.paginator_border {
+    border: 1px solid #e5e5e5;
+    border-right: 0;
+    border-left: 0
+}
+
+.paginator_border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.paginator_border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.pagination {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.pagination li {
+    display: inline-block;
+    min-width: 26px;
+    min-height: 26px;
+    line-height: 26px;
+    margin: 0 5px;
+    border-radius: 3px;
+    vertical-align: middle;
+    color: #212529;
+    cursor: pointer;
+    -webkit-transition: .1s ease;
+    transition: .1s ease
+}
+
+.pagination li.active,.pagination li:hover:not(.disabled) {
+    background-color: #d9d9d9;
+    color: #fff;
+}
+
+.pagination li.disabled {
+    cursor: not-allowed
+}
+
+.pagination li:first-child,.pagination li:last-child {
+    position: relative;
+    font-size: inherit;
+    text-rendering: auto;
+    font-smoothing: antialiased;
+    font-size: 26px;
+    border-radius: 0;
+    color: #818181;
+}
+
+.pagination li:first-child:hover,.pagination li:last-child:hover {
+    background: transparent;
+    color: #212529;
+}
+
+.pagination li:first-child a,.pagination li:first-child span,.pagination li:last-child a,.pagination li:last-child span {
+    font-size: 0
+}
+
+.pagination li:first-child:before,.pagination li:last-child:before {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none
+}
+
+.pagination li:first-child:before {
+    content: "<"
+}
+
+.pagination li:last-child:before {
+    content: ">"
+}
+
+.pagination a,.pagination span {
+    display: block;
+    min-height: 26px;
+    padding: 0 5px;
+    color: inherit;
+    text-decoration: none
+}
+
+@media (min-width: 768px) {
+    .paginator_full {
+        padding:0;
+        background: white;
+    }
+
+    .paginator_full .pagination {
+        padding: 10px 46px;
+        position: relative;
+        /* min-height: 46px; */
+    }
+
+    .paginator_full .pagination li:first-child,.paginator_full .pagination li:last-child {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        width: 46px;
+        line-height: 44px;
+        text-align: center;
+        margin: 0
+    }
+
+    .paginator_full .pagination li:first-child a,.paginator_full .pagination li:last-child a {
+        width: 100%;
+        height: 100%;
+        background: transparent!important;
+        border-radius: 0
+    }
+
+    .paginator_full .pagination li:first-child {
+        left: 0;
+        border-right: 1px solid #e5e5e5;
+    }
+
+    .paginator_full .pagination li:last-child {
+        right: 0;
+        border-left: 1px solid #e5e5e5;
+    }
+}

@@ -1,0 +1,45 @@
+
+
+.cases > ul {
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+
+}
+.cases li.active,.cases li:hover:not(.disabled) {
+    background-color: #f4f4f4;
+}
+.border-case{
+    padding: 0.5em;
+}
+
+.cases span{
+    color: #333;
+}
+.cases li{
+    border:  0.1em solid #b8b2b2;
+    border-radius: 0.5em;
+    background: white;
+}
+.case-name {
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+main > ul > li {
+    display: flex;
+    flex-direction: column;
+}
+.price {
+    display: flex;
+    align-items: center;
+}
+.cases {
+    display: flex;
+    padding-left: 0px;
+}
+.cases > li {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+}

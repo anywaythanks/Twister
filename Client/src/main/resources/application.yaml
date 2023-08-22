@@ -1,0 +1,37 @@
+scheme: http
+keycloak-port: 8180
+keycloak-realms: twister
+keycloak-issuer: ${scheme}://localhost:${keycloak-port}/realms/${keycloak-realms}
+keycloak-secret: pPJjW65hH7Qsb0zVqRThgjznA6IJKgxi
+file-server-path: http://localhost:9080/resources
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+server:
+  ssl:
+    enabled: false
+  port: 8080
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak-issuer}
+        registration:
+          keycloak-confidential-user:
+            authorization-grant-type: authorization_code
+            client-name: a local Keycloak instance
+            client-id: browser
+            client-secret: ${keycloak-secret}
+            provider: keycloak
+            scope: openid,profile,email,offline_access
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp

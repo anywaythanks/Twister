@@ -1,0 +1,19 @@
+main {
+    flex-direction: column;
+}
+
+main > ul {
+    display: flex;
+    padding: 0;
+    flex-direction: column;
+}
+
+main > ul > li {
+    display: flex;
+    flex-direction: column;
+}
+
+.amount {
+    display: flex;
+    align-items: center;
+}

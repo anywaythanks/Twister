@@ -1,0 +1,22 @@
+main {
+    display: flex;
+    flex: auto;
+    background: #eee;
+    flex-direction: row;
+}
+
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+    line-height: 1.42857;
+}
+
+a {
+    text-decoration: none;
+    color: #444;
+}

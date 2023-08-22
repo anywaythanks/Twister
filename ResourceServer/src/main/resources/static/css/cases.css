@@ -1,0 +1,12 @@
+.cases-list{
+    margin: 1em;
+    flex: 1;
+    flex-direction: column;
+}
+
+.cases{
+    flex-wrap: wrap;
+}
+.cases li{
+    margin-left: 2em;
+}

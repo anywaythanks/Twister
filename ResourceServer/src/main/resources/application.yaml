@@ -1,0 +1,52 @@
+scheme: http
+origins: http://localhost:9080, http://localhost:8080, http://localhost:8180
+keycloak-port: 8180
+keycloak-issuer: ${scheme}://localhost:${keycloak-port}/realms/twister
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: ERROR
+server:
+  port: 9080
+  error:
+    include-message: always
+  ssl:
+    enabled: false
+
+spring:
+  jpa:
+    open-in-view: false
+  mvc:
+    static-path-pattern: /resources/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak-issuer}
+  profiles:
+    active: qa
+
+---
+#scheme: https
+#keycloak-port: 8443
+#
+#server:
+#  ssl:
+#    enabled: true
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: ssl
+#
+
+spring-addons:
+  issuers:
+    - uri: ${keycloak-issuer}
+      username-json-path: $.preferred_username
+      claims:
+        - jsonPath: $.realm_access.roles
+        - jsonPath: $.resource_access.*.roles
