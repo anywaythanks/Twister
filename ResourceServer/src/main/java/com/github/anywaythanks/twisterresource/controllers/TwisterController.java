@@ -29,12 +29,11 @@ public class TwisterController {
         this.twistService = twistService;
     }
 
-    @PostMapping(path = "/{caseName}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{caseName}")
     @Transactional
     public TwistDTO.Response.Partial twist(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
                                            @Valid @PathVariable AccountDTO.Request.Number number,
-                                           @Valid @PathVariable CaseDTO.Request.Name caseName,
-                                           @Valid @RequestBody TwistDTO.Request.Create requestTwist) throws NoSuchAlgorithmException {
+                                           @Valid @PathVariable CaseDTO.Request.Name caseName) throws NoSuchAlgorithmException {
         return twistService.twist(name, number, caseName);
     }
 }
