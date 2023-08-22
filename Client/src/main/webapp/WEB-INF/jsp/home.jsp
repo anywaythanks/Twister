@@ -9,10 +9,12 @@
     <c:import url="includes/css.jsp"/>
     <s:url value="${fileServerPath}/css" var="css_url">
     </s:url>
+    <s:url value="${fileServerPath}/js" var="js_url">
+    </s:url>
     <link href="${css_url}/home.css" rel="stylesheet" />
     <link href="${css_url}/caseList.css" rel="stylesheet" />
     <link href="${css_url}/pagination.css" rel="stylesheet" />
-    <c:import url="includes/format.jsp"/>
+    <script type="text/javascript" src="${js_url}/format.js"></script>
     <title>Twister</title>
 </head>
 
