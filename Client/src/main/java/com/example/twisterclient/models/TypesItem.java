@@ -1,9 +1,10 @@
 package com.example.twisterclient.models;
 
 public enum TypesItem {
-    MONEY(Constants.MONEY_NAME), TRASH(Constants.TRASH_NAME);
-
-    TypesItem(String name) {
+    MONEY(Constants.MONEY_NAME, "money"), TRASH(Constants.TRASH_NAME, "trash");
+    private final String displayValue;
+    TypesItem(String name, String displayValue) {
+        this.displayValue = displayValue;
         if (!name.equals(this.name()))
             throw new IllegalArgumentException();
     }
@@ -15,6 +16,6 @@ public enum TypesItem {
 
     @Override
     public String toString() {
-        return super.toString();
+        return displayValue;
     }
 }
