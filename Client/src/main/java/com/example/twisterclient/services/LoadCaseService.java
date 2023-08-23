@@ -63,7 +63,7 @@ public class LoadCaseService {
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/api/public/case/{caseName}")
-                            .build())
+                            .build(caseName))
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Case>() {
                     })
@@ -73,7 +73,7 @@ public class LoadCaseService {
                     .get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/api/general/{name}/actual_case/{caseName}")
-                            .build(generalAccountSession.getName().getName()))
+                            .build(generalAccountSession.getName().getName(), caseName))
                     .attributes(clientRegistrationId("keycloak-confidential-user"))
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<Case>() {

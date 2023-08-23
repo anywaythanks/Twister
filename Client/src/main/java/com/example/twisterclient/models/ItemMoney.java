@@ -6,10 +6,11 @@ public class ItemMoney extends Item implements SellingItem {
     public ItemMoney() {
     }
 
-    public ItemMoney(String name, String visibleName, Money cost) {
-        super(name, visibleName);
+    public ItemMoney(String name, String visibleName, Money cost, TypesItem type) {
+        super(name, visibleName, type);
         this.cost = cost;
     }
+
     @Override
     public Money getCost() {
         return cost;

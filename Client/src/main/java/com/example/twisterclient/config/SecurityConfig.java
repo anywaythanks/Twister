@@ -24,8 +24,6 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @Configuration
 public class SecurityConfig {
     private final KeycloakLogoutHandler keycloakLogoutHandler;
-    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
-
     SecurityConfig(KeycloakLogoutHandler keycloakLogoutHandler) {
         this.keycloakLogoutHandler = keycloakLogoutHandler;
     }
@@ -38,7 +36,11 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/"),
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/home"),
+                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/cases"),
+                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/cases/**"),
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/home.jsp"),
+                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/cases/cases.jsp"),
+                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/cases/case.jsp"),
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/includes/**"))
                                 .permitAll()
                                 .anyRequest().authenticated())

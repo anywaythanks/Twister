@@ -6,14 +6,16 @@ public class CaseSlot {
     Item item;
     Long quantity;
     BigDecimal percentage;
+    String name;
 
     protected CaseSlot() {
     }
 
-    public CaseSlot(Item item, Long quantity, BigDecimal percentage) {
+    public CaseSlot(Item item, Long quantity, BigDecimal percentage, String name) {
         this.item = item;
         this.quantity = quantity;
         this.percentage = percentage;
+        this.name = name;
     }
 
     public Item getItem() {
@@ -26,5 +28,9 @@ public class CaseSlot {
 
     public BigDecimal getPercentage() {
         return percentage;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -20,17 +20,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequestMapping("/cases")
 public class CaseController {
     private final ModelPlaceholderService modelPlaceholderService;
-    private final WebClient webClient;
-    private final GeneralAccountSession generalAccountSession;
     private final LoadCaseService loadCaseService;
 
     public CaseController(ModelPlaceholderService modelPlaceholderService,
-                          WebClient webClient,
-                          GeneralAccountSession generalAccountSession,
                           LoadCaseService loadCaseService) {
         this.modelPlaceholderService = modelPlaceholderService;
-        this.webClient = webClient;
-        this.generalAccountSession = generalAccountSession;
         this.loadCaseService = loadCaseService;
     }
 

@@ -7,7 +7,8 @@ import java.math.BigDecimal;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type")
+        property = "type",
+        visible = true)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = ItemMoney.class, name = TypesItem.Constants.MONEY_NAME),
         @JsonSubTypes.Type(value = ItemTrash.class, name = TypesItem.Constants.TRASH_NAME)
@@ -15,11 +16,12 @@ import java.math.BigDecimal;
 public abstract class Item {
     String name;
     String visibleName;
+    TypesItem type;
 
     protected Item() {
     }
 
-    protected Item(String name, String visibleName) {
+    protected Item(String name, String visibleName, TypesItem type) {
         this.name = name;
         this.visibleName = visibleName;
     }
@@ -32,4 +34,7 @@ public abstract class Item {
         return name;
     }
 
+    public TypesItem getType() {
+        return type;
+    }
 }
