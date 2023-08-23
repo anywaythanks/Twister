@@ -6,9 +6,8 @@
 <html>
 <head>
     <c:import url="includes/css.jsp"/>
-    <style>
-        <%@include file="/resources/generalSetting.css" %>
-    </style>
+    <s:url value="${fileServerPath}/css" var="css_url"/>
+    <link href="${css_url}/generalSetting.css" rel="stylesheet" />
     <title>General setting</title>
 </head>
 <body>

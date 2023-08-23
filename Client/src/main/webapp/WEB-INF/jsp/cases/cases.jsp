@@ -7,12 +7,11 @@
 <head>
     <c:import url="../includes/meta.jsp"/>
     <c:import url="../includes/css.jsp"/>
-    <s:url value="${fileServerPath}/css" var="css_url">
-    </s:url>
+    <s:url value="${fileServerPath}/css" var="css_url"/>
     <link href="${css_url}/cases.css" rel="stylesheet"/>
-    <link href="${css_url}/pagination.css" rel="stylesheet" />
+    <link href="${css_url}/pagination.css" rel="stylesheet"/>
     <link href="${css_url}/caseList.css" rel="stylesheet"/>
-    <c:import url="../includes/format.jsp"/>
+    <script type="text/javascript" src="${js_url}/format.js"></script>
     <title>Twister</title>
 </head>
 

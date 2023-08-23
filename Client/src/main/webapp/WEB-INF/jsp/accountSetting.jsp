@@ -6,8 +6,7 @@
 <html>
 <head>
     <c:import url="includes/css.jsp"/>
-    <s:url value="${fileServerPath}/css" var="css_url">
-    </s:url>
+    <s:url value="${fileServerPath}/css" var="css_url"/>
     <link href="${css_url}/accountSetting.css" rel="stylesheet" />
     <title>Account setting</title>
 </head>
