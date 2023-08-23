@@ -1,41 +1,40 @@
 $(function () {
     let p = {
         startCallback: function () {
-            appendLogMsg('start');
-            $('#speed, #duration').slider('disable');
-            $('#stopImageNumber').spinner('disable');
-            $('.start').attr('disabled', 'true');
+            $('.twist').attr('disabled', 'true');
             $('.stop').removeAttr('disabled');
         },
         slowDownCallback: function () {
-            appendLogMsg('slowdown');
             $('.stop').attr('disabled', 'true');
         },
         stopCallback: function ($stopElm) {
-            appendLogMsg('stop');
-            $('#speed, #duration').slider('enable');
-            $('#stopImageNumber').spinner('enable');
-            $('.start').removeAttr('disabled');
+            $('.twist').removeClass('twist').html('ok').removeAttr('disabled');
             $('.stop').attr('disabled', 'true');
         }
     }
     let rouletter = $('div.case-line');
     rouletter.roulette(p);
     $('.stop').click(function () {
-        let stopImageNumber = $('.stopImageNumber').val();
-        if (stopImageNumber === "") {
-            stopImageNumber = null;
-        }
         rouletter.roulette('stop');
     });
-    $('.start').click(function () {
-        rouletter.roulette('start');
+
+    $('.twist').click(function () {
+        if ($(this).hasClass("twist")) {
+            const case_name = $(this).attr('data-case-name');
+            const account_number = $(this).attr('data-account-number');
+            $.post(`/me/${account_number}/twist/${case_name}`, function (data) {
+                    p['stopImageNumber'] = Number($(`#${data.caseName}`).attr("data-index"));
+                    rouletter.roulette('start');
+                }
+            );
+        } else {
+            location.reload();
+        }
     });
 
     let updateParamater = function () {
         p['speed'] = Number($('.speed_param').eq(0).text());
         p['duration'] = Number($('.duration_param').eq(0).text());
-        p['stopImageNumber'] = Number($('.stop_image_number_param').eq(0).text());
         rouletter.roulette('option', p);
     }
     let updateSpeed = function (speed) {
@@ -65,37 +64,4 @@ $(function () {
         }
     });
     updateDuration($('#duration').slider('value'));
-
-    let updateStopImageNumber = function (stopImageNumber) {
-        $('.image_sample').children().css('opacity', 0.2);
-        $('.image_sample').children().filter('[data-value="' + stopImageNumber + '"]').css('opacity', 1);
-        $('.stop_image_number_param').text(stopImageNumber);
-        updateParamater();
-    }
-
-    $('#stopImageNumber').spinner({
-        spin: function (event, ui) {
-            let imageNumber = ui.value;
-            if (ui.value > 4) {
-                $(this).spinner("value", -1);
-                imageNumber = 0;
-                updateStopImageNumber(-1);
-                return false;
-            } else if (ui.value < -1) {
-                $(this).spinner("value", 4);
-                imageNumber = 4;
-                updateStopImageNumber(4);
-                return false;
-            }
-            updateStopImageNumber(imageNumber);
-        }
-    });
-    $('#stopImageNumber').spinner('value', 0);
-    updateStopImageNumber($('#stopImageNumber').spinner('value'));
-
-    $('.image_sample').children().click(function () {
-        let stopImageNumber = $(this).attr('data-value');
-        $('#stopImageNumber').spinner('value', stopImageNumber);
-        updateStopImageNumber(stopImageNumber);
-    });
 });
