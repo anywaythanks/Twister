@@ -1,38 +1,71 @@
-header {
-    height: 30px;
+header ul{
     display: flex;
     align-items: center;
     background-color: #fff;
+    margin: 0.3em 0;
+    padding: 0;
 }
 
 #about {
     display: flex;
-    align-items: center;
-    flex: 1;
-    justify-content: flex-end;
 }
 
-#about > a {
-    color: #444;
+#about .accounts > li {
+    list-style: none;
+    margin: 0 auto;
+    border-left: 2px solid #ccc;
+    display: flex;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+#about .accounts > li:first-child{
+    border-left: none;
+    padding-left: 0;
+}
+#about .nickname .dropdown {
+    visibility: hidden;
+    opacity: 0;
+    display: none;
+    padding-left: 0;
+    min-width:10em;
+    position: absolute;
+    background: white;
+}
+#about .nickname .dropdown > li {
+    list-style: none;
     margin-left: 1em;
-    margin-right: 1em;
+}
+.nickname::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 250%;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* border:1px solid green; */
 }
 
-#about > ul {
+#about .nickname:hover > ul,  #about .nickname ul:hover {
+    visibility: visible;
+    opacity: 1;
+    top: 1.7em;
     display: flex;
-    align-items: center;
-    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0 3px 5px -1px #ccc;
+    align-items: flex-start;
 }
 
-#about > ul > li {
-    display: flex;
-    align-items: center;
-    margin-left: 1rem;
+#about .nickname ul a:hover {
+    padding-left: 10px;
+    border-left: 2px solid #b7b6b6;
+    transition: all 0.3s ease;
 }
 
-#title > a{
-    color: #444;
-}
 
 #title {
     display: flex;

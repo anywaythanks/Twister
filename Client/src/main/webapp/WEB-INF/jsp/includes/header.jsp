@@ -5,40 +5,56 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <header>
-    <article id="title">
-        <s:url value="/" var="home_url"/>
-        <a href="${home_url}">Twister</a>
-    </article>
-    <article id="about">
-        <c:choose>
-            <c:when test="${user == null}">
-                <s:url value="/login" var="login_url"/>
-                <a href="${login_url}">Войти</a>
-            </c:when>
-            <c:when test="${general.name == null}">
-                <s:url value="/setting" var="setting_url"/>
-                <a href="${setting_url}">Требуется настройка аккаунта</a>
-            </c:when>
-            <c:otherwise>
-                <s:url value="/logout" var="logout_url"/>
-                <s:url value="/me" var="me_url"/>
-                <a href="${me_url}"><c:out value="${general.nickname}"/></a>
+    <nav>
+        <ul>
+            <li id="title">
+                <s:url value="/" var="home_url"/>
+                <a href="${home_url}">Twister</a>
+            </li>
+            <li id="about">
                 <ul class="accounts">
-                    <c:forEach items="${accounts.values()}" var="account">
-                        <s:url value="${fileServerPath}/{typePath}" var="icon_url">
-                            <s:param name="typePath" value="${account.get(0).amount.type.pathToIcon}"/>
-                        </s:url>
-                        <li id="account_<c:out value="${account.get(0).number}"/>">
-                            <div class="value"><fmt:formatNumber value="${account.get(0).amount.value}" minFractionDigits="0"/></div>
-                            <div>
-                                <img src="${icon_url}" id="money" class="${account.get(0).amount.type.name}"
-                                     alt="${account.get(0).amount.type.name}">
-                            </div>
-                        </li>
-                    </c:forEach>
+                    <s:url value="/logout" var="logout_url"/>
+                    <c:choose>
+                        <c:when test="${user == null}">
+                            <s:url value="/login" var="login_url"/>
+                            <li class="entrance"><a href="${login_url}">Войти</a></li>
+                        </c:when>
+                        <c:when test="${general.name == null}">
+                            <s:url value="/setting" var="setting_url"/>
+                            <li class="setting"><a href="${setting_url}">Требуется настройка аккаунта</a></li>
+                            <li class="exit"><a href="${logout_url}">Выйти</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <s:url value="/me" var="me_url"/>
+                            <s:url value="/setting" var="setting_url"/>
+                            <s:url value="/me/inventory" var="inventory_url"/>
+                            <s:url value="/me/transfers" var="transfers_url"/>
+                            <li class="nickname"><a href="${me_url}"><c:out value="${general.nickname}"/></a>
+                                <ul class="dropdown">
+                                    <li><a href="${me_url}">Обо мне</a></li>
+                                    <li><a href="${setting_url}">Настройки</a></li>
+                                    <li><a href="${inventory_url}">Инвентарь</a></li>
+                                    <li><a href="${transfers_url}">Переводы</a></li>
+                                </ul>
+                            </li>
+                            <c:forEach items="${accounts.values()}" var="account">
+                                <s:url value="${fileServerPath}/{typePath}" var="icon_url">
+                                    <s:param name="typePath" value="${account.get(0).amount.type.pathToIcon}"/>
+                                </s:url>
+                                <li id="account_<c:out value="${account.get(0).number}"/>">
+                                    <span class="value"><fmt:formatNumber value="${account.get(0).amount.value}"
+                                                                          minFractionDigits="0"/></span>
+                                    <span>
+                                        <img src="${icon_url}" id="money" class="${account.get(0).amount.type.name}"
+                                             alt="${account.get(0).amount.type.name}">
+                                    </span>
+                                </li>
+                            </c:forEach>
+                            <li class="exit"><a href="${logout_url}">Выйти</a></li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
-                <a href="${logout_url}">Выйти</a>
-            </c:otherwise>
-        </c:choose>
-    </article>
+            </li>
+        </ul>
+    </nav>
 </header>
