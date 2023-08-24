@@ -59,7 +59,7 @@
                 <button class="stop" disabled>стоп</button>
             </div>
         </div>
-        <c:if test="${selectedCase.cooldown != null}">
+        <c:if test="${selectedCase.cooldown != null and selectedCase.cooldown.seconds > 0}">
             <script>
                 let start = Math.floor(new Date().getTime() / 1000);
                 let countDown = start + <c:out value="${selectedCase.cooldown.seconds}"/>;

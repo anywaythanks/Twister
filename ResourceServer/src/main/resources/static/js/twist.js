@@ -8,7 +8,7 @@ $(function () {
             $('.stop').attr('disabled', 'true');
         },
         stopCallback: function ($stopElm) {
-            $('.twist').removeClass('twist').html('ok').removeAttr('disabled');
+            $('.twist').attr('ok', 'true').html('ok').removeAttr('disabled');
             $('.stop').attr('disabled', 'true');
         }
     }
@@ -19,9 +19,9 @@ $(function () {
     });
 
     $('.twist').click(function () {
-        if ($(this).hasClass("twist")) {
-            const case_name = $(this).attr('data-case-name');
-            const account_number = $(this).attr('data-account-number');
+        if (!$('.twist').attr("ok")) {
+            const case_name = $('.twist').attr('data-case-name');
+            const account_number = $('.twist').attr('data-account-number');
             $.post(`/me/${account_number}/twist/${case_name}`, function (data) {
                     p['stopDivNumber'] = Number($(`#${data.caseName}`).attr("data-index"));
                     updateParamater();

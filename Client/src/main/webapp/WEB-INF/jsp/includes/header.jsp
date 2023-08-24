@@ -27,8 +27,8 @@
                         <c:otherwise>
                             <s:url value="/me" var="me_url"/>
                             <s:url value="/setting" var="setting_url"/>
-                            <s:url value="/me/inventory" var="inventory_url"/>
-                            <s:url value="/me/transfers" var="transfers_url"/>
+                            <s:url value="/inventory" var="inventory_url"/>
+                            <s:url value="/transfers" var="transfers_url"/>
                             <li class="nickname"><a href="${me_url}"><c:out value="${general.nickname}"/></a>
                                 <ul class="dropdown">
                                     <li><a href="${me_url}">Обо мне</a></li>
