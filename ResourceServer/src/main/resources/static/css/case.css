@@ -1,0 +1,73 @@
+.case-line .slot {
+    display: flex;
+    height: 8em;
+    width: 8em;
+}
+
+.case-line {
+    position: relative;
+}
+
+.case-window {
+    height: 8em;
+    overflow: hidden;
+}
+
+button .price {
+    display: flex;
+    margin: 0.2em;
+    align-items: center;
+}
+
+.buttons button {
+    align-items: center;
+    appearance: none;
+    background-color: #FCFCFD;
+    border-radius: 0.2em;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 1.1em;
+}
+
+.buttons button:focus:enabled {
+    box-shadow: #D6D6E7 0 0 0 0.1em inset, rgba(45, 35, 66, 0.4) 0 0.2em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+}
+
+.buttons button:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 0.3em 0.5em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+    transform: translateY(-0.2em);
+}
+
+.buttons button:active:enabled {
+    box-shadow: #D6D6E7 0 3px 7px inset;
+    transform: translateY(0.2em);
+}
+
+.buttons button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.buttons {
+    display: flex;
+}
+.buttons button{
+    margin: 0.5em;
+    min-height: 1.5em;
+    min-width: 3em;
+}
