@@ -38,10 +38,7 @@ public class SecurityConfig {
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/home"),
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/cases"),
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/cases/**"),
-                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/home.jsp"),
-                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/cases/cases.jsp"),
-                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/cases/case.jsp"),
-                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/includes/**"))
+                                        new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/**"))
                                 .permitAll()
                                 .anyRequest().authenticated())
 
