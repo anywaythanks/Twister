@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.exceptions.NotRegisterGeneralAccount;
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.*;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import org.springframework.stereotype.Service;

@@ -7,9 +7,9 @@ import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberR
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
+import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.InventoryInformationService;

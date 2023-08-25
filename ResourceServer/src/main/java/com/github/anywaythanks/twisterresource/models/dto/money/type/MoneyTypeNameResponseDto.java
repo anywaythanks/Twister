@@ -1,7 +1,5 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
-import com.github.anywaythanks.twisterresource.models.dto.money.type.Name;
-
 public class MoneyTypeNameResponseDto implements Name {
     String name;
 

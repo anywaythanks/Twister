@@ -1,10 +1,10 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
+package com.github.anywaythanks.twisterresource.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.AccountNumber;
 import com.github.anywaythanks.twisterresource.models.dto.account.*;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.AccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
+import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
+import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import org.springframework.stereotype.Component;
 
 @Component

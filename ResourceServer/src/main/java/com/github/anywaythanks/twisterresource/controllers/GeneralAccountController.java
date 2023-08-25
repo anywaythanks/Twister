@@ -1,7 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
-import com.github.anywaythanks.twisterresource.models.dto.general.*;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
 import jakarta.validation.Valid;

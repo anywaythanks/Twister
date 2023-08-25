@@ -1,10 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.services.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterAccountService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;

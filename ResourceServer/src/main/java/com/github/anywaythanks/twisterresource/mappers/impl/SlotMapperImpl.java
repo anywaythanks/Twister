@@ -1,14 +1,17 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
+package com.github.anywaythanks.twisterresource.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Slot;
-import com.github.anywaythanks.twisterresource.models.dto.slot.*;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SlotMapperImpl implements SlotMapper {
-    public final com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper itemMapper;
+    public final ItemMapper itemMapper;
 
     public SlotMapperImpl(ItemMapper itemMapper) {
         this.itemMapper = itemMapper;

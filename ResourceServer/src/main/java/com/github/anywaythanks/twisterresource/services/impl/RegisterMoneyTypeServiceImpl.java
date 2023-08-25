@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
-import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;

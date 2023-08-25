@@ -7,9 +7,9 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.CaseMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.PageMapper;
+import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
+import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.mappers.PageMapper;
 import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;

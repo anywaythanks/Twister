@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.models.dto.acase;
 
-import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 
 import java.time.Duration;
 import java.util.List;

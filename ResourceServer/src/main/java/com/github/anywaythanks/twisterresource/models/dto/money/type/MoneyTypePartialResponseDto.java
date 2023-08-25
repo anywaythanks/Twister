@@ -1,8 +1,5 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
-import com.github.anywaythanks.twisterresource.models.dto.money.type.Name;
-import com.github.anywaythanks.twisterresource.models.dto.money.type.PathToIcon;
-
 public class MoneyTypePartialResponseDto implements Name, PathToIcon {
     String name;
     String pathToIcon;

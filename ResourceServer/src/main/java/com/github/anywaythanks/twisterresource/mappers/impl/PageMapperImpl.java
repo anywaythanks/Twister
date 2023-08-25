@@ -1,6 +1,6 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
+package com.github.anywaythanks.twisterresource.mappers.impl;
 
-import com.github.anywaythanks.twisterresource.models.dto.mappers.PageMapper;
+import com.github.anywaythanks.twisterresource.mappers.PageMapper;
 import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import org.springframework.stereotype.Component;
 

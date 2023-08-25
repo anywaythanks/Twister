@@ -1,9 +1,9 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
+package com.github.anywaythanks.twisterresource.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
 import com.github.anywaythanks.twisterresource.models.dto.general.*;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import org.springframework.stereotype.Component;
 
 @Component

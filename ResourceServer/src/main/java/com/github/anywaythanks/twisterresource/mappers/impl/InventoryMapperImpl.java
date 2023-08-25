@@ -1,10 +1,10 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
+package com.github.anywaythanks.twisterresource.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.InventoryMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.mappers.InventoryMapper;
+import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package com.github.anywaythanks.twisterresource.models.dto.mappers;
+package com.github.anywaythanks.twisterresource.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;

@@ -1,10 +1,10 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import org.springframework.stereotype.Service;
