@@ -1,7 +1,6 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterItemService;
 import jakarta.validation.Valid;

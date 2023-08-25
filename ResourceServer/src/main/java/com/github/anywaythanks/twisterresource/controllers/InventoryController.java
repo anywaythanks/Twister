@@ -1,7 +1,9 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.*;
-import com.github.anywaythanks.twisterresource.services.*;
+import com.github.anywaythanks.twisterresource.services.InventoryInformationService;
+import com.github.anywaythanks.twisterresource.services.RegisterInventoryService;
+import com.github.anywaythanks.twisterresource.services.SellService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

@@ -3,44 +3,19 @@ package com.github.anywaythanks.twisterresource.models.dto.mapper;
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
 import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import org.springframework.stereotype.Component;
 
-@Component
-public class InventoryMapper {
-    private final SlotMapper slotMapper;
+public interface InventoryMapper {
+    InventoryDTO.Response.Name toNameDTO(InventoryName name);
 
-    public InventoryMapper(SlotMapper slotMapper) {
-        this.slotMapper = slotMapper;
-    }
+    InventoryName toName(InventoryDTO.Request.Name name);
 
-    public InventoryDTO.Response.Name toNameDTO(InventoryName name) {
-        return new InventoryDTO.Response.Name(name.getName());
-    }
+    InventoryDTO.Response.Id toIdDTO(Inventory inventory);
 
-    public InventoryName toName(InventoryDTO.Request.Name name) {
-        return new InventoryName(name.getName());
-    }
+    InventoryDTO.Response.Credit toCreditDTO(Inventory inventory);
 
-    public InventoryDTO.Response.Id toIdDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Id(inventory.getId());
-    }
+    InventoryDTO.Response.Debit toDebitDTO(Inventory inventory);
 
-    public InventoryDTO.Response.Credit toCreditDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Credit(inventory.getId());
-    }
+    Long toId(InventoryDTO.Response.Id id);
 
-    public InventoryDTO.Response.Debit toDebitDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Debit(inventory.getId());
-    }
-
-    public Long toId(InventoryDTO.Response.Id id) {
-        return id.getId();
-    }
-
-    public InventoryDTO.Response.Partial toPartialDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Partial(inventory
-                .getInventorySlotMap().values().stream()
-                .map(slotMapper::toPartialDTO).toList(),
-                inventory.getName().getName());
-    }
+    InventoryDTO.Response.Partial toPartialDTO(Inventory inventory);
 }

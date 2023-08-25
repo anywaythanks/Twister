@@ -4,25 +4,14 @@ import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
 import org.springframework.stereotype.Component;
 
-@Component
-public class MoneyTypeMapper {
-    public MoneyDTO.Type.Response.Id toIdDTO(MoneyType moneyType) {
-        return new MoneyDTO.Type.Response.Id(moneyType.getId());
-    }
+public interface MoneyTypeMapper {
+    MoneyDTO.Type.Response.Id toIdDTO(MoneyType moneyType);
 
-    public MoneyDTO.Type.Response.Partial toPartialDTO(MoneyType moneyType) {
-        return new MoneyDTO.Type.Response.Partial(moneyType.getName(), moneyType.getPathToIcon());
-    }
+    MoneyDTO.Type.Response.Partial toPartialDTO(MoneyType moneyType);
 
-    public MoneyDTO.Type.Request.Name toName(MoneyType moneyType) {
-        return new MoneyDTO.Type.Request.Name(moneyType.getName());
-    }
+    MoneyDTO.Type.Request.Name toName(MoneyType moneyType);
 
-    public MoneyType toType(MoneyDTO.Type.Request.Name name, MoneyDTO.Type.Request.Create request) {
-        return new MoneyType(name.getName(), request.getPathToIcon());
-    }
+    MoneyType toType(MoneyDTO.Type.Request.Name name, MoneyDTO.Type.Request.Create request);
 
-    public Integer toId(MoneyDTO.Type.Response.Id id) {
-        return id.getId();
-    }
+    Integer toId(MoneyDTO.Type.Response.Id id);
 }

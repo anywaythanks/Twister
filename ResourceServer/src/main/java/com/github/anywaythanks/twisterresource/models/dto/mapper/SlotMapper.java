@@ -4,27 +4,12 @@ import com.github.anywaythanks.twisterresource.models.Slot;
 import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
 import org.springframework.stereotype.Component;
 
-@Component
-public class SlotMapper {
-    public final ItemMapper itemMapper;
+public interface SlotMapper {
+    SlotDTO.Response.Partial toPartialDTO(Slot<?> slot);
 
-    public SlotMapper(ItemMapper itemMapper) {
-        this.itemMapper = itemMapper;
-    }
+    SlotDTO.Response.Id toIdsDTO(Slot<?> slot);
 
-    public SlotDTO.Response.Partial toPartialDTO(Slot<?> slot) {
-        return new SlotDTO.Response.Partial(slot.getQuantityItem(), itemMapper.toPartialDTO(slot.getItem()));
-    }
+    SlotDTO.Request.Transfer toTransfer(Slot<?> slot);
 
-    public SlotDTO.Response.Id toIdsDTO(Slot<?> slot) {
-        return new SlotDTO.Response.Id(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
-    }
-
-    public SlotDTO.Request.Transfer toTransfer(Slot<?> slot) {
-        return new SlotDTO.Request.Transfer(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()));
-    }
-
-    public SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Id slot) {
-        return new SlotDTO.Request.Transfer(quantity.getQuantity(), slot.getItem());
-    }
+    SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Id slot);
 }

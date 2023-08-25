@@ -5,34 +5,21 @@ import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
 import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
 import org.springframework.stereotype.Component;
 
-@Component
-public class GeneralAccountMapper {
+public interface GeneralAccountMapper {
 
-    public GeneralAccountDTO.Response.Partial toPartialDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Partial(account.getName().getName(), account.getNickname());
-    }
+     GeneralAccountDTO.Response.Partial toPartialDTO(GeneralAccount account);
 
-    public GeneralAccountDTO.Response.Id toIdDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Id(account.getId(), account.getUserUuid());
-    }
+     GeneralAccountDTO.Response.Id toIdDTO(GeneralAccount account);
 
-    public GeneralAccountDTO.Response.Public toPublicDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Public(account.getName().getName(), account.getNickname());
-    }
+     GeneralAccountDTO.Response.Public toPublicDTO(GeneralAccount account);
 
-    public GeneralAccount toAccount(String uuid, GeneralAccountDTO.Request.Name name, GeneralAccountDTO.Request.Create request) {
-        return new GeneralAccount(uuid, request.getNickname(), toName(name));
-    }
+     GeneralAccount toAccount(String uuid, GeneralAccountDTO.Request.Name name,
+                                    GeneralAccountDTO.Request.Create request);
 
-    public Long toId(GeneralAccountDTO.Response.Id id) {
-        return id.getId();
-    }
+     Long toId(GeneralAccountDTO.Response.Id id);
 
-    public GeneralAccountName toName(GeneralAccountDTO.Request.Name name) {
-        return new GeneralAccountName(name.getName());
-    }
+     GeneralAccountName toName(GeneralAccountDTO.Request.Name name);
 
-    public GeneralAccountDTO.Response.Name toName(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Name(account.getName().getName());
-    }
+     GeneralAccountDTO.Response.Name toName(GeneralAccount account);
+
 }

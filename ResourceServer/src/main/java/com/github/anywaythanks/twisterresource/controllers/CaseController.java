@@ -1,16 +1,11 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
-import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
 import com.github.anywaythanks.twisterresource.services.CaseInformationService;
-import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterCaseService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +15,6 @@ public class CaseController {
     private final RegisterCaseService registerCaseService;
 
     public CaseController(CaseInformationService caseInformationService,
-
                           RegisterCaseService registerCaseService) {
         this.caseInformationService = caseInformationService;
         this.registerCaseService = registerCaseService;

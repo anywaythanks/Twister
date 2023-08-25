@@ -1,7 +1,6 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;

@@ -9,81 +9,24 @@ import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
-@Component
-public class CaseMapper {
-    private final ItemMapper itemMapper;
-    private final MoneyMapper moneyMapper;
+public interface CaseMapper {
+    CaseDTO.Response.Partial toPartialDTO(Case aCase);
 
-    public CaseMapper(ItemMapper itemMapper,
-                      MoneyMapper moneyMapper) {
-        this.itemMapper = itemMapper;
-        this.moneyMapper = moneyMapper;
-    }
+    CaseDTO.Response.PartialWithoutCooldown toPartialWithoutCooldownDTO(Case aCase);
 
-    public CaseDTO.Response.Partial toPartialDTO(Case aCase) {
-        return new CaseDTO.Response.Partial(
-                aCase.getCaseSlotSet().stream().map(this::toPartialDTO).toList(),
-                moneyMapper.toPartialDTO(aCase.getPrice()),
-                aCase.getCooldown(),
-                aCase.getName(),
-                aCase.getVisibleName(),
-                aCase.getDescription());
-    }
+    CaseDTO.Response.CooldownId toCooldownIdDto(Case aCase);
 
-    public CaseDTO.Response.PartialWithoutCooldown toPartialWithoutCooldownDTO(Case aCase) {
-        return new CaseDTO.Response.PartialWithoutCooldown(
-                aCase.getCaseSlotSet().stream().map(this::toPartialDTO).toList(),
-                moneyMapper.toPartialDTO(aCase.getPrice()),
-                aCase.getName(),
-                aCase.getVisibleName(),
-                aCase.getDescription());
-    }
+    CaseDTO.Response.LightPartial toLightPartialDTO(Case aCase);
 
-    public CaseDTO.Response.CooldownId toCooldownIdDto(Case aCase) {
-        return new CaseDTO.Response.CooldownId(
-                aCase.getId(),
-                aCase.getCooldown());
-    }
+    CaseDTO.Response.LightPartialWithoutCooldown toLightPartialWithoutCooldownDTO(Case aCase);
 
-    public CaseDTO.Response.LightPartial toLightPartialDTO(Case aCase) {
-        return new CaseDTO.Response.LightPartial(
-                moneyMapper.toPartialDTO(aCase.getPrice()),
-                aCase.getCooldown(),
-                aCase.getName(),
-                aCase.getVisibleName(),
-                aCase.getDescription());
-    }
+    CaseDTO.Slot.Response.Partial toPartialDTO(CaseSlot<?> slot);
 
-    public CaseDTO.Response.LightPartialWithoutCooldown toLightPartialWithoutCooldownDTO(Case aCase) {
-        return new CaseDTO.Response.LightPartialWithoutCooldown(
-                moneyMapper.toPartialDTO(aCase.getPrice()),
-                aCase.getName(),
-                aCase.getVisibleName(),
-                aCase.getDescription());
-    }
+    CaseSlot<Item> toCaseSlot(Item item, CaseDTO.Slot.Request.Create request);
 
-    public CaseDTO.Slot.Response.Partial toPartialDTO(CaseSlot<?> slot) {
-        return new CaseDTO.Slot.Response.Partial(slot.getPercentageWining(),
-                itemMapper.toPartialDTO(slot.getItem()),
-                slot.getQuantityItem(), slot.getName().getName());
-    }
+    Long toId(CaseDTO.Response.CooldownId id);
 
-    public CaseSlot<Item> toCaseSlot(Item item, CaseDTO.Slot.Request.Create request) {
-        return new CaseSlot<>(item,
-                request.getQuantity(),
-                request.getPercentage());
-    }
+    Case toCase(Set<CaseSlot<Item>> slots, CaseDTO.Request.Name name, MoneyType moneyType, CaseDTO.Request.Create request);
 
-    public Long toId(CaseDTO.Response.CooldownId id) {
-        return id.getId();
-    }
-
-    public Case toCase(Set<CaseSlot<Item>> slots, CaseDTO.Request.Name name, MoneyType moneyType, CaseDTO.Request.Create request) {
-        return new Case(name.getName(), request.getVisibleName(), request.getDescription(),
-                moneyMapper.toMoney(moneyType, request.getPrice()), slots, request.getCooldown());
-    }
-
-    public CaseDTO.Response.Name toName(Case nCase) {
-        return new CaseDTO.Response.Name(nCase.getName());
-    }
+    CaseDTO.Response.Name toName(Case nCase);
 }

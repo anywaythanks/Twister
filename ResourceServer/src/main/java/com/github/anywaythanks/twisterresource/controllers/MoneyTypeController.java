@@ -3,6 +3,7 @@ package com.github.anywaythanks.twisterresource.controllers;
 import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterMoneyTypeService;
+import com.github.anywaythanks.twisterresource.services.impl.RegisterMoneyTypeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;

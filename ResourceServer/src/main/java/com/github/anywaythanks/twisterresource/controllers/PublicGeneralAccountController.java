@@ -1,7 +1,6 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

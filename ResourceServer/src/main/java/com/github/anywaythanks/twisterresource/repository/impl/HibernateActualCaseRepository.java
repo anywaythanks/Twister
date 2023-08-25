@@ -1,15 +1,11 @@
-package com.github.anywaythanks.twisterresource.repository;
+package com.github.anywaythanks.twisterresource.repository.impl;
 
-import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.Twist;
+import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -19,7 +15,7 @@ import java.util.Map;
 
 @Repository
 @Transactional
-public class HibernateCaseRepository {
+public class HibernateActualCaseRepository implements ActualCaseRepository {
     @PersistenceContext
     private EntityManager em;
 
@@ -35,13 +31,5 @@ public class HibernateCaseRepository {
         c.orderBy(cb.desc(twist.get("twistCase").get("id")));
         return em.createQuery(c).getResultList().stream()
                 .map(objects -> new AbstractMap.SimpleEntry<>((Long) objects[0], (Instant) objects[1])).toList();
-    }
-
-    public void detach(Case dCase) {
-        em.detach(dCase);
-    }
-
-    public void detach(CaseSlot<?> slot) {
-        em.detach(slot);
     }
 }

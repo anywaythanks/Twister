@@ -1,18 +1,13 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.*;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.TwistMapper;
-import com.github.anywaythanks.twisterresource.services.AccountInformationService;
-import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
-import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.TwistService;
 import jakarta.validation.Valid;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.NoSuchAlgorithmException;
 
