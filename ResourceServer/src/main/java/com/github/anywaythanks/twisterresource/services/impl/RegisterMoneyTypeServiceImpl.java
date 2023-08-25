@@ -1,10 +1,11 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.RegisterMoneyTypeService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ public class RegisterMoneyTypeServiceImpl implements RegisterMoneyTypeService {
         this.moneyTypeMapper = moneyTypeMapper;
     }
 
-    public MoneyDTO.Type.Response.Partial merge(MoneyDTO.Type.Request.Name name, MoneyDTO.Type.Request.Create create) {
+    public MoneyTypePartialResponseDto merge(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create) {
         var typeMoney = moneyTypeMapper.toType(name, create);
         var pTypeMoney = moneyTypeRepository.findByName(name.getName())
                 .orElse(typeMoney);

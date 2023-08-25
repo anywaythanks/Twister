@@ -1,10 +1,10 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import com.github.anywaythanks.twisterresource.exceptions.MoneyNotTypeExceptions;
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.math.BigDecimal;
 

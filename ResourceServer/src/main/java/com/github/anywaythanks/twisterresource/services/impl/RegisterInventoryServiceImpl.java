@@ -3,10 +3,10 @@ package com.github.anywaythanks.twisterresource.services.impl;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.InventoryMapper;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.InventoryMapper;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.InventoryNameRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
@@ -35,7 +35,7 @@ public class RegisterInventoryServiceImpl implements RegisterInventoryService {
         this.inventoryMapper = inventoryMapper;
     }
 
-    public InventoryDTO.Response.Partial register(GeneralAccountDTO.Request.Name name) {
+    public InventoryPartialResponseDto register(GeneralAccountNameRequestDto name) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);

@@ -1,13 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 
 import java.util.List;
 
 public interface ItemInformationService {
-    ItemDTO.Response.Partial getPartial(ItemDTO.Request.Name name);
+    ItemPartialResponseDto getPartial(ItemNameRequestDto name);
 
-    ItemDTO.Response.Id getId(ItemDTO.Request.Name name);
+    ItemIdResponseDto getId(ItemNameRequestDto name);
 
-    List<ItemDTO.Response.Partial> listPartial();
+    List<ItemPartialResponseDto> listPartial();
 }

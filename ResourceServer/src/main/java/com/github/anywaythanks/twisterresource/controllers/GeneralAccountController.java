@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
+import com.github.anywaythanks.twisterresource.models.dto.general.*;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
 import jakarta.validation.Valid;
@@ -24,15 +24,15 @@ public class GeneralAccountController {
     }
 
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public GeneralAccountDTO.Response.Partial register(@AuthenticationPrincipal UserPrincipal user,
-                                                       @Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                                       @Valid @RequestBody GeneralAccountDTO.Request.Create requestAccount) {
+    public GeneralAccountPartialResponseDto register(@AuthenticationPrincipal UserPrincipal user,
+                                                     @Valid @PathVariable GeneralAccountNameRequestDto name,
+                                                     @Valid @RequestBody GeneralAccountCreateRequestDto requestAccount) {
         return registerGeneralAccountService.merge(user, name, requestAccount);
     }
 
     @PostMapping(headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeneralAccountDTO.Response.Partial> register(@AuthenticationPrincipal UserPrincipal user,
-                                                                       @Valid @RequestBody GeneralAccountDTO.Request.Create requestAccount) {
+    public ResponseEntity<GeneralAccountPartialResponseDto> register(@AuthenticationPrincipal UserPrincipal user,
+                                                                     @Valid @RequestBody GeneralAccountCreateRequestDto requestAccount) {
         var account = registerGeneralAccountService.register(user, requestAccount);
         return ResponseEntity.created(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{name}")
@@ -40,13 +40,13 @@ public class GeneralAccountController {
     }
 
     @GetMapping("/{name}")
-    public GeneralAccountDTO.Response.Partial info(@Valid @PathVariable GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountPartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name) {
         return generalAccountInformationService.getPartial(name);
     }
 
 
     @GetMapping
-    public GeneralAccountDTO.Response.Name name(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+    public GeneralAccountNameResponseDto name(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         return generalAccountInformationService.getName(userPrincipal);
     }
 }

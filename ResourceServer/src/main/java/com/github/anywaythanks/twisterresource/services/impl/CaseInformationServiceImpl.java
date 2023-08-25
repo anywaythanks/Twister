@@ -1,10 +1,13 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.PageMapper;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.CaseMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.PageMapper;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.services.CaseInformationService;
 import org.springframework.data.domain.PageRequest;
@@ -27,17 +30,17 @@ public class CaseInformationServiceImpl implements CaseInformationService {
     }
 
 
-    public CaseDTO.Response.Partial getPartial(CaseDTO.Request.Name caseName) {
+    public CasePartialResponseDto getPartial(CaseNameRequestDto caseName) {
         return caseMapper.toPartialDTO(caseRepository.findByName(caseName.getName())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public CaseDTO.Response.PartialWithoutCooldown getPartialWithoutCooldown(CaseDTO.Request.Name caseName) {
+    public CasePartialWithoutCooldownResponseDto getPartialWithoutCooldown(CaseNameRequestDto caseName) {
         return caseMapper.toPartialWithoutCooldownDTO(caseRepository.findByName(caseName.getName())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public PageDTO.Response.Partial<CaseDTO.Response.LightPartialWithoutCooldown> getPageWithoutCooldown(Integer page, Integer size) {
+    public PagePartialResponseDto<CaseLightPartialWithoutCooldownResponseDto> getPageWithoutCooldown(Integer page, Integer size) {
         var pageCase = caseRepository.findAll(PageRequest.of(page, size));
         return pageMapper.toPartialDTO(pageCase.stream()
                 .map(caseMapper::toLightPartialWithoutCooldownDTO).toList(), pageCase.getTotalPages(), page);

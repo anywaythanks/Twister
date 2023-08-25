@@ -1,8 +1,10 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
 import org.springframework.stereotype.Service;
@@ -20,17 +22,17 @@ public class ItemInformationServiceImpl implements ItemInformationService {
         this.itemMapper = itemMapper;
     }
 
-    public ItemDTO.Response.Partial getPartial(ItemDTO.Request.Name name) {
+    public ItemPartialResponseDto getPartial(ItemNameRequestDto name) {
         return itemMapper.toPartialDTO(itemRepository.findByName(name.getName())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public ItemDTO.Response.Id getId(ItemDTO.Request.Name name) {
+    public ItemIdResponseDto getId(ItemNameRequestDto name) {
         return itemMapper.toIdDTO(itemRepository.findByName(name.getName())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public List<ItemDTO.Response.Partial> listPartial() {
+    public List<ItemPartialResponseDto> listPartial() {
         return itemRepository.findAll().stream().map(itemMapper::toPartialDTO).toList();
     }
 }

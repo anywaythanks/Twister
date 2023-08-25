@@ -1,7 +1,9 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 
 public interface RegisterItemService {
-    ItemDTO.Response.Partial merge(ItemDTO.Request.Name name, ItemDTO.Request.CreateItem mergeItem);
+    ItemPartialResponseDto merge(ItemNameRequestDto name, ItemCreateRequestDto mergeItem);
 }

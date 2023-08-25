@@ -1,11 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.*;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
 
 public interface SellService {
-    void sell(GeneralAccountDTO.Request.Name name,
-                     InventoryDTO.Request.Name nameInventory,
-                     ItemDTO.Request.Name nameItem,
-                     AccountDTO.Request.Number number,
-                     SlotDTO.Request.Quantity quantity);
+    void sell(GeneralAccountNameRequestDto name,
+              InventoryNameRequestDto nameInventory,
+              ItemNameRequestDto nameItem,
+              AccountNumberRequestDto number,
+              SlotQuantityRequestDto quantity);
 }

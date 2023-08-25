@@ -1,21 +1,20 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.AccountNumber;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.account.*;
 
 public interface AccountMapper {
-     AccountDTO.Response.Partial toPartialDTO(Account account);
+     AccountPartialResponseDto toPartialDTO(Account account);
 
-     AccountDTO.Response.Id toIdDTO(Account account);
+     AccountIdResponseDto toIdDTO(Account account);
 
-     AccountDTO.Response.Debit toDebitDTO(Account account);
-     AccountDTO.Response.Credit toCreditDTO(Account account);
+     AccountDebitResponseDto toDebitDTO(Account account);
+     AccountCreditResponseDto toCreditDTO(Account account);
 
-     Long toId(AccountDTO.Response.Id id);
+     Long toId(AccountIdResponseDto id);
 
-     AccountNumber toNumber(AccountDTO.Request.Number number);
+     AccountNumber toNumber(AccountNumberRequestDto number);
 
-     AccountDTO.Response.Number toNumber(Account account);
+     AccountNumberResponseDto toNumber(Account account);
 }

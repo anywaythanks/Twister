@@ -1,12 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 
 public interface CaseInformationService {
-    CaseDTO.Response.Partial getPartial(CaseDTO.Request.Name caseName);
+    CasePartialResponseDto getPartial(CaseNameRequestDto caseName);
 
-    CaseDTO.Response.PartialWithoutCooldown getPartialWithoutCooldown(CaseDTO.Request.Name caseName);
+    CasePartialWithoutCooldownResponseDto getPartialWithoutCooldown(CaseNameRequestDto caseName);
 
-    PageDTO.Response.Partial<CaseDTO.Response.LightPartialWithoutCooldown> getPageWithoutCooldown(Integer page, Integer size);
+    PagePartialResponseDto<CaseLightPartialWithoutCooldownResponseDto> getPageWithoutCooldown(Integer page, Integer size);
 }

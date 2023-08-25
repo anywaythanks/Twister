@@ -1,10 +1,12 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.CaseMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
@@ -46,7 +48,7 @@ public class RegisterCaseServiceImpl implements RegisterCaseService {
         this.itemInformationService = itemInformationService;
     }
 
-    public CaseDTO.Response.Partial merge(CaseDTO.Request.Name name, CaseDTO.Request.Create create) {
+    public CasePartialResponseDto merge(CaseNameRequestDto name, CaseCreateRequestDto create) {
         var oCase = caseRepository.findByName(name.getName());
         var type = moneyTypeRepository.findById(moneyTypeMapper.toId(moneyTypeInformationService.
                 getId(create.getPrice().getType()))).orElseThrow(NotFoundException::new);

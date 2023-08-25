@@ -1,10 +1,11 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyPartialResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,16 +16,16 @@ public class MoneyMapperImpl implements MoneyMapper {
         this.moneyTypeMapper = moneyTypeMapper;
     }
 
-    public MoneyDTO.Request.Create toRequest(Money money) {
-        return new MoneyDTO.Request.Create(moneyTypeMapper.toName(money.getTypeMoney()), money.getValue());
+    public MoneyCreateRequestDto toRequest(Money money) {
+        return new MoneyCreateRequestDto(moneyTypeMapper.toName(money.getTypeMoney()), money.getValue());
     }
 
 
-    public MoneyDTO.Response.Partial toPartialDTO(Money money) {
-        return new MoneyDTO.Response.Partial(moneyTypeMapper.toPartialDTO(money.getTypeMoney()), money.getValue());
+    public MoneyPartialResponseDto toPartialDTO(Money money) {
+        return new MoneyPartialResponseDto(moneyTypeMapper.toPartialDTO(money.getTypeMoney()), money.getValue());
     }
 
-    public Money toMoney(MoneyType type, MoneyDTO.Request.Create request) {
+    public Money toMoney(MoneyType type, MoneyCreateRequestDto request) {
         return new Money(request.getValue(), type);
     }
 }

@@ -1,7 +1,9 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.CaseInformationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -18,14 +20,14 @@ public class PublicCaseController {
     }
 
     @GetMapping
-    public PageDTO.Response.Partial<CaseDTO.Response.LightPartialWithoutCooldown> listCase(
+    public PagePartialResponseDto<CaseLightPartialWithoutCooldownResponseDto> listCase(
             @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer page,
             @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
         return caseInformationService.getPageWithoutCooldown(page, size);
     }
 
     @GetMapping("/{name}")
-    public CaseDTO.Response.PartialWithoutCooldown info(@Valid @PathVariable CaseDTO.Request.Name name) {
+    public CasePartialWithoutCooldownResponseDto info(@Valid @PathVariable CaseNameRequestDto name) {
         return caseInformationService.getPartialWithoutCooldown(name);
     }
 }

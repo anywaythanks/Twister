@@ -1,39 +1,39 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.general.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GeneralAccountMapperImpl implements GeneralAccountMapper {
 
-    public GeneralAccountDTO.Response.Partial toPartialDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Partial(account.getName().getName(), account.getNickname());
+    public GeneralAccountPartialResponseDto toPartialDTO(GeneralAccount account) {
+        return new GeneralAccountPartialResponseDto(account.getName().getName(), account.getNickname());
     }
 
-    public GeneralAccountDTO.Response.Id toIdDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Id(account.getId(), account.getUserUuid());
+    public GeneralAccountIdResponseDto toIdDTO(GeneralAccount account) {
+        return new GeneralAccountIdResponseDto(account.getId(), account.getUserUuid());
     }
 
-    public GeneralAccountDTO.Response.Public toPublicDTO(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Public(account.getName().getName(), account.getNickname());
+    public GeneralAccountPublicResponseDto toPublicDTO(GeneralAccount account) {
+        return new GeneralAccountPublicResponseDto(account.getName().getName(), account.getNickname());
     }
 
-    public GeneralAccount toAccount(String uuid, GeneralAccountDTO.Request.Name name, GeneralAccountDTO.Request.Create request) {
+    public GeneralAccount toAccount(String uuid, GeneralAccountNameRequestDto name, GeneralAccountCreateRequestDto request) {
         return new GeneralAccount(uuid, request.getNickname(), toName(name));
     }
 
-    public Long toId(GeneralAccountDTO.Response.Id id) {
+    public Long toId(GeneralAccountIdResponseDto id) {
         return id.getId();
     }
 
-    public GeneralAccountName toName(GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountName toName(GeneralAccountNameRequestDto name) {
         return new GeneralAccountName(name.getName());
     }
 
-    public GeneralAccountDTO.Response.Name toName(GeneralAccount account) {
-        return new GeneralAccountDTO.Response.Name(account.getName().getName());
+    public GeneralAccountNameResponseDto toName(GeneralAccount account) {
+        return new GeneralAccountNameResponseDto(account.getName().getName());
     }
 }

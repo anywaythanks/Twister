@@ -1,8 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -19,15 +21,15 @@ public class ActualCaseController {
     }
 
     @GetMapping
-    public PageDTO.Response.Partial<CaseDTO.Response.LightPartial> listCase(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                                                            @Valid @PositiveOrZero  @RequestParam(defaultValue = "0") Integer page,
-                                                                            @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
+    public PagePartialResponseDto<CaseLightPartialResponseDto> listCase(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                                                        @Valid @PositiveOrZero  @RequestParam(defaultValue = "0") Integer page,
+                                                                        @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
         return caseActualInformationService.getPage(page, size, name);
     }
 
     @GetMapping("/{caseName}")
-    public CaseDTO.Response.Partial info(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                         @Valid @PathVariable CaseDTO.Request.Name caseName) {
+    public CasePartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                       @Valid @PathVariable CaseNameRequestDto caseName) {
         return caseActualInformationService.getPartial(name, caseName);
     }
 }

@@ -1,8 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.services.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterAccountService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
@@ -30,23 +32,23 @@ public class AccountController {
     }
 
     @PostMapping(path = "/{sourceNumber}/transfer/{recipientNumber}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void transfer(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                         @Valid @PathVariable AccountDTO.Request.Number sourceNumber,
-                         @Valid @PathVariable AccountDTO.Request.Number recipientNumber,
-                         @Valid @RequestBody MoneyDTO.Request.Create value) {
+    public void transfer(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                         @Valid @PathVariable AccountNumberRequestDto sourceNumber,
+                         @Valid @PathVariable AccountNumberRequestDto recipientNumber,
+                         @Valid @RequestBody MoneyCreateRequestDto value) {
         transferMoneyService.transfer(name, sourceNumber, recipientNumber, value);
     }
 
     @PutMapping(path = "/{number}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AccountDTO.Response.Partial register(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                                @Valid @PathVariable AccountDTO.Request.Number number,
-                                                @Valid @RequestBody AccountDTO.Request.Create requestAccount) {
+    public AccountPartialResponseDto register(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                              @Valid @PathVariable AccountNumberRequestDto number,
+                                              @Valid @RequestBody AccountCreateRequestDto requestAccount) {
         return registerAccountService.merge(name, number, requestAccount);
     }
 
     @PostMapping(headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AccountDTO.Response.Partial> register(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                                                @Valid @RequestBody AccountDTO.Request.Create requestAccount) {
+    public ResponseEntity<AccountPartialResponseDto> register(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                                              @Valid @RequestBody AccountCreateRequestDto requestAccount) {
         var account = registerAccountService.register(name, requestAccount);
         return ResponseEntity.created(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{number}")
@@ -54,13 +56,13 @@ public class AccountController {
     }
 
     @GetMapping
-    public List<AccountDTO.Response.Partial> listAccounts(@Valid @PathVariable GeneralAccountDTO.Request.Name name) {
+    public List<AccountPartialResponseDto> listAccounts(@Valid @PathVariable GeneralAccountNameRequestDto name) {
         return accountInformationService.listPartial(name);
     }
 
     @GetMapping("/{number}")
-    public AccountDTO.Response.Partial info(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                            @Valid @PathVariable AccountDTO.Request.Number number) {
+    public AccountPartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                          @Valid @PathVariable AccountNumberRequestDto number) {
         return accountInformationService.getPartial(name, number);
     }
 }

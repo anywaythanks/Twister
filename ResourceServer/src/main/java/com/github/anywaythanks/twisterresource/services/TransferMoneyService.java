@@ -1,15 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 
 public interface TransferMoneyService {
-    void debit(AccountDTO.Request.Number number, MoneyDTO.Request.Create debit);
+    void debit(AccountNumberRequestDto number, MoneyCreateRequestDto debit);
 
-    void credit(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number,
-                       MoneyDTO.Request.Create credit);
+    void credit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
+                MoneyCreateRequestDto credit);
 
-    void transfer(GeneralAccountDTO.Request.Name generalAccountName, AccountDTO.Request.Number source,
-                         AccountDTO.Request.Number recipient, MoneyDTO.Request.Create value);
+    void transfer(GeneralAccountNameRequestDto generalAccountName, AccountNumberRequestDto source,
+                  AccountNumberRequestDto recipient, MoneyCreateRequestDto value);
 }

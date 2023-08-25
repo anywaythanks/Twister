@@ -3,12 +3,10 @@ package com.github.anywaythanks.twisterresource.services.impl;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.exceptions.NotRegisterGeneralAccount;
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.general.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,27 +22,27 @@ public class GeneralAccountInformationServiceImpl implements GeneralAccountInfor
         this.generalAccountMapper = generalAccountMapper;
     }
 
-    public GeneralAccountDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountPartialResponseDto getPartial(GeneralAccountNameRequestDto name) {
         return generalAccountMapper.toPartialDTO(generalAccountRepository.findByName(generalAccountMapper.toName(name))
                 .orElseThrow(NotFoundException::new));
     }
 
-    public GeneralAccountDTO.Response.Id getId(GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountIdResponseDto getId(GeneralAccountNameRequestDto name) {
         return generalAccountMapper.toIdDTO(generalAccountRepository.findByName(generalAccountMapper.toName(name))
                 .orElseThrow(NotFoundException::new));
     }
 
-    public GeneralAccountDTO.Response.Name getName(UserPrincipal user) {
+    public GeneralAccountNameResponseDto getName(UserPrincipal user) {
         return generalAccountMapper.toName(generalAccountRepository.findByUserUuid(user.getUuid())
                 .orElseThrow(NotRegisterGeneralAccount::new));
     }
 
-    public GeneralAccountDTO.Response.Public getPublic(GeneralAccountDTO.Request.Nickname nickname) {
+    public GeneralAccountPublicResponseDto getPublic(GeneralAccountNicknameRequestDto nickname) {
         return generalAccountMapper.toPublicDTO(generalAccountRepository.findByNickname(nickname.getNickname())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public GeneralAccountDTO.Response.Public getPublic(GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountPublicResponseDto getPublic(GeneralAccountNameRequestDto name) {
         return generalAccountMapper.toPublicDTO(generalAccountRepository.findByName(generalAccountMapper.toName(name))
                 .orElseThrow(NotFoundException::new));
     }

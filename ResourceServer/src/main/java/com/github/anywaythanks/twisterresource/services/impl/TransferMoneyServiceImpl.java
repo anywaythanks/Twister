@@ -2,12 +2,12 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.InsufficientFundsException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.AccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.AccountInformationService;
@@ -45,7 +45,7 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
         this.moneyTypeRepository = moneyTypeRepository;
     }
 
-    public void debit(AccountDTO.Request.Number number, MoneyDTO.Request.Create debit) {
+    public void debit(AccountNumberRequestDto number, MoneyCreateRequestDto debit) {
         final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getDebit(number)))
                 .orElseThrow(NotFoundException::new);
         var type = moneyTypeRepository.findById(moneyTypeMapper
@@ -53,8 +53,8 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
         account.setAmount(account.getAmount().add(moneyMapper.toMoney(type, debit)));
     }
 
-    public void credit(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number,
-                       MoneyDTO.Request.Create credit) {
+    public void credit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
+                       MoneyCreateRequestDto credit) {
         final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getCredit(name, number)))
                 .orElseThrow(NotFoundException::new);
         var type = moneyTypeRepository.findById(moneyTypeMapper
@@ -66,8 +66,8 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
         account.setAmount(newVal);
     }
 
-    public void transfer(GeneralAccountDTO.Request.Name generalAccountName, AccountDTO.Request.Number source,
-                         AccountDTO.Request.Number recipient, MoneyDTO.Request.Create value) {
+    public void transfer(GeneralAccountNameRequestDto generalAccountName, AccountNumberRequestDto source,
+                         AccountNumberRequestDto recipient, MoneyCreateRequestDto value) {
         credit(generalAccountName, source, value);
         debit(recipient, value);
     }

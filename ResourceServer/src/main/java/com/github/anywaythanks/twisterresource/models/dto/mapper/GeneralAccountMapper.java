@@ -1,25 +1,24 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.general.*;
 
 public interface GeneralAccountMapper {
 
-     GeneralAccountDTO.Response.Partial toPartialDTO(GeneralAccount account);
+     GeneralAccountPartialResponseDto toPartialDTO(GeneralAccount account);
 
-     GeneralAccountDTO.Response.Id toIdDTO(GeneralAccount account);
+     GeneralAccountIdResponseDto toIdDTO(GeneralAccount account);
 
-     GeneralAccountDTO.Response.Public toPublicDTO(GeneralAccount account);
+     GeneralAccountPublicResponseDto toPublicDTO(GeneralAccount account);
 
-     GeneralAccount toAccount(String uuid, GeneralAccountDTO.Request.Name name,
-                                    GeneralAccountDTO.Request.Create request);
+     GeneralAccount toAccount(String uuid, GeneralAccountNameRequestDto name,
+                                    GeneralAccountCreateRequestDto request);
 
-     Long toId(GeneralAccountDTO.Response.Id id);
+     Long toId(GeneralAccountIdResponseDto id);
 
-     GeneralAccountName toName(GeneralAccountDTO.Request.Name name);
+     GeneralAccountName toName(GeneralAccountNameRequestDto name);
 
-     GeneralAccountDTO.Response.Name toName(GeneralAccount account);
+     GeneralAccountNameResponseDto toName(GeneralAccount account);
 
 }

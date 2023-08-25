@@ -3,7 +3,6 @@ package com.github.anywaythanks.twisterresource.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
@@ -13,7 +12,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static org.hibernate.annotations.CascadeType.ALL;
-import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
 @Table(name = "cases")

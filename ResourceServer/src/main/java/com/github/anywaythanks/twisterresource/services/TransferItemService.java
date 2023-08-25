@@ -1,16 +1,16 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 
 public interface TransferItemService {
-    void add(InventoryDTO.Request.Name name, SlotDTO.Request.Transfer slotTransfer);
+    void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer);
 
-    void remove(GeneralAccountDTO.Request.Name name, InventoryDTO.Request.Name nameInventory,
-                SlotDTO.Request.Transfer slotTransfer);
+    void remove(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory,
+                SlotTransferRequestDto slotTransfer);
 
-    void transfer(GeneralAccountDTO.Request.Name name,
-                  InventoryDTO.Request.Name inventoryFrom, InventoryDTO.Request.Name inventoryTo,
-                  SlotDTO.Request.Transfer slotTransfer);
+    void transfer(GeneralAccountNameRequestDto name,
+                  InventoryNameRequestDto inventoryFrom, InventoryNameRequestDto inventoryTo,
+                  SlotTransferRequestDto slotTransfer);
 }

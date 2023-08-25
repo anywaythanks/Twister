@@ -1,6 +1,7 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +23,13 @@ public class PublicMoneyTypeController {
 
     @GetMapping
     @Transactional
-    public List<MoneyDTO.Type.Response.Partial> listMoneyTypes() {
+    public List<MoneyTypePartialResponseDto> listMoneyTypes() {
         return moneyTypeInformationService.listPartial();
     }
 
     @GetMapping("/{name}")
     @Transactional
-    public MoneyDTO.Type.Response.Partial getMoneyType(@Valid @PathVariable MoneyDTO.Type.Request.Name name) {
+    public MoneyTypePartialResponseDto getMoneyType(@Valid @PathVariable MoneyTypeNameRequestDto name) {
         return moneyTypeInformationService.getPartial(name);
     }
 }

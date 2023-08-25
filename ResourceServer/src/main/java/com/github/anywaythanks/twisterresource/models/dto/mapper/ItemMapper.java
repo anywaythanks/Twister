@@ -1,24 +1,24 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;
 import com.github.anywaythanks.twisterresource.models.ItemTrash;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
+import com.github.anywaythanks.twisterresource.models.dto.item.*;
 
 
 public interface ItemMapper {
-     ItemDTO.Response.Partial toPartialDTO(Item item);
+     ItemPartialResponseDto toPartialDTO(Item item);
 
-     ItemMoney toItemMoney(ItemDTO.Request.Name name, MoneyType moneyType, ItemDTO.Request.CreateMoney itemMoney);
+     ItemMoney toItemMoney(ItemNameRequestDto name, MoneyType moneyType, ItemMoneyCreateRequestDto itemMoney);
 
-     ItemTrash toItemTrash(ItemDTO.Request.Name name, ItemDTO.Request.CreateTrash itemMoney);
+     ItemTrash toItemTrash(ItemNameRequestDto name, ItemTrashCreateRequestDto itemMoney);
 
-     ItemDTO.Response.Id toIdDTO(Item item);
+     ItemIdResponseDto toIdDTO(Item item);
 
-     String toName(ItemDTO.Request.Name name);
+     String toName(ItemNameRequestDto name);
 
-     ItemDTO.Request.Name toNameDTO(Item item);
+     ItemNameRequestDto toNameDTO(Item item);
 
-     Long toId(ItemDTO.Response.Id id);
+     Long toId(ItemIdResponseDto id);
 }

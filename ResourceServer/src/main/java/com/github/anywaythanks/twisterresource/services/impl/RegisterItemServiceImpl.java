@@ -2,9 +2,9 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.item.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
@@ -32,10 +32,10 @@ public class RegisterItemServiceImpl implements RegisterItemService {
         this.moneyTypeRepository = moneyTypeRepository;
     }
 
-    public ItemDTO.Response.Partial merge(ItemDTO.Request.Name name, ItemDTO.Request.CreateItem mergeItem) {
+    public ItemPartialResponseDto merge(ItemNameRequestDto name, ItemCreateRequestDto mergeItem) {
         var item = switch (mergeItem.getType()) {
             case MONEY -> {
-                if (mergeItem instanceof ItemDTO.Request.CreateMoney itemMoney) {
+                if (mergeItem instanceof ItemMoneyCreateRequestDto itemMoney) {
                     var type = moneyTypeRepository.findById(moneyTypeMapper
                                     .toId(moneyTypeInformationService.getId(itemMoney.getCost().getType())))
                             .orElseThrow(NotFoundException::new);
@@ -44,7 +44,7 @@ public class RegisterItemServiceImpl implements RegisterItemService {
                 throw new ItemNotTypeException();
             }
             case TRASH -> {
-                if (mergeItem instanceof ItemDTO.Request.CreateTrash itemTrash)
+                if (mergeItem instanceof ItemTrashCreateRequestDto itemTrash)
                     yield itemMapper.toItemTrash(name, itemTrash);
                 throw new ItemNotTypeException();
             }

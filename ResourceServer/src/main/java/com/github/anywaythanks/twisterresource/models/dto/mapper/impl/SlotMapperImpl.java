@@ -1,32 +1,32 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Slot;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.dto.slot.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SlotMapperImpl implements SlotMapper {
-    public final com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper itemMapper;
+    public final com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper itemMapper;
 
     public SlotMapperImpl(ItemMapper itemMapper) {
         this.itemMapper = itemMapper;
     }
 
-    public SlotDTO.Response.Partial toPartialDTO(Slot<?> slot) {
-        return new SlotDTO.Response.Partial(slot.getQuantityItem(), itemMapper.toPartialDTO(slot.getItem()));
+    public SlotPartialResponseDto toPartialDTO(Slot<?> slot) {
+        return new SlotPartialResponseDto(slot.getQuantityItem(), itemMapper.toPartialDTO(slot.getItem()));
     }
 
-    public SlotDTO.Response.Id toIdsDTO(Slot<?> slot) {
-        return new SlotDTO.Response.Id(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
+    public SlotIdResponseDto toIdsDTO(Slot<?> slot) {
+        return new SlotIdResponseDto(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
     }
 
-    public SlotDTO.Request.Transfer toTransfer(Slot<?> slot) {
-        return new SlotDTO.Request.Transfer(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()));
+    public SlotTransferRequestDto toTransfer(Slot<?> slot) {
+        return new SlotTransferRequestDto(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()));
     }
 
-    public SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Id slot) {
-        return new SlotDTO.Request.Transfer(quantity.getQuantity(), slot.getItem());
+    public SlotTransferRequestDto toTransfer(SlotQuantityRequestDto quantity, SlotIdResponseDto slot) {
+        return new SlotTransferRequestDto(quantity.getQuantity(), slot.getItem());
     }
 }

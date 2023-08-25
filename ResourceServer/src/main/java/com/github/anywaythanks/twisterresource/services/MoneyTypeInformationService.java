@@ -1,13 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 
 import java.util.List;
 
 public interface MoneyTypeInformationService {
-    List<MoneyDTO.Type.Response.Partial> listPartial();
+    List<MoneyTypePartialResponseDto> listPartial();
 
-    MoneyDTO.Type.Response.Partial getPartial(MoneyDTO.Type.Request.Name name);
+    MoneyTypePartialResponseDto getPartial(MoneyTypeNameRequestDto name);
 
-    MoneyDTO.Type.Response.Id getId(MoneyDTO.Type.Request.Name name);
+    MoneyTypeIdResponseDto getId(MoneyTypeNameRequestDto name);
 }

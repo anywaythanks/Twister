@@ -1,30 +1,30 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 
 import java.util.List;
 
 public interface InventoryInformationService {
-    SlotDTO.Response.Id getSlotId(GeneralAccountDTO.Request.Name name,
-                                  InventoryDTO.Request.Name nameInventory, ItemDTO.Request.Name nameItem);
+    SlotIdResponseDto getSlotId(GeneralAccountNameRequestDto name,
+                                InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem);
 
-    InventoryDTO.Response.Id getId(GeneralAccountDTO.Request.Name name,
-                                   InventoryDTO.Request.Name nameInventory);
+    InventoryIdResponseDto getId(GeneralAccountNameRequestDto name,
+                                 InventoryNameRequestDto nameInventory);
 
-    InventoryDTO.Response.Debit getDebit(InventoryDTO.Request.Name nameInventory);
+    InventoryDebitResponseDto getDebit(InventoryNameRequestDto nameInventory);
 
-    InventoryDTO.Response.Credit getCredit(GeneralAccountDTO.Request.Name name, InventoryDTO.Request.Name nameInventory);
+    InventoryCreditResponseDto getCredit(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory);
 
-    SlotDTO.Response.Partial getSlotPartial(GeneralAccountDTO.Request.Name name,
-                                            InventoryDTO.Request.Name nameInventory, ItemDTO.Request.Name nameItem);
+    SlotPartialResponseDto getSlotPartial(GeneralAccountNameRequestDto name,
+                                          InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem);
 
 
-    InventoryDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name nameGeneral,
-                                             InventoryDTO.Request.Name nameInventory);
+    InventoryPartialResponseDto getPartial(GeneralAccountNameRequestDto nameGeneral,
+                                           InventoryNameRequestDto nameInventory);
 
-    List<InventoryDTO.Response.Name> names(GeneralAccountDTO.Request.Name nameGeneral);
+    List<InventoryNameResponseDto> names(GeneralAccountNameRequestDto nameGeneral);
 }

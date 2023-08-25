@@ -1,13 +1,13 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;
 import com.github.anywaythanks.twisterresource.models.ItemTrash;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyMapper;
+import com.github.anywaythanks.twisterresource.models.dto.item.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,37 +18,37 @@ public class ItemMapperImpl implements ItemMapper {
         this.moneyMapper = moneyMapper;
     }
 
-    public ItemDTO.Response.Partial toPartialDTO(Item item) {
+    public ItemPartialResponseDto toPartialDTO(Item item) {
         if (item instanceof ItemMoney itemMoney)
-            return new ItemDTO.Response.PartialMoney(ItemDTO.Types.MONEY, moneyMapper.toPartialDTO(itemMoney.getCost()),
+            return new ItemMoneyPartialResponseDto(ItemTypes.MONEY, moneyMapper.toPartialDTO(itemMoney.getCost()),
                     itemMoney.getName(), itemMoney.getVisibleName());
         else if (item instanceof ItemTrash itemTrash)
-            return new ItemDTO.Response.PartialTrash(ItemDTO.Types.TRASH,
+            return new ItemTrashPartialResponseDto(ItemTypes.TRASH,
                     itemTrash.getName(), itemTrash.getVisibleName());
         else throw new ItemNotTypeException();
     }
 
-    public ItemMoney toItemMoney(ItemDTO.Request.Name name, MoneyType moneyType, ItemDTO.Request.CreateMoney itemMoney) {
+    public ItemMoney toItemMoney(ItemNameRequestDto name, MoneyType moneyType, ItemMoneyCreateRequestDto itemMoney) {
         return new ItemMoney(name.getName(), itemMoney.getVisibleName(), moneyMapper.toMoney(moneyType, itemMoney.getCost()));
     }
 
-    public ItemTrash toItemTrash(ItemDTO.Request.Name name, ItemDTO.Request.CreateTrash itemMoney) {
+    public ItemTrash toItemTrash(ItemNameRequestDto name, ItemTrashCreateRequestDto itemMoney) {
         return new ItemTrash(name.getName(), itemMoney.getVisibleName());
     }
 
-    public ItemDTO.Response.Id toIdDTO(Item item) {
-        return new ItemDTO.Response.Id(item.getId());
+    public ItemIdResponseDto toIdDTO(Item item) {
+        return new ItemIdResponseDto(item.getId());
     }
 
-    public String toName(ItemDTO.Request.Name name) {
+    public String toName(ItemNameRequestDto name) {
         return name.getName();
     }
 
-    public ItemDTO.Request.Name toNameDTO(Item item) {
-        return new ItemDTO.Request.Name(item.getName());
+    public ItemNameRequestDto toNameDTO(Item item) {
+        return new ItemNameRequestDto(item.getName());
     }
 
-    public Long toId(ItemDTO.Response.Id id) {
+    public Long toId(ItemIdResponseDto id) {
         return id.getId();
     }
 }

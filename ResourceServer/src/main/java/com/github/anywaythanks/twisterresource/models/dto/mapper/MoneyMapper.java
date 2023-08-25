@@ -1,15 +1,15 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyPartialResponseDto;
 
 public interface MoneyMapper {
 
-    MoneyDTO.Request.Create toRequest(Money money);
+    MoneyCreateRequestDto toRequest(Money money);
 
-    MoneyDTO.Response.Partial toPartialDTO(Money money);
+    MoneyPartialResponseDto toPartialDTO(Money money);
 
-    Money toMoney(MoneyType type, MoneyDTO.Request.Create request);
+    Money toMoney(MoneyType type, MoneyCreateRequestDto request);
 }

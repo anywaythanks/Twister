@@ -4,11 +4,13 @@ import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.AccountNumber;
 import com.github.anywaythanks.twisterresource.models.Money;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.AccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.repository.AccountNumberRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
@@ -50,8 +52,8 @@ public class RegisterAccountServiceImpl implements RegisterAccountService {
         this.moneyTypeMapper = moneyTypeMapper;
     }
 
-    public AccountDTO.Response.Partial merge(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number,
-                                             AccountDTO.Request.Create create) {
+    public AccountPartialResponseDto merge(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
+                                           AccountCreateRequestDto create) {
         var type = moneyTypeRepository.findById(moneyTypeMapper.toId(moneyTypeInformationService.
                 getId(create.getType()))).orElseThrow(NotFoundException::new);
         var account = new Account(accountMapper.toNumber(number), new Money(BigDecimal.ZERO, type));
@@ -67,7 +69,7 @@ public class RegisterAccountServiceImpl implements RegisterAccountService {
         return accountMapper.toPartialDTO(accountPersistence);
     }
 
-    public AccountDTO.Response.Partial register(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Create create) {
+    public AccountPartialResponseDto register(GeneralAccountNameRequestDto name, AccountCreateRequestDto create) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);

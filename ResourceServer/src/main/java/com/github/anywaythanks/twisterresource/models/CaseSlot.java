@@ -1,9 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import org.hibernate.annotations.Check;
 import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;

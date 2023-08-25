@@ -1,6 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.*;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.TwistService;
 import jakarta.validation.Valid;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +27,10 @@ public class TwisterController {
 
     @PostMapping(path = "/{caseName}")
     @Transactional
-    public TwistDTO.Response.Partial twist(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
-                                           @Valid @PathVariable AccountDTO.Request.Number number,
-                                           @Valid @PathVariable InventoryDTO.Request.Name nameInventory,
-                                           @Valid @PathVariable CaseDTO.Request.Name caseName) throws NoSuchAlgorithmException {
+    public TwistPartialResponseDto twist(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                         @Valid @PathVariable AccountNumberRequestDto number,
+                                         @Valid @PathVariable InventoryNameRequestDto nameInventory,
+                                         @Valid @PathVariable CaseNameRequestDto caseName) throws NoSuchAlgorithmException {
         return twistService.twist(name, nameInventory, number, caseName);
     }
 }

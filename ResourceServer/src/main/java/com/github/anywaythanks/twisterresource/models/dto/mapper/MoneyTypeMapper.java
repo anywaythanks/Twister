@@ -1,17 +1,19 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 
 public interface MoneyTypeMapper {
-    MoneyDTO.Type.Response.Id toIdDTO(MoneyType moneyType);
+    MoneyTypeIdResponseDto toIdDTO(MoneyType moneyType);
 
-    MoneyDTO.Type.Response.Partial toPartialDTO(MoneyType moneyType);
+    MoneyTypePartialResponseDto toPartialDTO(MoneyType moneyType);
 
-    MoneyDTO.Type.Request.Name toName(MoneyType moneyType);
+    MoneyTypeNameRequestDto toName(MoneyType moneyType);
 
-    MoneyType toType(MoneyDTO.Type.Request.Name name, MoneyDTO.Type.Request.Create request);
+    MoneyType toType(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto request);
 
-    Integer toId(MoneyDTO.Type.Response.Id id);
+    Integer toId(MoneyTypeIdResponseDto id);
 }

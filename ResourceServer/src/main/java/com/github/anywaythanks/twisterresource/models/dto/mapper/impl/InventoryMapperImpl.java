@@ -1,10 +1,10 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.InventoryMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.InventoryMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,32 +15,32 @@ public class InventoryMapperImpl implements InventoryMapper {
         this.slotMapper = slotMapper;
     }
 
-    public InventoryDTO.Response.Name toNameDTO(InventoryName name) {
-        return new InventoryDTO.Response.Name(name.getName());
+    public InventoryNameResponseDto toNameDTO(InventoryName name) {
+        return new InventoryNameResponseDto(name.getName());
     }
 
-    public InventoryName toName(InventoryDTO.Request.Name name) {
+    public InventoryName toName(InventoryNameRequestDto name) {
         return new InventoryName(name.getName());
     }
 
-    public InventoryDTO.Response.Id toIdDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Id(inventory.getId());
+    public InventoryIdResponseDto toIdDTO(Inventory inventory) {
+        return new InventoryIdResponseDto(inventory.getId());
     }
 
-    public InventoryDTO.Response.Credit toCreditDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Credit(inventory.getId());
+    public InventoryCreditResponseDto toCreditDTO(Inventory inventory) {
+        return new InventoryCreditResponseDto(inventory.getId());
     }
 
-    public InventoryDTO.Response.Debit toDebitDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Debit(inventory.getId());
+    public InventoryDebitResponseDto toDebitDTO(Inventory inventory) {
+        return new InventoryDebitResponseDto(inventory.getId());
     }
 
-    public Long toId(InventoryDTO.Response.Id id) {
+    public Long toId(InventoryIdResponseDto id) {
         return id.getId();
     }
 
-    public InventoryDTO.Response.Partial toPartialDTO(Inventory inventory) {
-        return new InventoryDTO.Response.Partial(inventory
+    public InventoryPartialResponseDto toPartialDTO(Inventory inventory) {
+        return new InventoryPartialResponseDto(inventory
                 .getInventorySlotMap().values().stream()
                 .map(slotMapper::toPartialDTO).toList(),
                 inventory.getName().getName());

@@ -1,9 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterMoneyTypeService;
-import com.github.anywaythanks.twisterresource.services.impl.RegisterMoneyTypeServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,22 +28,22 @@ public class MoneyTypeController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
-    public MoneyDTO.Type.Response.Partial putMoneyType(
-            @Valid @PathVariable MoneyDTO.Type.Request.Name name,
-            @RequestBody @Valid MoneyDTO.Type.Request.Create create) {
+    public MoneyTypePartialResponseDto putMoneyType(
+            @Valid @PathVariable MoneyTypeNameRequestDto name,
+            @RequestBody @Valid MoneyTypeCreateRequestDto create) {
         return registerMoneyTypeService.merge(name, create);
     }
 
     @GetMapping
     @Transactional
-    public List<MoneyDTO.Type.Response.Partial> listMoneyTypes() {
+    public List<MoneyTypePartialResponseDto> listMoneyTypes() {
         return moneyTypeInformationService.listPartial();
     }
 
     @GetMapping("/{name}")
     @Transactional
-    public MoneyDTO.Type.Response.Partial getMoneyType(
-            @Valid @PathVariable MoneyDTO.Type.Request.Name name) {
+    public MoneyTypePartialResponseDto getMoneyType(
+            @Valid @PathVariable MoneyTypeNameRequestDto name) {
         return moneyTypeInformationService.getPartial(name);
     }
 }

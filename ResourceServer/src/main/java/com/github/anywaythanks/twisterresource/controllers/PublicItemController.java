@@ -1,6 +1,7 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,13 @@ public class PublicItemController {
     }
 
     @GetMapping
-    public List<ItemDTO.Response.Partial> listItems() {
+    public List<ItemPartialResponseDto> listItems() {
         return itemInformationService.listPartial();
     }
 
     @GetMapping("/{name}")
-    public ItemDTO.Response.Partial get(
-            @Valid @PathVariable ItemDTO.Request.Name name) {
+    public ItemPartialResponseDto get(
+            @Valid @PathVariable ItemNameRequestDto name) {
         return itemInformationService.getPartial(name);
     }
 }

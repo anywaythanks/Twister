@@ -1,29 +1,32 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper.impl;
+package com.github.anywaythanks.twisterresource.models.dto.mappers.impl;
 
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MoneyTypeMapperImpl implements MoneyTypeMapper {
-    public MoneyDTO.Type.Response.Id toIdDTO(MoneyType moneyType) {
-        return new MoneyDTO.Type.Response.Id(moneyType.getId());
+    public MoneyTypeIdResponseDto toIdDTO(MoneyType moneyType) {
+        return new MoneyTypeIdResponseDto(moneyType.getId());
     }
 
-    public MoneyDTO.Type.Response.Partial toPartialDTO(MoneyType moneyType) {
-        return new MoneyDTO.Type.Response.Partial(moneyType.getName(), moneyType.getPathToIcon());
+    public MoneyTypePartialResponseDto toPartialDTO(MoneyType moneyType) {
+        return new MoneyTypePartialResponseDto(moneyType.getName(), moneyType.getPathToIcon());
     }
 
-    public MoneyDTO.Type.Request.Name toName(MoneyType moneyType) {
-        return new MoneyDTO.Type.Request.Name(moneyType.getName());
+    public MoneyTypeNameRequestDto toName(MoneyType moneyType) {
+        return new MoneyTypeNameRequestDto(moneyType.getName());
     }
 
-    public MoneyType toType(MoneyDTO.Type.Request.Name name, MoneyDTO.Type.Request.Create request) {
+    public MoneyType toType(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto request) {
         return new MoneyType(name.getName(), request.getPathToIcon());
     }
 
-    public Integer toId(MoneyDTO.Type.Response.Id id) {
+    public Integer toId(MoneyTypeIdResponseDto id) {
         return id.getId();
     }
 }

@@ -1,8 +1,8 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryPartialResponseDto;
 
 public interface RegisterInventoryService {
-    InventoryDTO.Response.Partial register(GeneralAccountDTO.Request.Name name);
+    InventoryPartialResponseDto register(GeneralAccountNameRequestDto name);
 }

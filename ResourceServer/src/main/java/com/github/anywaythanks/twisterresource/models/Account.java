@@ -2,10 +2,6 @@ package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.BatchSize;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
 @Table(name = "accounts")

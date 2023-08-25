@@ -1,6 +1,8 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterItemService;
 import jakarta.validation.Valid;
@@ -24,20 +26,20 @@ public class ItemController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ItemDTO.Response.Partial put(
-            @Valid @PathVariable ItemDTO.Request.Name name,
-            @Valid @RequestBody ItemDTO.Request.CreateItem requestItem) {
+    public ItemPartialResponseDto put(
+            @Valid @PathVariable ItemNameRequestDto name,
+            @Valid @RequestBody ItemCreateRequestDto requestItem) {
         return registerItemService.merge(name, requestItem);
     }
 
     @GetMapping
-    public List<ItemDTO.Response.Partial> listItems() {
+    public List<ItemPartialResponseDto> listItems() {
         return itemInformationService.listPartial();
     }
 
     @GetMapping("/{name}")
-    public ItemDTO.Response.Partial get(
-            @Valid @PathVariable ItemDTO.Request.Name name) {
+    public ItemPartialResponseDto get(
+            @Valid @PathVariable ItemNameRequestDto name) {
         return itemInformationService.getPartial(name);
     }
 }

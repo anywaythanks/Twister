@@ -1,9 +1,14 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.*;
-import com.github.anywaythanks.twisterresource.models.dto.*;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.*;
+import com.github.anywaythanks.twisterresource.models.Inventory;
+import com.github.anywaythanks.twisterresource.models.Slot;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.*;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
@@ -48,8 +53,8 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
         this.itemRepository = itemRepository;
     }
 
-    private Inventory get(GeneralAccountDTO.Request.Name nameGeneral,
-                          InventoryDTO.Request.Name nameInventory) {
+    private Inventory get(GeneralAccountNameRequestDto nameGeneral,
+                          InventoryNameRequestDto nameInventory) {
         final var account = generalAccountRepository.findById(
                         generalAccountMapper.toId(generalAccountInformationService.getId(nameGeneral)))
                 .orElseThrow(NotFoundException::new);
@@ -58,8 +63,8 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
         return inventory;
     }
 
-    private Slot<?> get(GeneralAccountDTO.Request.Name nameGeneral,
-                        InventoryDTO.Request.Name nameInventory, ItemDTO.Request.Name nameItem) {
+    private Slot<?> get(GeneralAccountNameRequestDto nameGeneral,
+                        InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem) {
         var item = itemRepository.findById(itemMapper.toId(itemInformationService.getId(nameItem)))
                 .orElseThrow(NotFoundException::new);
         var slot = get(nameGeneral, nameInventory).getInventorySlotMap().get(item);
@@ -67,33 +72,33 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
         return slot;
     }
 
-    public SlotDTO.Response.Id getSlotId(GeneralAccountDTO.Request.Name name,
-                                         InventoryDTO.Request.Name nameInventory, ItemDTO.Request.Name nameItem) {
+    public SlotIdResponseDto getSlotId(GeneralAccountNameRequestDto name,
+                                       InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem) {
         return slotMapper.toIdsDTO(get(name, nameInventory, nameItem));
     }
 
-    public InventoryDTO.Response.Id getId(GeneralAccountDTO.Request.Name name,
-                                          InventoryDTO.Request.Name nameInventory) {
+    public InventoryIdResponseDto getId(GeneralAccountNameRequestDto name,
+                                        InventoryNameRequestDto nameInventory) {
         return inventoryMapper.toIdDTO(get(name, nameInventory));
     }
 
-    public InventoryDTO.Response.Debit getDebit(InventoryDTO.Request.Name nameInventory) {
+    public InventoryDebitResponseDto getDebit(InventoryNameRequestDto nameInventory) {
         return inventoryMapper.toDebitDTO(inventoryRepository.findByName(inventoryMapper.toName(nameInventory))
                 .orElseThrow(NotFoundException::new));
     }
 
-    public InventoryDTO.Response.Credit getCredit(GeneralAccountDTO.Request.Name name, InventoryDTO.Request.Name nameInventory) {
+    public InventoryCreditResponseDto getCredit(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory) {
         return inventoryMapper.toCreditDTO(get(name, nameInventory));
     }
 
-    public SlotDTO.Response.Partial getSlotPartial(GeneralAccountDTO.Request.Name name,
-                                                   InventoryDTO.Request.Name nameInventory, ItemDTO.Request.Name nameItem) {
+    public SlotPartialResponseDto getSlotPartial(GeneralAccountNameRequestDto name,
+                                                 InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem) {
         return slotMapper.toPartialDTO(get(name, nameInventory, nameItem));
     }
 
 
-    public InventoryDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name nameGeneral,
-                                                    InventoryDTO.Request.Name nameInventory) {
+    public InventoryPartialResponseDto getPartial(GeneralAccountNameRequestDto nameGeneral,
+                                                  InventoryNameRequestDto nameInventory) {
         final var account = generalAccountRepository.findById(
                         generalAccountMapper.toId(generalAccountInformationService.getId(nameGeneral)))
                 .orElseThrow(NotFoundException::new);
@@ -102,7 +107,7 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
         return inventoryMapper.toPartialDTO(inventory);
     }
 
-    public List<InventoryDTO.Response.Name> names(GeneralAccountDTO.Request.Name nameGeneral) {
+    public List<InventoryNameResponseDto> names(GeneralAccountNameRequestDto nameGeneral) {
         final var account = generalAccountRepository.findById(
                         generalAccountMapper.toId(generalAccountInformationService.getId(nameGeneral)))
                 .orElseThrow(NotFoundException::new);

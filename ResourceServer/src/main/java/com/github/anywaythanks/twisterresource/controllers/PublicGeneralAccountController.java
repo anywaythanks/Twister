@@ -1,6 +1,8 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNicknameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPublicResponseDto;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,12 @@ public class PublicGeneralAccountController {
     }
 
     @RequestMapping(path = "/{name}")
-    public GeneralAccountDTO.Response.Public infoPublic(@Valid @PathVariable GeneralAccountDTO.Request.Name name) {
+    public GeneralAccountPublicResponseDto infoPublic(@Valid @PathVariable GeneralAccountNameRequestDto name) {
         return generalAccountInformationService.getPublic(name);
     }
 
     @GetMapping("/search")
-    public GeneralAccountDTO.Response.Public search(@Valid @RequestParam GeneralAccountDTO.Request.Nickname nickname) {
+    public GeneralAccountPublicResponseDto search(@Valid @RequestParam GeneralAccountNicknameRequestDto nickname) {
         return generalAccountInformationService.getPublic(nickname);
     }
 }

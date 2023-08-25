@@ -1,21 +1,21 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
 
 public interface InventoryMapper {
-    InventoryDTO.Response.Name toNameDTO(InventoryName name);
+    InventoryNameResponseDto toNameDTO(InventoryName name);
 
-    InventoryName toName(InventoryDTO.Request.Name name);
+    InventoryName toName(InventoryNameRequestDto name);
 
-    InventoryDTO.Response.Id toIdDTO(Inventory inventory);
+    InventoryIdResponseDto toIdDTO(Inventory inventory);
 
-    InventoryDTO.Response.Credit toCreditDTO(Inventory inventory);
+    InventoryCreditResponseDto toCreditDTO(Inventory inventory);
 
-    InventoryDTO.Response.Debit toDebitDTO(Inventory inventory);
+    InventoryDebitResponseDto toDebitDTO(Inventory inventory);
 
-    Long toId(InventoryDTO.Response.Id id);
+    Long toId(InventoryIdResponseDto id);
 
-    InventoryDTO.Response.Partial toPartialDTO(Inventory inventory);
+    InventoryPartialResponseDto toPartialDTO(Inventory inventory);
 }

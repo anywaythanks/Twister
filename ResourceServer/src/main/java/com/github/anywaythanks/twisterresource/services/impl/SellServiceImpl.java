@@ -3,10 +3,14 @@ package com.github.anywaythanks.twisterresource.services.impl;
 import com.github.anywaythanks.twisterresource.exceptions.NoSellingItemException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.SellingItem;
-import com.github.anywaythanks.twisterresource.models.dto.*;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.InventoryInformationService;
 import com.github.anywaythanks.twisterresource.services.SellService;
@@ -44,11 +48,11 @@ public class SellServiceImpl implements SellService {
         this.itemRepository = itemRepository;
     }
 
-    public void sell(GeneralAccountDTO.Request.Name name,
-                     InventoryDTO.Request.Name nameInventory,
-                     ItemDTO.Request.Name nameItem,
-                     AccountDTO.Request.Number number,
-                     SlotDTO.Request.Quantity quantity) {
+    public void sell(GeneralAccountNameRequestDto name,
+                     InventoryNameRequestDto nameInventory,
+                     ItemNameRequestDto nameItem,
+                     AccountNumberRequestDto number,
+                     SlotQuantityRequestDto quantity) {
         var slot = inventoryInformationService.getSlotId(name, nameInventory, nameItem);
         var item = itemRepository.findById(itemMapper.toId(slot.getItem())).orElseThrow(NotFoundException::new);
         if (item instanceof SellingItem sellingItem) {

@@ -1,32 +1,33 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Case;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.acase.*;
+import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
 
 import java.util.Set;
 
 public interface CaseMapper {
-    CaseDTO.Response.Partial toPartialDTO(Case aCase);
+    CasePartialResponseDto toPartialDTO(Case aCase);
 
-    CaseDTO.Response.PartialWithoutCooldown toPartialWithoutCooldownDTO(Case aCase);
+    CasePartialWithoutCooldownResponseDto toPartialWithoutCooldownDTO(Case aCase);
 
-    CaseDTO.Response.CooldownId toCooldownIdDto(Case aCase);
+    CaseCooldownIdResponseDto toCooldownIdDto(Case aCase);
 
-    CaseDTO.Response.LightPartial toLightPartialDTO(Case aCase);
+    CaseLightPartialResponseDto toLightPartialDTO(Case aCase);
 
-    CaseDTO.Response.LightPartialWithoutCooldown toLightPartialWithoutCooldownDTO(Case aCase);
+    CaseLightPartialWithoutCooldownResponseDto toLightPartialWithoutCooldownDTO(Case aCase);
 
-    CaseDTO.Slot.Response.Partial toPartialDTO(CaseSlot<?> slot);
+    CaseSlotPartialResponseDto toPartialDTO(CaseSlot<?> slot);
 
-    CaseSlot<Item> toCaseSlot(Item item, CaseDTO.Slot.Request.Create request);
+    CaseSlot<Item> toCaseSlot(Item item, CaseSlotCreateRequestDto request);
 
-    Long toId(CaseDTO.Response.CooldownId id);
+    Long toId(CaseCooldownIdResponseDto id);
 
-    Case toCase(Set<CaseSlot<Item>> slots, CaseDTO.Request.Name name, MoneyType moneyType, CaseDTO.Request.Create request);
+    Case toCase(Set<CaseSlot<Item>> slots, CaseNameRequestDto name, MoneyType moneyType, CaseCreateRequestDto request);
 
-    CaseDTO.Response.Name toName(Case nCase);
+    CaseNameResponseDto toName(Case nCase);
 }

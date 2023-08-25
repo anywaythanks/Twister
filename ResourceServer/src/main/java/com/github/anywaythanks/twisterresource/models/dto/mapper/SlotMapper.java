@@ -1,15 +1,14 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.Slot;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
-import org.springframework.stereotype.Component;
+import com.github.anywaythanks.twisterresource.models.dto.slot.*;
 
 public interface SlotMapper {
-    SlotDTO.Response.Partial toPartialDTO(Slot<?> slot);
+    SlotPartialResponseDto toPartialDTO(Slot<?> slot);
 
-    SlotDTO.Response.Id toIdsDTO(Slot<?> slot);
+    SlotIdResponseDto toIdsDTO(Slot<?> slot);
 
-    SlotDTO.Request.Transfer toTransfer(Slot<?> slot);
+    SlotTransferRequestDto toTransfer(Slot<?> slot);
 
-    SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Id slot);
+    SlotTransferRequestDto toTransfer(SlotQuantityRequestDto quantity, SlotIdResponseDto slot);
 }

@@ -2,11 +2,11 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.InventorySlot;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.InventoryMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.InventoryMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.ItemMapper;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.TransferItemService;
@@ -34,7 +34,7 @@ public class TransferItemServiceImpl implements TransferItemService {
         this.itemMapper = itemMapper;
     }
 
-    public void add(InventoryDTO.Request.Name name, SlotDTO.Request.Transfer slotTransfer) {
+    public void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer) {
         final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getDebit(name)))
                 .orElseThrow(NotFoundException::new);
         final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
@@ -44,8 +44,8 @@ public class TransferItemServiceImpl implements TransferItemService {
         slot.addItems(item, slotTransfer.getQuantity());
     }
 
-    public void remove(GeneralAccountDTO.Request.Name name, InventoryDTO.Request.Name nameInventory,
-                       SlotDTO.Request.Transfer slotTransfer) {
+    public void remove(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory,
+                       SlotTransferRequestDto slotTransfer) {
         final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getCredit(name, nameInventory)))
                 .orElseThrow(NotFoundException::new);
         final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
@@ -55,9 +55,9 @@ public class TransferItemServiceImpl implements TransferItemService {
         slot.removeItems(item, slotTransfer.getQuantity());
     }
 
-    public void transfer(GeneralAccountDTO.Request.Name name,
-                         InventoryDTO.Request.Name inventoryFrom, InventoryDTO.Request.Name inventoryTo,
-                         SlotDTO.Request.Transfer slotTransfer) {
+    public void transfer(GeneralAccountNameRequestDto name,
+                         InventoryNameRequestDto inventoryFrom, InventoryNameRequestDto inventoryTo,
+                         SlotTransferRequestDto slotTransfer) {
         remove(name, inventoryFrom, slotTransfer);
         add(inventoryTo, slotTransfer);
     }

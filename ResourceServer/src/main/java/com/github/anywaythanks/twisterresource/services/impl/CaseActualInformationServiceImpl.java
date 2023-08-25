@@ -2,12 +2,15 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.PageMapper;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseCooldownIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.CaseMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.PageMapper;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
@@ -47,8 +50,8 @@ public class CaseActualInformationServiceImpl implements CaseActualInformationSe
         this.generalAccountInformationService = generalAccountInformationService;
     }
 
-    public CaseDTO.Response.CooldownId getCooldownId(GeneralAccountDTO.Request.Name name,
-                                                     CaseDTO.Request.Name caseName) {
+    public CaseCooldownIdResponseDto getCooldownId(GeneralAccountNameRequestDto name,
+                                                   CaseNameRequestDto caseName) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);
@@ -65,8 +68,8 @@ public class CaseActualInformationServiceImpl implements CaseActualInformationSe
         return pCase;
     }
 
-    public CaseDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name name,
-                                               CaseDTO.Request.Name caseName) {
+    public CasePartialResponseDto getPartial(GeneralAccountNameRequestDto name,
+                                             CaseNameRequestDto caseName) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);
@@ -85,8 +88,8 @@ public class CaseActualInformationServiceImpl implements CaseActualInformationSe
         return rCase;
     }
 
-    public PageDTO.Response.Partial<CaseDTO.Response.LightPartial> getPage(int page, int size,
-                                                                           GeneralAccountDTO.Request.Name name) {
+    public PagePartialResponseDto<CaseLightPartialResponseDto> getPage(int page, int size,
+                                                                       GeneralAccountNameRequestDto name) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);

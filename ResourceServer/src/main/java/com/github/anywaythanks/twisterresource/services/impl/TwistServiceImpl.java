@@ -5,8 +5,12 @@ import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Twist;
-import com.github.anywaythanks.twisterresource.models.dto.*;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.*;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.*;
+import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.TwistRepository;
@@ -65,10 +69,10 @@ public class TwistServiceImpl implements TwistService {
         this.caseRepository = caseRepository;
     }
 
-    public TwistDTO.Response.Partial twist(GeneralAccountDTO.Request.Name name,
-                                           InventoryDTO.Request.Name nameInventory,
-                                           AccountDTO.Request.Number number,
-                                           CaseDTO.Request.Name caseName) throws NoSuchAlgorithmException {
+    public TwistPartialResponseDto twist(GeneralAccountNameRequestDto name,
+                                         InventoryNameRequestDto nameInventory,
+                                         AccountNumberRequestDto number,
+                                         CaseNameRequestDto caseName) throws NoSuchAlgorithmException {
         var cid = caseActualInformationService.getCooldownId(name, caseName);
         if (!cid.getCooldown().isZero()) throw new CooldownException();
         var twistedCase = caseRepository.findById(caseMapper.toId(cid)).orElseThrow(NotFoundException::new);

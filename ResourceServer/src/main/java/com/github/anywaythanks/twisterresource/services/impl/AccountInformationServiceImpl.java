@@ -4,11 +4,10 @@ import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.AccountNumber;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO.Request.Number;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO.Request.Name;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.*;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.AccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.AccountInformationService;
@@ -45,32 +44,32 @@ public class AccountInformationServiceImpl implements AccountInformationService 
         return account;
     }
 
-    public AccountDTO.Response.Partial getPartial(Name name,
-                                                  Number number) {
+    public AccountPartialResponseDto getPartial(GeneralAccountNameRequestDto name,
+                                                AccountNumberRequestDto number) {
         var generalAccount = generalAccountRepository.findById(generalAccountMapper.toId(
                 generalAccountInformationService.getId(name))).orElseThrow(NotFoundException::new);
         return accountMapper.toPartialDTO(get(generalAccount, accountMapper.toNumber(number)));
     }
 
-    public AccountDTO.Response.Id getId(Name name,
-                                        Number number) {
+    public AccountIdResponseDto getId(GeneralAccountNameRequestDto name,
+                                      AccountNumberRequestDto number) {
         var generalAccount = generalAccountRepository.findById(generalAccountMapper.toId(
                 generalAccountInformationService.getId(name))).orElseThrow(NotFoundException::new);
         return accountMapper.toIdDTO(get(generalAccount, accountMapper.toNumber(number)));
     }
 
-    public AccountDTO.Response.Debit getDebit(Number number) {
+    public AccountDebitResponseDto getDebit(AccountNumberRequestDto number) {
         return accountMapper.toDebitDTO(accountRepository.findByNumber(accountMapper.toNumber(number))
                 .orElseThrow(NotFoundException::new));
     }
 
-    public AccountDTO.Response.Credit getCredit(Name name, Number number) {
+    public AccountCreditResponseDto getCredit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number) {
         var generalAccount = generalAccountRepository.findById(generalAccountMapper.toId(
                 generalAccountInformationService.getId(name))).orElseThrow(NotFoundException::new);
         return accountMapper.toCreditDTO(get(generalAccount, accountMapper.toNumber(number)));
     }
 
-    public List<AccountDTO.Response.Partial> listPartial(Name name) {
+    public List<AccountPartialResponseDto> listPartial(GeneralAccountNameRequestDto name) {
         var generalAccount = generalAccountRepository.findById(generalAccountMapper.toId(
                 generalAccountInformationService.getId(name))).orElseThrow(NotFoundException::new);
         return generalAccount.getAccounts().values().stream().map(accountMapper::toPartialDTO).toList();

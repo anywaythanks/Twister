@@ -1,8 +1,10 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.dto.MoneyDTO;
-import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import org.springframework.stereotype.Service;
@@ -23,16 +25,16 @@ public class MoneyTypeInformationServiceImpl implements MoneyTypeInformationServ
         this.moneyTypeMapper = moneyTypeMapper;
     }
 
-    public List<MoneyDTO.Type.Response.Partial> listPartial() {
+    public List<MoneyTypePartialResponseDto> listPartial() {
         return typeMoneyRepository.findAll().stream().map(moneyTypeMapper::toPartialDTO).toList();
     }
 
-    public MoneyDTO.Type.Response.Partial getPartial(MoneyDTO.Type.Request.Name name) {
+    public MoneyTypePartialResponseDto getPartial(MoneyTypeNameRequestDto name) {
         return moneyTypeMapper.toPartialDTO(typeMoneyRepository.findByName(name.getName())
                 .orElseThrow(NotFoundException::new));
     }
 
-    public MoneyDTO.Type.Response.Id getId(MoneyDTO.Type.Request.Name name) {
+    public MoneyTypeIdResponseDto getId(MoneyTypeNameRequestDto name) {
         return moneyTypeMapper.toIdDTO(typeMoneyRepository.findByName(name.getName())
                 .orElseThrow(NotFoundException::new));
     }

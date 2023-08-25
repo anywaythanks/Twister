@@ -1,16 +1,19 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.PageDTO;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseCooldownIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 
 public interface CaseActualInformationService {
-    CaseDTO.Response.CooldownId getCooldownId(GeneralAccountDTO.Request.Name name,
-                                              CaseDTO.Request.Name caseName);
+    CaseCooldownIdResponseDto getCooldownId(GeneralAccountNameRequestDto name,
+                                            CaseNameRequestDto caseName);
 
-    CaseDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name name,
-                                        CaseDTO.Request.Name caseName);
+    CasePartialResponseDto getPartial(GeneralAccountNameRequestDto name,
+                                      CaseNameRequestDto caseName);
 
-    PageDTO.Response.Partial<CaseDTO.Response.LightPartial> getPage(int page, int size,
-                                                                    GeneralAccountDTO.Request.Name name);
+    PagePartialResponseDto<CaseLightPartialResponseDto> getPage(int page, int size,
+                                                                GeneralAccountNameRequestDto name);
 }

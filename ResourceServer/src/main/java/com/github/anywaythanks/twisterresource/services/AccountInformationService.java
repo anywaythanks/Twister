@@ -1,20 +1,20 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
+import com.github.anywaythanks.twisterresource.models.dto.account.*;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 
 import java.util.List;
 
 public interface AccountInformationService {
-    AccountDTO.Response.Partial getPartial(GeneralAccountDTO.Request.Name name,
-                                           AccountDTO.Request.Number number);
+    AccountPartialResponseDto getPartial(GeneralAccountNameRequestDto name,
+                                         AccountNumberRequestDto number);
 
-    AccountDTO.Response.Id getId(GeneralAccountDTO.Request.Name name,
-                                 AccountDTO.Request.Number number);
+    AccountIdResponseDto getId(GeneralAccountNameRequestDto name,
+                               AccountNumberRequestDto number);
 
-    AccountDTO.Response.Debit getDebit(AccountDTO.Request.Number number);
+    AccountDebitResponseDto getDebit(AccountNumberRequestDto number);
 
-    AccountDTO.Response.Credit getCredit(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number);
+    AccountCreditResponseDto getCredit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number);
 
-    List<AccountDTO.Response.Partial> listPartial(GeneralAccountDTO.Request.Name name);
+    List<AccountPartialResponseDto> listPartial(GeneralAccountNameRequestDto name);
 }

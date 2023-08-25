@@ -1,9 +1,9 @@
-package com.github.anywaythanks.twisterresource.models.dto.mapper;
+package com.github.anywaythanks.twisterresource.models.dto.mappers;
 
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Twist;
-import com.github.anywaythanks.twisterresource.models.dto.TwistDTO;
+import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 
 public interface TwistMapper {
-    TwistDTO.Response.Partial toDTO(CaseSlot<?> wonSlot, Twist<?> twist);
+    TwistPartialResponseDto toDTO(CaseSlot<?> wonSlot, Twist<?> twist);
 }
