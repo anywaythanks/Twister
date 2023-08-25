@@ -38,6 +38,14 @@ public class GeneralAccount {
     @MapKey(name = "number")
     Map<AccountNumber, Account> accounts = new HashMap<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @BatchSize(size = 5)
+    @JoinTable(name = "general_inventory_mapping",
+            joinColumns = {@JoinColumn(name = "general_account_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "inventory_id", referencedColumnName = "id")})
+    @MapKey(name = "name")
+    Map<InventoryName, Inventory> inventories = new HashMap<>();
+
     protected GeneralAccount() {
     }
 
@@ -69,6 +77,10 @@ public class GeneralAccount {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public Map<InventoryName, Inventory> getInventories() {
+        return inventories;
     }
 
     public void setName(GeneralAccountName name) {

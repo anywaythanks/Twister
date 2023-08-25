@@ -1,11 +1,12 @@
 package com.github.anywaythanks.twisterresource.models.dto;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class SlotDTO {
     private interface Quantity {
-        @Min(0)
+        @NotNull
+        @PositiveOrZero
         Integer getQuantity();
     }
 
@@ -105,15 +106,15 @@ public class SlotDTO {
             }
         }
 
-        public static class Ids implements SlotDTO.Quantity, ItemTypes<ItemDTO.Response.Id>, Id {
+        public static class Id implements SlotDTO.Quantity, ItemTypes<ItemDTO.Response.Id>, SlotDTO.Id {
             ItemDTO.Response.Id item;
             Integer quantity;
             Long id;
 
-            protected Ids() {
+            protected Id() {
             }
 
-            public Ids(Integer quantity, ItemDTO.Response.Id item, Long id) {
+            public Id(Integer quantity, ItemDTO.Response.Id item, Long id) {
                 this.quantity = quantity;
                 this.item = item;
                 this.id = id;

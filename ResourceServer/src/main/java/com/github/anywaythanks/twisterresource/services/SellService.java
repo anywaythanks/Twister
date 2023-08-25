@@ -3,10 +3,7 @@ package com.github.anywaythanks.twisterresource.services;
 import com.github.anywaythanks.twisterresource.exceptions.NoSellingItemException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.*;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.ItemDTO;
-import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
+import com.github.anywaythanks.twisterresource.models.dto.*;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.MoneyMapper;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.SlotMapper;
@@ -24,7 +21,7 @@ public class SellService {
     private final MoneyMapper moneyMapper;
     private final SlotMapper slotMapper;
     private final ItemMapper itemMapper;
-    private final AccountInventoryInformationService accountInventoryInformationService;
+    private final InventoryInformationService inventoryInformationService;
     private final ItemRepository itemRepository;
 
     public SellService(TransferMoneyService transferMoneyService,
@@ -32,23 +29,26 @@ public class SellService {
                        MoneyMapper moneyMapper,
                        SlotMapper slotMapper,
                        ItemMapper itemMapper,
-                       AccountInventoryInformationService accountInventoryInformationService,
+                       InventoryInformationService inventoryInformationService,
                        ItemRepository itemRepository) {
         this.transferMoneyService = transferMoneyService;
         this.transferItemService = transferItemService;
         this.moneyMapper = moneyMapper;
         this.slotMapper = slotMapper;
         this.itemMapper = itemMapper;
-        this.accountInventoryInformationService = accountInventoryInformationService;
+        this.inventoryInformationService = inventoryInformationService;
         this.itemRepository = itemRepository;
     }
 
-    public void sell(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number, ItemDTO.Request.Name nameItem,
+    public void sell(GeneralAccountDTO.Request.Name name,
+                     InventoryDTO.Request.Name nameInventory,
+                     ItemDTO.Request.Name nameItem,
+                     AccountDTO.Request.Number number,
                      SlotDTO.Request.Quantity quantity) {
-        var slot = accountInventoryInformationService.getFull(name, number, nameItem);
+        var slot = inventoryInformationService.getSlotId(name, nameInventory, nameItem);
         var item = itemRepository.findById(itemMapper.toId(slot.getItem())).orElseThrow(NotFoundException::new);
         if (item instanceof SellingItem sellingItem) {
-            transferItemService.remove(name, number, slotMapper.toTransfer(quantity, slot));
+            transferItemService.remove(name, nameInventory, slotMapper.toTransfer(quantity, slot));
             transferMoneyService.debit(number, moneyMapper.toRequest(sellingItem.getCost().multiply(BigDecimal.valueOf(quantity.getQuantity()))));
         } else throw new NoSellingItemException();
     }

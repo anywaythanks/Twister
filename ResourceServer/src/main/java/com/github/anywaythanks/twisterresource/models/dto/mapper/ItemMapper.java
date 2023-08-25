@@ -29,12 +29,21 @@ public class ItemMapper {
     public ItemMoney toItemMoney(ItemDTO.Request.Name name, MoneyType moneyType, ItemDTO.Request.CreateMoney itemMoney) {
         return new ItemMoney(name.getName(), itemMoney.getVisibleName(), moneyMapper.toMoney(moneyType, itemMoney.getCost()));
     }
+
     public ItemTrash toItemTrash(ItemDTO.Request.Name name, ItemDTO.Request.CreateTrash itemMoney) {
         return new ItemTrash(name.getName(), itemMoney.getVisibleName());
     }
 
     public ItemDTO.Response.Id toIdDTO(Item item) {
         return new ItemDTO.Response.Id(item.getId());
+    }
+
+    public String toName(ItemDTO.Request.Name name) {
+        return name.getName();
+    }
+
+    public ItemDTO.Request.Name toNameDTO(Item item) {
+        return new ItemDTO.Request.Name(item.getName());
     }
 
     public Long toId(ItemDTO.Response.Id id) {

@@ -1,9 +1,6 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.TwistDTO;
+import com.github.anywaythanks.twisterresource.models.dto.*;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.CaseMapper;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.GeneralAccountMapper;
@@ -20,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 
 @RestController
-@RequestMapping("/api/general/{name}/accounts/{number}/twist")
+@RequestMapping("/api/general/{name}/accounts/{number}/twist/{nameInventory}")
 public class TwisterController {
 
     private final TwistService twistService;
@@ -33,7 +30,8 @@ public class TwisterController {
     @Transactional
     public TwistDTO.Response.Partial twist(@Valid @PathVariable GeneralAccountDTO.Request.Name name,
                                            @Valid @PathVariable AccountDTO.Request.Number number,
+                                           @Valid @PathVariable InventoryDTO.Request.Name nameInventory,
                                            @Valid @PathVariable CaseDTO.Request.Name caseName) throws NoSuchAlgorithmException {
-        return twistService.twist(name, number, caseName);
+        return twistService.twist(name, nameInventory, number, caseName);
     }
 }

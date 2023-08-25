@@ -16,15 +16,15 @@ public class SlotMapper {
         return new SlotDTO.Response.Partial(slot.getQuantityItem(), itemMapper.toPartialDTO(slot.getItem()));
     }
 
-    public SlotDTO.Response.Ids toIdsDTO(Slot<?> slot) {
-        return new SlotDTO.Response.Ids(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
+    public SlotDTO.Response.Id toIdsDTO(Slot<?> slot) {
+        return new SlotDTO.Response.Id(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
     }
 
     public SlotDTO.Request.Transfer toTransfer(Slot<?> slot) {
         return new SlotDTO.Request.Transfer(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()));
     }
 
-    public SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Ids slot) {
+    public SlotDTO.Request.Transfer toTransfer(SlotDTO.Request.Quantity quantity, SlotDTO.Response.Id slot) {
         return new SlotDTO.Request.Transfer(quantity.getQuantity(), slot.getItem());
     }
 }

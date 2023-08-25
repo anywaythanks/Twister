@@ -25,19 +25,7 @@ public class Account {
     })
     Money amount;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @BatchSize(size = 5)
-    @JoinTable(name = "account_slot_mapping",
-            joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "slot_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "item")
-    Map<Item, AccountSlot<?>> accountSlotMap = new HashMap<>();
-
     protected Account() {
-    }
-
-    public Account(Money amount) {
-        this.amount = amount;
     }
 
     public Account(AccountNumber number, Money amount) {
@@ -67,9 +55,5 @@ public class Account {
 
     public void setNumber(AccountNumber number) {
         this.number = number;
-    }
-
-    public Map<Item, AccountSlot<?>> getAccountSlotMap() {
-        return accountSlotMap;
     }
 }

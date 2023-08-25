@@ -1,13 +1,15 @@
 package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.models.AccountSlot;
+import com.github.anywaythanks.twisterresource.models.InventorySlot;
 import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
 import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
+import com.github.anywaythanks.twisterresource.models.dto.InventoryDTO;
 import com.github.anywaythanks.twisterresource.models.dto.SlotDTO;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.AccountMapper;
+import com.github.anywaythanks.twisterresource.models.dto.mapper.InventoryMapper;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.ItemMapper;
-import com.github.anywaythanks.twisterresource.repository.AccountRepository;
+import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,50 +17,49 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class TransferItemService {
-    private final AccountMapper accountMapper;
-    private final AccountInformationService accountInformationService;
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
-    private final AccountRepository accountRepository;
+    private final InventoryInformationService inventoryInformationService;
+    private final InventoryRepository inventoryRepository;
+    private final InventoryMapper inventoryMapper;
 
-    public TransferItemService(AccountMapper accountMapper,
-                               AccountInformationService accountInformationService,
-                               ItemRepository itemRepository,
+    public TransferItemService(ItemRepository itemRepository,
                                ItemMapper itemMapper,
-                               AccountRepository accountRepository) {
-        this.accountMapper = accountMapper;
-        this.accountInformationService = accountInformationService;
+                               InventoryInformationService inventoryInformationService,
+                               InventoryRepository inventoryRepository,
+                               InventoryMapper inventoryMapper) {
+        this.inventoryMapper = inventoryMapper;
+        this.inventoryInformationService = inventoryInformationService;
+        this.inventoryRepository = inventoryRepository;
         this.itemRepository = itemRepository;
         this.itemMapper = itemMapper;
-
-        this.accountRepository = accountRepository;
     }
 
-    public void add(AccountDTO.Request.Number number, SlotDTO.Request.Transfer slotTransfer) {
-        final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getDebit(number)))
+    public void add(InventoryDTO.Request.Name name, SlotDTO.Request.Transfer slotTransfer) {
+        final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getDebit(name)))
                 .orElseThrow(NotFoundException::new);
         final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
                 .orElseThrow(NotFoundException::new);
-        account.getAccountSlotMap().putIfAbsent(item, new AccountSlot<>(item, 0));
-        var slot = account.getAccountSlotMap().get(item);
+        inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
+        var slot = inventory.getInventorySlotMap().get(item);
         slot.addItems(item, slotTransfer.getQuantity());
     }
 
-    public void remove(GeneralAccountDTO.Request.Name name, AccountDTO.Request.Number number,
+    public void remove(GeneralAccountDTO.Request.Name name, InventoryDTO.Request.Name nameInventory,
                        SlotDTO.Request.Transfer slotTransfer) {
-        final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getCredit(name, number)))
+        final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getCredit(name, nameInventory)))
                 .orElseThrow(NotFoundException::new);
         final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
                 .orElseThrow(NotFoundException::new);
-        account.getAccountSlotMap().putIfAbsent(item, new AccountSlot<>(item, 0));
-        var slot = account.getAccountSlotMap().get(item);
+        inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
+        var slot = inventory.getInventorySlotMap().get(item);
         slot.removeItems(item, slotTransfer.getQuantity());
     }
 
     public void transfer(GeneralAccountDTO.Request.Name name,
-                         AccountDTO.Request.Number accountFrom, AccountDTO.Request.Number accountTo,
+                         InventoryDTO.Request.Name inventoryFrom, InventoryDTO.Request.Name inventoryTo,
                          SlotDTO.Request.Transfer slotTransfer) {
-        remove(name, accountFrom, slotTransfer);
-        add(accountTo, slotTransfer);
+        remove(name, inventoryFrom, slotTransfer);
+        add(inventoryTo, slotTransfer);
     }
 }

@@ -3,10 +3,7 @@ package com.github.anywaythanks.twisterresource.services;
 import com.github.anywaythanks.twisterresource.exceptions.CooldownException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.models.*;
-import com.github.anywaythanks.twisterresource.models.dto.AccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.CaseDTO;
-import com.github.anywaythanks.twisterresource.models.dto.GeneralAccountDTO;
-import com.github.anywaythanks.twisterresource.models.dto.TwistDTO;
+import com.github.anywaythanks.twisterresource.models.dto.*;
 import com.github.anywaythanks.twisterresource.models.dto.mapper.*;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
@@ -66,6 +63,7 @@ public class TwistService {
     }
 
     public TwistDTO.Response.Partial twist(GeneralAccountDTO.Request.Name name,
+                                           InventoryDTO.Request.Name nameInventory,
                                            AccountDTO.Request.Number number,
                                            CaseDTO.Request.Name caseName) throws NoSuchAlgorithmException {
         var cid = caseActualInformationService.getCooldownId(name, caseName);
@@ -73,7 +71,7 @@ public class TwistService {
         var twistedCase = caseRepository.findById(caseMapper.toId(cid)).orElseThrow(NotFoundException::new);
         transferMoneyService.credit(name, number, moneyMapper.toRequest(twistedCase.getPrice()));
         var wonSlot = twist(twistedCase.getCaseSlotSet());
-        transferItemService.add(number, slotMapper.toTransfer(wonSlot));
+        transferItemService.add(nameInventory, slotMapper.toTransfer(wonSlot));
         var generalAccount = generalAccountRepository.findById(
                         generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);
