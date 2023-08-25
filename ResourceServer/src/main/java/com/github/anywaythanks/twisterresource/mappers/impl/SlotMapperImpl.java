@@ -1,8 +1,8 @@
 package com.github.anywaythanks.twisterresource.mappers.impl;
 
-import com.github.anywaythanks.twisterresource.models.Slot;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
+import com.github.anywaythanks.twisterresource.models.Slot;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;

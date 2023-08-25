@@ -1,9 +1,9 @@
 package com.github.anywaythanks.twisterresource.mappers.impl;
 
-import com.github.anywaythanks.twisterresource.models.Money;
-import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.Money;
+import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyPartialResponseDto;
 import org.springframework.stereotype.Component;

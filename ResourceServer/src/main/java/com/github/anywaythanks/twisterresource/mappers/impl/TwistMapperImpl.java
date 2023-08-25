@@ -1,11 +1,11 @@
 package com.github.anywaythanks.twisterresource.mappers.impl;
 
-import com.github.anywaythanks.twisterresource.models.CaseSlot;
-import com.github.anywaythanks.twisterresource.models.Twist;
 import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.TwistMapper;
+import com.github.anywaythanks.twisterresource.models.CaseSlot;
+import com.github.anywaythanks.twisterresource.models.Twist;
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import org.springframework.stereotype.Component;
 

@@ -1,12 +1,12 @@
 package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
+import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
+import com.github.anywaythanks.twisterresource.mappers.InventoryMapper;
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryPartialResponseDto;
-import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.mappers.InventoryMapper;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.InventoryNameRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;

@@ -2,13 +2,13 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.GeneralAccountExistsException;
 import com.github.anywaythanks.twisterresource.exceptions.UniqueException;
+import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPartialResponseDto;
-import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountNameRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
