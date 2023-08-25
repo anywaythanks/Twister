@@ -6,7 +6,7 @@ import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
 import com.github.anywaythanks.twisterresource.models.dto.general.*;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("generalAccountMapper")//TODO
 public class GeneralAccountMapperImpl implements GeneralAccountMapper {
 
     public GeneralAccountPartialResponseDto toPartialDTO(GeneralAccount account) {
