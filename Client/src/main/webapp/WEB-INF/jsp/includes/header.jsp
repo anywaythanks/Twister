@@ -27,13 +27,18 @@
                         <c:otherwise>
                             <s:url value="/me" var="me_url"/>
                             <s:url value="/setting" var="setting_url"/>
-                            <s:url value="/inventory" var="inventory_url"/>
+
                             <s:url value="/transfers" var="transfers_url"/>
                             <li class="nickname"><a href="${me_url}"><c:out value="${general.nickname}"/></a>
                                 <ul class="dropdown">
                                     <li><a href="${me_url}">Обо мне</a></li>
                                     <li><a href="${setting_url}">Настройки</a></li>
-                                    <li><a href="${inventory_url}">Инвентарь</a></li>
+                                    <c:forEach items="${names}" var="inventoryName">
+                                        <s:url value="/me/inventory/{inventoryName}" var="inventory_url">
+                                            <s:param name="inventoryName" value="${inventoryName.name}"/>
+                                        </s:url>
+                                        <li><a href="${inventory_url}">Инвентарь</a></li>
+                                    </c:forEach>
                                     <li><a href="${transfers_url}">Переводы</a></li>
                                 </ul>
                             </li>
@@ -45,8 +50,7 @@
                                     <span class="value"><fmt:formatNumber value="${account.get(0).amount.value}"
                                                                           minFractionDigits="0"/></span>
                                     <span>
-                                        <img src="${icon_url}" id="money" class="${account.get(0).amount.type.name}"
-                                             alt="${account.get(0).amount.type.name}">
+                                        <img src="${icon_url}" alt="${account.get(0).amount.type.name}">
                                     </span>
                                 </li>
                             </c:forEach>

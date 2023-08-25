@@ -1,4 +1,4 @@
-header ul {
+header ul{
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -19,31 +19,28 @@ header ul {
     text-align: center;
     padding-right: 1em;
 }
-
 #about .accounts > li:first-child {
     padding-left: 0;
 }
-
-#about .exit {
+#about .exit{
     padding-left: 1em;
     border-left: 2px solid #ccc;
 }
-
 #about .nickname .dropdown {
     visibility: hidden;
     opacity: 0;
     display: none;
     padding-left: 0;
-    min-width: 10em;
+    min-width:10em;
     position: absolute;
     background: white;
 }
-
 #about .nickname .dropdown > li {
     list-style: none;
     margin-left: 1em;
+    display:flex;
+    align-items: center;
 }
-
 .nickname::before {
     content: '';
     position: absolute;
@@ -55,7 +52,7 @@ header ul {
     /* border:1px solid green; */
 }
 
-#about .nickname:hover > ul, #about .nickname ul:hover {
+#about .nickname:hover > ul,  #about .nickname ul:hover {
     visibility: visible;
     opacity: 1;
     top: 1.7em;
@@ -75,11 +72,9 @@ header ul {
 #about .nickname ul a {
     transition: all 0.5s ease;
 }
-
 header li a:hover {
     color: #000000;
 }
-
 header li a {
     transition: all 0.2s ease;
 }

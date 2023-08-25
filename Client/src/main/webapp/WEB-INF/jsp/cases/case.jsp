@@ -17,7 +17,7 @@
     <script type="text/javascript" src="${js_url}/roulette.js"></script>
     <script type="text/javascript" src="${js_url}/twist.js"></script>
     <script type="text/javascript" src="${js_url}/format.js"></script>
-    <title>Twister</title>
+    <title><c:out value="${selectedCase.visibleName}"/></title>
 </head>
 
 <body>
@@ -47,13 +47,13 @@
                     <c:when test="${general.name == null}"> disabled</c:when>
                     <c:otherwise>data-account-number="<c:out
                             value="${accounts.get(selectedCase.price.type).get(0).number}"/>"
+                        data-inventory-name="<c:out value="${names.get(0).name}"/>"
                         data-case-name="<c:out value="${selectedCase.name}"/>"</c:otherwise>
                 </c:choose>>
                 <span class="price">
                     <span class="value"><fmt:formatNumber value="${selectedCase.price.value}"
                                                           minFractionDigits="0"/></span>
-                        <img src="${icon_url}" id="money" class="${selectedCase.price.type.name}"
-                             alt="${selectedCase.price.type.name}">
+                        <img src="${icon_url}" alt="${selectedCase.price.type.name}">
                 </span>
                 </button>
                 <button class="stop" disabled>стоп</button>

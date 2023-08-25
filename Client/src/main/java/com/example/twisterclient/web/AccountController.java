@@ -1,13 +1,11 @@
 package com.example.twisterclient.web;
 
-import com.example.twisterclient.models.Account;
-import com.example.twisterclient.models.GeneralAccount;
-import com.example.twisterclient.models.GeneralAccountName;
-import com.example.twisterclient.models.Money;
+import com.example.twisterclient.models.*;
 import com.example.twisterclient.models.dto.AccountDTO;
 import com.example.twisterclient.models.dto.GeneralAccountDTO;
 import com.example.twisterclient.services.AccountsService;
 import com.example.twisterclient.services.GeneralAccountSession;
+import com.example.twisterclient.services.InventoryService;
 import com.example.twisterclient.services.ModelPlaceholderService;
 import jakarta.validation.Valid;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,15 +28,18 @@ public class AccountController {
     private final AccountsService accountsService;
     private final WebClient webClient;
     private final ModelPlaceholderService modelPlaceholderService;
+    private final InventoryService inventoryService;
 
     public AccountController(GeneralAccountSession generalAccountSession,
                              AccountsService accountsService,
                              WebClient webClient,
-                             ModelPlaceholderService modelPlaceholderService) {
+                             ModelPlaceholderService modelPlaceholderService,
+                             InventoryService inventoryService) {
         this.generalAccountSession = generalAccountSession;
         this.accountsService = accountsService;
         this.webClient = webClient;
         this.modelPlaceholderService = modelPlaceholderService;
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping("{name}")
@@ -88,6 +89,40 @@ public class AccountController {
                     .bodyToMono(new ParameterizedTypeReference<GeneralAccount>() {
                     })
                     .block();
+            var moneyTypes = webClient
+                    .get()
+                    .uri("/api/public/money/type")
+                    .attributes(clientRegistrationId("keycloak-confidential-user"))
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<Money.Type>>() {
+                    })
+                    .block();
+            var accounts = accountsService.load();
+            if (moneyTypes != null && accounts != null) {
+                for (var moneyType : moneyTypes) {
+                    if (accounts.get(moneyType) == null) {
+                        webClient
+                                .post()
+                                .uri("/api/general/{name}/accounts", generalAccountSession.getName().getName())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue(new AccountDTO.Request.Setting(moneyType))
+                                .attributes(clientRegistrationId("keycloak-confidential-user"))
+                                .retrieve()
+                                .bodyToMono(new ParameterizedTypeReference<Account>() {
+                                })
+                                .block();
+                    }
+                }
+            }
+            webClient
+                    .post()
+                    .uri("/api/general/{name}/inventory", generalAccountSession.getName().getName())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .attributes(clientRegistrationId("keycloak-confidential-user"))
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Inventory>() {
+                    })
+                    .block();
         } else {
             webClient
                     .put()
@@ -100,30 +135,6 @@ public class AccountController {
                     })
                     .block();
         }
-        var moneyTypes = webClient
-                .get()
-                .uri("/api/public/money/type")
-                .attributes(clientRegistrationId("keycloak-confidential-user"))
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Money.Type>>() {
-                })
-                .block();
-        var accounts = accountsService.load();
-        if (moneyTypes != null && accounts != null)
-            for (var moneyType : moneyTypes) {
-                if (accounts.get(moneyType) == null) {
-                    webClient
-                            .post()
-                            .uri("/api/general/{name}/accounts", generalAccountSession.getName().getName())
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .bodyValue(new AccountDTO.Request.Setting(moneyType))
-                            .attributes(clientRegistrationId("keycloak-confidential-user"))
-                            .retrieve()
-                            .bodyToMono(new ParameterizedTypeReference<Account>() {
-                            })
-                            .block();
-                }
-            }
         return "redirect:setting";
     }
 }

@@ -1,7 +1,7 @@
 .case-line .slot {
     display: flex;
-    height: 8em;
-    width: 8em;
+    min-height: 8em;
+    min-width: 8em;
 }
 
 .case-line {
@@ -68,6 +68,6 @@ button .price {
 }
 .buttons button{
     margin: 0.5em;
-    min-height: 1.5em;
+    min-height: 1.7em;
     min-width: 3em;
 }
