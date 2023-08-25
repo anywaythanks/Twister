@@ -25,14 +25,15 @@ public class TwistController {
         this.generalAccountSession = generalAccountSession;
     }
 
-    @PostMapping(path = "{name}")
+    @PostMapping(path = "{caseName}/{inventoryName}")
     public Twist twist(@Valid @PathVariable @NotBlank String number,
-                       @Valid @PathVariable @NotBlank String name) {
+                       @Valid @PathVariable @NotBlank String caseName,
+                       @Valid @PathVariable @NotBlank String inventoryName) {
         if (generalAccountSession.getName() == null) throw new NoExistAccountException();
         var twist = this.webClient
                 .post()
-                .uri("/api/general/{name}/accounts/{number}/twist/{caseName}",
-                        generalAccountSession.getName().getName(), number, name)
+                .uri("/api/general/{name}/accounts/{number}/twist/{inventoryName}/{caseName}",
+                        generalAccountSession.getName().getName(), number, inventoryName, caseName)
                 .attributes(clientRegistrationId("keycloak-confidential-user"))
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Twist>() {

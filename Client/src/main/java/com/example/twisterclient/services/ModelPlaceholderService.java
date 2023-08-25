@@ -10,13 +10,16 @@ public class ModelPlaceholderService {
     private final GeneralAccountSession generalAccountSession;
     private final AccountsService accountsService;
     private final String fileServerPath;
+    private final InventoryService inventoryService;
 
     public ModelPlaceholderService(GeneralAccountSession generalAccountSession,
                                    AccountsService accountsService,
-                                   @Value("${file-server-path}") String fileServerPath) {
+                                   @Value("${file-server-path}") String fileServerPath,
+                                   InventoryService inventoryService) {
         this.generalAccountSession = generalAccountSession;
         this.accountsService = accountsService;
         this.fileServerPath = fileServerPath;
+        this.inventoryService = inventoryService;
     }
 
     public void load(Model model, DefaultOidcUser user) {
@@ -26,6 +29,7 @@ public class ModelPlaceholderService {
         model.addAttribute("general", ga);
         if (ga.getName() != null) {
             model.addAttribute("accounts", accountsService.load());
+            inventoryService.loadNames(model);
         }
     }
 }

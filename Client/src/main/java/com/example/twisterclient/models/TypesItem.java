@@ -8,7 +8,6 @@ public enum TypesItem {
         if (!name.equals(this.name()))
             throw new IllegalArgumentException();
     }
-
     public static class Constants {
         public static final String MONEY_NAME = "MONEY";
         public static final String TRASH_NAME = "TRASH";
