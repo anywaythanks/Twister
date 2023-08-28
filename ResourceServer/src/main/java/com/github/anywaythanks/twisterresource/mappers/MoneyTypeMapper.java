@@ -5,6 +5,9 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCr
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
 
 public interface MoneyTypeMapper {
     MoneyTypeIdResponseDto toIdDTO(MoneyType moneyType);
@@ -14,6 +17,4 @@ public interface MoneyTypeMapper {
     MoneyTypeNameRequestDto toName(MoneyType moneyType);
 
     MoneyType toType(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto request);
-
-    Integer toId(MoneyTypeIdResponseDto id);
 }

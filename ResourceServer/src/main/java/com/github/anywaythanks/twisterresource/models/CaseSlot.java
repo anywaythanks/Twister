@@ -24,9 +24,9 @@ public class CaseSlot<T extends Item> extends Slot<T> {
     @NonNull
     CaseSlotName name;
 
-    public CaseSlot(@NonNull T item, @NonNull Integer quantityItem, @NonNull BigDecimal percentageWining, @NonNull CaseSlotName name) {
+    public CaseSlot(@NonNull T item, @NonNull Integer quantityItem, @NonNull BigDecimal percentageWining) {
         super(item, quantityItem);
         this.percentageWining = percentageWining;
-        this.name = name;
+        this.name = new CaseSlotName();
     }
 }

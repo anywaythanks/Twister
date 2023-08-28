@@ -10,7 +10,7 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
@@ -75,8 +75,7 @@ public class CaseActualInformationServiceImpl implements CaseActualInformationSe
         return rCase;
     }
 
-    public PagePartialResponseDto<CaseLightPartialResponseDto> getPage(int page, int size,
-                                                                       GeneralAccountNameRequestDto name) {
+    public CasePagePartialResponseDto getPage(int page, int size, GeneralAccountNameRequestDto name) {
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);

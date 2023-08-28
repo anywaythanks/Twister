@@ -27,8 +27,7 @@ public class RegisterItemServiceImpl implements RegisterItemService {
         var item = switch (mergeItem.getType()) {
             case MONEY -> {
                 if (mergeItem instanceof ItemMoneyCreateRequestDto itemMoney) {
-                    var type = moneyTypeRepository.findById(moneyTypeMapper
-                                    .toId(moneyTypeInformationService.getId(itemMoney.getCost().getType())))
+                    var type = moneyTypeRepository.findById(moneyTypeInformationService.getId(itemMoney.getCost().getType()).getId())
                             .orElseThrow(NotFoundException::new);
                     yield itemMapper.toItemMoney(name, type, itemMoney);
                 }

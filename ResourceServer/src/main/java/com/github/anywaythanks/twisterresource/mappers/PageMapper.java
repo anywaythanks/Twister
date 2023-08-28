@@ -1,9 +1,19 @@
 package com.github.anywaythanks.twisterresource.mappers;
 
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
+@Mapper(componentModel = "spring")
 public interface PageMapper {
-     <T> PagePartialResponseDto<T> toPartialDTO(List<T> values, Integer totalPages, Integer page);
+    CasePagePartialResponseDto toPartialDTO(List<CaseLightPartialResponseDto> values, Integer totalPages, Integer page);
+
+    CaseWithoutCooldownPagePartialResponseDto toPartialWithoutCooldownDTO(List<CaseLightPartialWithoutCooldownResponseDto> values,
+                                                           Integer totalPages, Integer page);
 }

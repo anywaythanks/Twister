@@ -5,7 +5,7 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
 
 public interface CaseActualInformationService {
     CaseCooldownIdResponseDto getCooldownId(GeneralAccountNameRequestDto name,
@@ -14,6 +14,5 @@ public interface CaseActualInformationService {
     CasePartialResponseDto getPartial(GeneralAccountNameRequestDto name,
                                       CaseNameRequestDto caseName);
 
-    PagePartialResponseDto<CaseLightPartialResponseDto> getPage(int page, int size,
-                                                                GeneralAccountNameRequestDto name);
+    CasePagePartialResponseDto getPage(int page, int size, GeneralAccountNameRequestDto name);
 }

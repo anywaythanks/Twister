@@ -40,7 +40,7 @@ public class SellServiceImpl implements SellService {
                      AccountNumberRequestDto number,
                      SlotQuantityRequestDto quantity) {
         var slot = inventoryInformationService.getSlotId(name, nameInventory, nameItem);
-        var item = itemRepository.findById(itemMapper.toId(slot.getItem())).orElseThrow(NotFoundException::new);
+        var item = itemRepository.findById(slot.getItem().getId()).orElseThrow(NotFoundException::new);
         if (item instanceof SellingItem sellingItem) {
             transferItemService.remove(name, nameInventory, slotMapper.toTransfer(quantity, slot));
             transferMoneyService.debit(number, moneyMapper.toRequest(sellingItem.getCost().multiply(BigDecimal.valueOf(quantity.getQuantity()))));

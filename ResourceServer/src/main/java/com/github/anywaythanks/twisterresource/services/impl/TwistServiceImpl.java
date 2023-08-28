@@ -50,7 +50,7 @@ public class TwistServiceImpl implements TwistService {
                                          CaseNameRequestDto caseName) throws NoSuchAlgorithmException {
         var cid = caseActualInformationService.getCooldownId(name, caseName);
         if (!cid.getCooldown().isZero()) throw new CooldownException();
-        var twistedCase = caseRepository.findById(caseMapper.toId(cid)).orElseThrow(NotFoundException::new);
+        var twistedCase = caseRepository.findById(cid.getId()).orElseThrow(NotFoundException::new);
         transferMoneyService.credit(name, number, moneyMapper.toRequest(twistedCase.getPrice()));
         var wonSlot = twist(twistedCase.getCaseSlotSet());
         transferItemService.add(nameInventory, slotMapper.toTransfer(wonSlot));

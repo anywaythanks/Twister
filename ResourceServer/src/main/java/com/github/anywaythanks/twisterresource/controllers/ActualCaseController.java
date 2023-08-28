@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -21,9 +21,9 @@ public class ActualCaseController {
     }
 
     @GetMapping
-    public PagePartialResponseDto<CaseLightPartialResponseDto> listCase(@Valid @PathVariable GeneralAccountNameRequestDto name,
-                                                                        @Valid @PositiveOrZero  @RequestParam(defaultValue = "0") Integer page,
-                                                                        @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
+    public CasePagePartialResponseDto listCase(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                                                            @Valid @PositiveOrZero  @RequestParam(defaultValue = "0") Integer page,
+                                                                            @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
         return caseActualInformationService.getPage(page, size, name);
     }
 

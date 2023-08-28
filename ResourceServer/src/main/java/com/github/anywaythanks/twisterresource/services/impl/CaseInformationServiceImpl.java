@@ -7,7 +7,8 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.services.CaseInformationService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,9 @@ public class CaseInformationServiceImpl implements CaseInformationService {
                 .orElseThrow(NotFoundException::new));
     }
 
-    public PagePartialResponseDto<CaseLightPartialWithoutCooldownResponseDto> getPageWithoutCooldown(Integer page, Integer size) {
+    public CaseWithoutCooldownPagePartialResponseDto getPageWithoutCooldown(Integer page, Integer size) {
         var pageCase = caseRepository.findAll(PageRequest.of(page, size));
-        return pageMapper.toPartialDTO(pageCase.stream()
+        return pageMapper.toPartialWithoutCooldownDTO(pageCase.stream()
                 .map(caseMapper::toLightPartialWithoutCooldownDTO).toList(), pageCase.getTotalPages(), page);
     }
 }

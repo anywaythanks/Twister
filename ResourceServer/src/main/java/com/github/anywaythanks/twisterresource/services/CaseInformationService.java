@@ -4,12 +4,13 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartial
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
 
 public interface CaseInformationService {
     CasePartialResponseDto getPartial(CaseNameRequestDto caseName);
 
     CasePartialWithoutCooldownResponseDto getPartialWithoutCooldown(CaseNameRequestDto caseName);
 
-    PagePartialResponseDto<CaseLightPartialWithoutCooldownResponseDto> getPageWithoutCooldown(Integer page, Integer size);
+    CaseWithoutCooldownPagePartialResponseDto getPageWithoutCooldown(Integer page, Integer size);
 }

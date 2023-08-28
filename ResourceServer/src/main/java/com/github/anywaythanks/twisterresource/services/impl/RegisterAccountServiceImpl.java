@@ -38,8 +38,8 @@ public class RegisterAccountServiceImpl implements RegisterAccountService {
 
     public AccountPartialResponseDto merge(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
                                            AccountCreateRequestDto create) {
-        var type = moneyTypeRepository.findById(moneyTypeMapper.toId(moneyTypeInformationService.
-                getId(create.getType()))).orElseThrow(NotFoundException::new);
+        var type = moneyTypeRepository.findById(moneyTypeInformationService.
+                getId(create.getType()).getId()).orElseThrow(NotFoundException::new);
         var account = new Account(accountMapper.toNumber(number), new Money(BigDecimal.ZERO, type));
         var generalAccount = generalAccountRepository
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
@@ -58,8 +58,8 @@ public class RegisterAccountServiceImpl implements RegisterAccountService {
                 .findById(generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);
         var pNumber = accountNumberRepository.save(new AccountNumber());
-        var type = moneyTypeRepository.findById(moneyTypeMapper.toId(moneyTypeInformationService.
-                getId(create.getType()))).orElseThrow(NotFoundException::new);
+        var type = moneyTypeRepository.findById(moneyTypeInformationService.
+                getId(create.getType()).getId()).orElseThrow(NotFoundException::new);
         var account = new Account(pNumber, new Money(BigDecimal.ZERO, type));
         generalAccount.getAccounts().put(account.getNumber(), account);
         return accountMapper.toPartialDTO(generalAccount.getAccounts().get(pNumber));

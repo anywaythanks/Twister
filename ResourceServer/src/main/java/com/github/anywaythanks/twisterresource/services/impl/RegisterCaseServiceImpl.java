@@ -2,8 +2,6 @@ package com.github.anywaythanks.twisterresource.services.impl;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
-import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
-import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
@@ -27,17 +25,15 @@ public class RegisterCaseServiceImpl implements RegisterCaseService {
     private final CaseMapper caseMapper;
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeInformationService moneyTypeInformationService;
-    private final MoneyTypeMapper moneyTypeMapper;
     private final ItemRepository itemRepository;
-    private final ItemMapper itemMapper;
     private final ItemInformationService itemInformationService;
 
     public CasePartialResponseDto merge(CaseNameRequestDto name, CaseCreateRequestDto create) {
         var oCase = caseRepository.findByName(name.getName());
-        var type = moneyTypeRepository.findById(moneyTypeMapper.toId(moneyTypeInformationService.
-                getId(create.getPrice().getType()))).orElseThrow(NotFoundException::new);
+        var type = moneyTypeRepository.findById(moneyTypeInformationService.
+                getId(create.getPrice().getType()).getId()).orElseThrow(NotFoundException::new);
         var slots = create.getItems().stream().map(s -> {
-            final var item = itemRepository.findById(itemMapper.toId(itemInformationService.getId(s.getItem())))
+            final var item = itemRepository.findById(itemInformationService.getId(s.getItem()).getId())
                     .orElseThrow(NotFoundException::new);
             return caseMapper.toCaseSlot(item, s);
         }).collect(Collectors.toSet());

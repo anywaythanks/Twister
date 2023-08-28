@@ -34,8 +34,7 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
     public void debit(AccountNumberRequestDto number, MoneyCreateRequestDto debit) {
         final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getDebit(number)))
                 .orElseThrow(NotFoundException::new);
-        var type = moneyTypeRepository.findById(moneyTypeMapper
-                .toId(moneyTypeInformationService.getId(debit.getType()))).orElseThrow(NotFoundException::new);
+        var type = moneyTypeRepository.findById(moneyTypeInformationService.getId(debit.getType()).getId()).orElseThrow(NotFoundException::new);
         account.setAmount(account.getAmount().add(moneyMapper.toMoney(type, debit)));
     }
 
@@ -43,8 +42,7 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
                        MoneyCreateRequestDto credit) {
         final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getCredit(name, number)))
                 .orElseThrow(NotFoundException::new);
-        var type = moneyTypeRepository.findById(moneyTypeMapper
-                .toId(moneyTypeInformationService.getId(credit.getType()))).orElseThrow(NotFoundException::new);
+        var type = moneyTypeRepository.findById(moneyTypeInformationService.getId(credit.getType()).getId()).orElseThrow(NotFoundException::new);
         final var newVal = account.getAmount().subtract(moneyMapper.toMoney(type, credit));
         if (newVal.getValue().compareTo(BigDecimal.ZERO) < 0) {
             throw new InsufficientFundsException();

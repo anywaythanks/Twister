@@ -8,11 +8,9 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 @EqualsAndHashCode
-
 public abstract class Item {
     @Id
     @GeneratedValue(generator = "ITEM_ID_GENERATOR")

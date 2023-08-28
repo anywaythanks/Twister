@@ -50,7 +50,7 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
 
     private Slot<?> get(GeneralAccountNameRequestDto nameGeneral,
                         InventoryNameRequestDto nameInventory, ItemNameRequestDto nameItem) {
-        var item = itemRepository.findById(itemMapper.toId(itemInformationService.getId(nameItem)))
+        var item = itemRepository.findById(itemInformationService.getId(nameItem).getId())
                 .orElseThrow(NotFoundException::new);
         var slot = get(nameGeneral, nameInventory).getInventorySlotMap().get(item);
         if (slot == null) throw new NotFoundException();

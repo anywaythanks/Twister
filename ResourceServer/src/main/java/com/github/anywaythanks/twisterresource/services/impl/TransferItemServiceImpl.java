@@ -25,9 +25,9 @@ public class TransferItemServiceImpl implements TransferItemService {
     private final InventoryMapper inventoryMapper;
 
     public void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer) {
-        final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getDebit(name)))
+        final var inventory = inventoryRepository.findById(inventoryInformationService.getDebit(name).getId())
                 .orElseThrow(NotFoundException::new);
-        final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
+        final var item = itemRepository.findById(slotTransfer.getItem().getId())
                 .orElseThrow(NotFoundException::new);
         inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
         var slot = inventory.getInventorySlotMap().get(item);
@@ -36,9 +36,9 @@ public class TransferItemServiceImpl implements TransferItemService {
 
     public void remove(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory,
                        SlotTransferRequestDto slotTransfer) {
-        final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getCredit(name, nameInventory)))
+        final var inventory = inventoryRepository.findById(inventoryInformationService.getCredit(name, nameInventory).getId())
                 .orElseThrow(NotFoundException::new);
-        final var item = itemRepository.findById(itemMapper.toId(slotTransfer.getItem()))
+        final var item = itemRepository.findById(slotTransfer.getItem().getId())
                 .orElseThrow(NotFoundException::new);
         inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
         var slot = inventory.getInventorySlotMap().get(item);
