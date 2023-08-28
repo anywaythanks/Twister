@@ -12,6 +12,7 @@ import com.github.anywaythanks.twisterresource.services.InventoryInformationServ
 import com.github.anywaythanks.twisterresource.services.RegisterInventoryService;
 import com.github.anywaythanks.twisterresource.services.SellService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,18 +20,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/general/{name}/inventory")
+@RequiredArgsConstructor
 public class InventoryController {
     private final SellService sellService;
     private final RegisterInventoryService registerInventoryService;
     private final InventoryInformationService inventoryInformationService;
-
-    public InventoryController(SellService sellService,
-                               RegisterInventoryService registerInventoryService,
-                               InventoryInformationService inventoryInformationService) {
-        this.sellService = sellService;
-        this.registerInventoryService = registerInventoryService;
-        this.inventoryInformationService = inventoryInformationService;
-    }
 
     @PostMapping(path = "/{nameInventory}/{item}/sell/{accountNumber}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void sell(@Valid @PathVariable GeneralAccountNameRequestDto name,

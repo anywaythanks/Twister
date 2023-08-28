@@ -1,16 +1,16 @@
 package com.example.twisterclient.models;
 
 public class Twist {
-    String caseName;
+    String wonSlotName;
 
     protected Twist() {
     }
 
-    public Twist(String caseName) {
-        this.caseName = caseName;
+    public Twist(String wonSlotName) {
+        this.wonSlotName = wonSlotName;
     }
 
-    public String getCaseName() {
-        return caseName;
+    public String getWonSlotName() {
+        return wonSlotName;
     }
 }

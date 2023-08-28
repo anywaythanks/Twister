@@ -50,7 +50,7 @@ server:
 spring:
   config:
     activate:
-      on-profile: qa, dev
+      on-profile: qa
 hibernate-props:
   props:
     hibernate.dialect: org.hibernate.dialect.H2Dialect

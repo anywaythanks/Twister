@@ -4,8 +4,6 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
-import java.math.BigDecimal;
-import java.util.function.Function;
 
 @Documented
 @Constraint(validatedBy = SumPercentageEqValidator.class)

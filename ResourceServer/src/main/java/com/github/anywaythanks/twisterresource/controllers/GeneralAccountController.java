@@ -8,6 +8,7 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,15 +17,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/general")
+@RequiredArgsConstructor
 public class GeneralAccountController {
     private final RegisterGeneralAccountService registerGeneralAccountService;
     private final GeneralAccountInformationService generalAccountInformationService;
-
-    public GeneralAccountController(RegisterGeneralAccountService registerGeneralAccountService,
-                                    GeneralAccountInformationService generalAccountInformationService) {
-        this.registerGeneralAccountService = registerGeneralAccountService;
-        this.generalAccountInformationService = generalAccountInformationService;
-    }
 
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public GeneralAccountPartialResponseDto register(@AuthenticationPrincipal UserPrincipal user,

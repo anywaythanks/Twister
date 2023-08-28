@@ -5,10 +5,11 @@ import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberR
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
-import com.github.anywaythanks.twisterresource.services.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterAccountService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
+import com.github.anywaythanks.twisterresource.services.AccountInformationService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/general/{name}/accounts")
+@RequiredArgsConstructor
 public class AccountController {
     private final TransferMoneyService transferMoneyService;
     private final RegisterAccountService registerAccountService;
     private final AccountInformationService accountInformationService;
-
-    public AccountController(TransferMoneyService transferMoneyService,
-                             RegisterAccountService registerAccountService,
-                             AccountInformationService accountInformationService) {
-        this.registerAccountService = registerAccountService;
-        this.transferMoneyService = transferMoneyService;
-        this.accountInformationService = accountInformationService;
-    }
 
     @PostMapping(path = "/{sourceNumber}/transfer/{recipientNumber}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void transfer(@Valid @PathVariable GeneralAccountNameRequestDto name,

@@ -5,17 +5,14 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPublicResponseDto;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/public/general")
 @RestController
+@RequiredArgsConstructor
 public class PublicGeneralAccountController {
     private final GeneralAccountInformationService generalAccountInformationService;
-
-    public PublicGeneralAccountController(GeneralAccountInformationService generalAccountInformationService) {
-        this.generalAccountInformationService = generalAccountInformationService;
-    }
-
     @RequestMapping(path = "/{name}")
     public GeneralAccountPublicResponseDto infoPublic(@Valid @PathVariable GeneralAccountNameRequestDto name) {
         return generalAccountInformationService.getPublic(name);

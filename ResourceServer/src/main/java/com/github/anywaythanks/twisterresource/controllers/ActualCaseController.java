@@ -1,6 +1,5 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
@@ -9,16 +8,14 @@ import com.github.anywaythanks.twisterresource.services.CaseActualInformationSer
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/general/{name}/actual_case")
+@RequiredArgsConstructor
 public class ActualCaseController {
     private final CaseActualInformationService caseActualInformationService;
-
-    public ActualCaseController(CaseActualInformationService caseActualInformationService) {
-        this.caseActualInformationService = caseActualInformationService;
-    }
 
     @GetMapping
     public CasePagePartialResponseDto listCase(@Valid @PathVariable GeneralAccountNameRequestDto name,

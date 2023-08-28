@@ -2,11 +2,9 @@ package com.github.anywaythanks.twisterresource.mappers;
 
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 

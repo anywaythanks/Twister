@@ -1,6 +1,5 @@
 package com.github.anywaythanks.twisterresource.models.dto.page;
 
-import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
 import lombok.*;
 

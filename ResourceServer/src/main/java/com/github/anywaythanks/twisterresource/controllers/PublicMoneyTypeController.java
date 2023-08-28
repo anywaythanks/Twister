@@ -4,6 +4,7 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNa
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,12 +15,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/public/money/type")
+@RequiredArgsConstructor
 public class PublicMoneyTypeController {
     private final MoneyTypeInformationService moneyTypeInformationService;
-
-    public PublicMoneyTypeController(MoneyTypeInformationService moneyTypeInformationService) {
-        this.moneyTypeInformationService = moneyTypeInformationService;
-    }
 
     @GetMapping
     @Transactional

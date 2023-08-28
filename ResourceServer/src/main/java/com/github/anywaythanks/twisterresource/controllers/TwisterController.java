@@ -7,6 +7,7 @@ import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNam
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.TwistService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +18,9 @@ import java.security.NoSuchAlgorithmException;
 
 @RestController
 @RequestMapping("/api/general/{name}/accounts/{number}/twist/{nameInventory}")
+@RequiredArgsConstructor
 public class TwisterController {
-
     private final TwistService twistService;
-
-    public TwisterController(TwistService twistService) {
-        this.twistService = twistService;
-    }
 
     @PostMapping(path = "/{caseName}")
     @Transactional

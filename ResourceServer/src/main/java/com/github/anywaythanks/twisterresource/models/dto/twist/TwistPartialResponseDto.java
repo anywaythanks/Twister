@@ -10,7 +10,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @Getter
 public class TwistPartialResponseDto implements SelectCase<CaseNameResponseDto>, Account<AccountNumberResponseDto>,
-        TwistedOn, Item<ItemPartialResponseDto>, Quantity, CaseName {
+        TwistedOn, Item<ItemPartialResponseDto>, Quantity, WonSlotName {
     @NonNull
     CaseNameResponseDto selectCase;
     @NonNull
@@ -22,5 +22,5 @@ public class TwistPartialResponseDto implements SelectCase<CaseNameResponseDto>,
     @NonNull
     Integer quantity;
     @NonNull
-    String caseName;
+    String wonSlotName;
 }
