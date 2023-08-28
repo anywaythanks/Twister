@@ -2,64 +2,27 @@ package com.github.anywaythanks.twisterresource.models.dto.acase;
 
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyPartialResponseDto;
+import lombok.*;
 
 import java.time.Duration;
 import java.util.List;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class CasePartialResponseDto implements Name, Cooldown, Items<CaseSlotPartialResponseDto>,
         Price<MoneyPartialResponseDto>, VisibleName, Description {
+    @NonNull
     List<CaseSlotPartialResponseDto> items;
+    @NonNull
     MoneyPartialResponseDto price;
+    @NonNull
+    @Setter
     Duration cooldown;
+    @NonNull
     String name;
+    @NonNull
     String visibleName;
+    @NonNull
     String description;
-
-    protected CasePartialResponseDto() {
-
-    }
-
-    public CasePartialResponseDto(List<CaseSlotPartialResponseDto> items, MoneyPartialResponseDto price,
-                                  Duration cooldown, String name, String visibleName, String description) {
-        this.items = items;
-        this.price = price;
-        this.cooldown = cooldown;
-        this.name = name;
-        this.visibleName = visibleName;
-        this.description = description;
-    }
-
-    @Override
-    public List<CaseSlotPartialResponseDto> getItems() {
-        return items;
-    }
-
-    @Override
-    public MoneyPartialResponseDto getPrice() {
-        return price;
-    }
-
-    @Override
-    public Duration getCooldown() {
-        return cooldown;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getVisibleName() {
-        return visibleName;
-    }
-
-    public void setCooldown(Duration cooldown) {
-        this.cooldown = cooldown;
-    }
-
-    @Override
-    public String getDescription() {
-        return description;
-    }
 }

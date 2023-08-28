@@ -10,29 +10,19 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferReque
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.TransferItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TransferItemServiceImpl implements TransferItemService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final InventoryInformationServiceImpl inventoryInformationService;
     private final InventoryRepository inventoryRepository;
     private final InventoryMapper inventoryMapper;
-
-    public TransferItemServiceImpl(ItemRepository itemRepository,
-                                   ItemMapper itemMapper,
-                                   InventoryInformationServiceImpl inventoryInformationService,
-                                   InventoryRepository inventoryRepository,
-                                   InventoryMapper inventoryMapper) {
-        this.inventoryMapper = inventoryMapper;
-        this.inventoryInformationService = inventoryInformationService;
-        this.inventoryRepository = inventoryRepository;
-        this.itemRepository = itemRepository;
-        this.itemMapper = itemMapper;
-    }
 
     public void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer) {
         final var inventory = inventoryRepository.findById(inventoryMapper.toId(inventoryInformationService.getDebit(name)))

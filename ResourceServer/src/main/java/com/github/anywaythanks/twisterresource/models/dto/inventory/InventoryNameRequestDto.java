@@ -1,17 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.inventory;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class InventoryNameRequestDto implements Name {
+    @NonNull
     String name;
-
-    protected InventoryNameRequestDto() {
-    }
-
-    public InventoryNameRequestDto(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

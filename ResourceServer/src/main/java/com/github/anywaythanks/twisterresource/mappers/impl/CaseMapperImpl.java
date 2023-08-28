@@ -3,10 +3,7 @@ package com.github.anywaythanks.twisterresource.mappers.impl;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.CaseSlot;
-import com.github.anywaythanks.twisterresource.models.Item;
-import com.github.anywaythanks.twisterresource.models.MoneyType;
+import com.github.anywaythanks.twisterresource.models.*;
 import com.github.anywaythanks.twisterresource.models.dto.acase.*;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
@@ -76,7 +73,7 @@ public class CaseMapperImpl implements CaseMapper {
     public CaseSlot<Item> toCaseSlot(Item item, CaseSlotCreateRequestDto request) {
         return new CaseSlot<>(item,
                 request.getQuantity(),
-                request.getPercentage());
+                request.getPercentage(), new CaseSlotName());
     }
 
     public Long toId(CaseCooldownIdResponseDto id) {

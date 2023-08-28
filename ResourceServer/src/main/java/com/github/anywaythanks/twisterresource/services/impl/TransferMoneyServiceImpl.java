@@ -13,6 +13,7 @@ import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TransferMoneyServiceImpl implements TransferMoneyService {
     private final AccountRepository accountRepository;
     private final AccountInformationService accountInformationService;
@@ -28,22 +30,6 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
     private final MoneyTypeMapper moneyTypeMapper;
     private final MoneyTypeInformationService moneyTypeInformationService;
     private final MoneyTypeRepository moneyTypeRepository;
-
-    public TransferMoneyServiceImpl(AccountRepository accountRepository,
-                                    AccountInformationService accountInformationService,
-                                    AccountMapper accountMapper,
-                                    MoneyMapper moneyMapper,
-                                    MoneyTypeMapper moneyTypeMapper,
-                                    MoneyTypeInformationService moneyTypeInformationService,
-                                    MoneyTypeRepository moneyTypeRepository) {
-        this.accountRepository = accountRepository;
-        this.accountInformationService = accountInformationService;
-        this.accountMapper = accountMapper;
-        this.moneyMapper = moneyMapper;
-        this.moneyTypeMapper = moneyTypeMapper;
-        this.moneyTypeInformationService = moneyTypeInformationService;
-        this.moneyTypeRepository = moneyTypeRepository;
-    }
 
     public void debit(AccountNumberRequestDto number, MoneyCreateRequestDto debit) {
         final var account = accountRepository.findById(accountMapper.toId(accountInformationService.getDebit(number)))

@@ -5,30 +5,24 @@ import com.github.anywaythanks.twisterresource.exceptions.UniqueException;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
+import com.github.anywaythanks.twisterresource.models.auth.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountNameRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterGeneralAccountServiceImpl implements RegisterGeneralAccountService {
     private final GeneralAccountRepository generalAccountRepository;
     private final GeneralAccountNameRepository generalAccountNameRepository;
     private final GeneralAccountMapper generalAccountMapper;
-
-    public RegisterGeneralAccountServiceImpl(GeneralAccountRepository generalAccountRepository,
-                                             GeneralAccountNameRepository generalAccountNameRepository,
-                                             GeneralAccountMapper generalAccountMapper) {
-        this.generalAccountRepository = generalAccountRepository;
-        this.generalAccountNameRepository = generalAccountNameRepository;
-        this.generalAccountMapper = generalAccountMapper;
-    }
 
     public GeneralAccountPartialResponseDto register(UserPrincipal userPrincipal, GeneralAccountCreateRequestDto create) {
         generalAccountRepository.findByUserUuid(userPrincipal.getUuid()).ifPresent(account -> {
@@ -37,7 +31,7 @@ public class RegisterGeneralAccountServiceImpl implements RegisterGeneralAccount
         generalAccountRepository.findByNickname(create.getNickname()).ifPresent(account -> {
             throw new UniqueException();//TODO: throws
         });
-        var account = new GeneralAccount(userPrincipal.getUuid(), create.getNickname(), new GeneralAccountName());
+        var account = new GeneralAccount(userPrincipal.getUuid(), new GeneralAccountName(), create.getNickname());
         return generalAccountMapper.toPartialDTO(generalAccountRepository.save(account));
     }
 

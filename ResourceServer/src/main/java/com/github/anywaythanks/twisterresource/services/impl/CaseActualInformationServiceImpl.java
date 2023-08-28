@@ -16,6 +16,7 @@ import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CaseActualInformationServiceImpl implements CaseActualInformationService {
     private final ActualCaseRepository hibernateCaseRepository;
     private final CaseRepository caseRepository;
@@ -34,21 +36,6 @@ public class CaseActualInformationServiceImpl implements CaseActualInformationSe
     private final GeneralAccountRepository generalAccountRepository;
     private final PageMapper pageMapper;
     private final GeneralAccountInformationService generalAccountInformationService;
-
-    public CaseActualInformationServiceImpl(ActualCaseRepository hibernateCaseRepository,
-                                            CaseRepository caseRepository,
-                                            CaseMapper caseMapper, GeneralAccountMapper generalAccountMapper,
-                                            GeneralAccountRepository generalAccountRepository,
-                                            PageMapper pageMapper,
-                                            GeneralAccountInformationService generalAccountInformationService) {
-        this.hibernateCaseRepository = hibernateCaseRepository;
-        this.caseRepository = caseRepository;
-        this.caseMapper = caseMapper;
-        this.generalAccountMapper = generalAccountMapper;
-        this.generalAccountRepository = generalAccountRepository;
-        this.pageMapper = pageMapper;
-        this.generalAccountInformationService = generalAccountInformationService;
-    }
 
     public CaseCooldownIdResponseDto getCooldownId(GeneralAccountNameRequestDto name,
                                                    CaseNameRequestDto caseName) {

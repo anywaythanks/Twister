@@ -10,24 +10,18 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWitho
 import com.github.anywaythanks.twisterresource.models.dto.page.PagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.services.CaseInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CaseInformationServiceImpl implements CaseInformationService {
     private final CaseRepository caseRepository;
     private final CaseMapper caseMapper;
     private final PageMapper pageMapper;
-
-    public CaseInformationServiceImpl(CaseRepository caseRepository,
-                                      CaseMapper caseMapper,
-                                      PageMapper pageMapper) {
-        this.caseRepository = caseRepository;
-        this.caseMapper = caseMapper;
-        this.pageMapper = pageMapper;
-    }
 
 
     public CasePartialResponseDto getPartial(CaseNameRequestDto caseName) {

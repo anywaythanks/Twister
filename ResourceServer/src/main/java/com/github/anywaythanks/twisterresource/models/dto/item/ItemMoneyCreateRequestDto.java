@@ -1,20 +1,19 @@
 package com.github.anywaythanks.twisterresource.models.dto.item;
 
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ItemMoneyCreateRequestDto extends ItemCreateRequestDto implements Cost<MoneyCreateRequestDto> {
-    MoneyCreateRequestDto cost;
+    @NonNull
+    private MoneyCreateRequestDto cost;
 
-    public ItemMoneyCreateRequestDto() {
-    }
-
-    public ItemMoneyCreateRequestDto(MoneyCreateRequestDto cost, String visibleName) {
+    public ItemMoneyCreateRequestDto(@NonNull String visibleName, @NonNull MoneyCreateRequestDto cost) {
+        super(visibleName);
         this.cost = cost;
-        this.visibleName = visibleName;
-    }
-
-    @Override
-    public MoneyCreateRequestDto getCost() {
-        return cost;
     }
 }

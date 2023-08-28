@@ -6,6 +6,7 @@ import com.github.anywaythanks.twisterresource.mappers.*;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Twist;
+import com.github.anywaythanks.twisterresource.models.TwistNumber;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
@@ -15,6 +16,7 @@ import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.TwistRepository;
 import com.github.anywaythanks.twisterresource.services.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ import java.util.Collection;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class TwistServiceImpl implements TwistService {
     private final TransferMoneyService transferMoneyService;
     private final TransferItemService transferItemService;
@@ -41,34 +44,6 @@ public class TwistServiceImpl implements TwistService {
     private final MoneyMapper moneyMapper;
     private final CaseRepository caseRepository;
 
-    public TwistServiceImpl(TransferMoneyService transferMoneyService,
-                            TransferItemService transferItemService,
-                            TwistRepository twistRepository,
-                            GeneralAccountInformationService generalAccountInformationService,
-                            TwistMapper twistMapper,
-                            GeneralAccountMapper generalAccountMapper,
-                            GeneralAccountRepository generalAccountRepository,
-                            AccountMapper accountMapper,
-                            SlotMapper slotMapper,
-                            CaseActualInformationService caseActualInformationService,
-                            CaseMapper caseMapper,
-                            MoneyMapper moneyMapper,
-                            CaseRepository caseRepository) {
-        this.transferMoneyService = transferMoneyService;
-        this.transferItemService = transferItemService;
-        this.twistRepository = twistRepository;
-        this.generalAccountInformationService = generalAccountInformationService;
-        this.twistMapper = twistMapper;
-        this.generalAccountMapper = generalAccountMapper;
-        this.generalAccountRepository = generalAccountRepository;
-        this.accountMapper = accountMapper;
-        this.slotMapper = slotMapper;
-        this.caseActualInformationService = caseActualInformationService;
-        this.caseMapper = caseMapper;
-        this.moneyMapper = moneyMapper;
-        this.caseRepository = caseRepository;
-    }
-
     public TwistPartialResponseDto twist(GeneralAccountNameRequestDto name,
                                          InventoryNameRequestDto nameInventory,
                                          AccountNumberRequestDto number,
@@ -83,11 +58,12 @@ public class TwistServiceImpl implements TwistService {
                         generalAccountMapper.toId(generalAccountInformationService.getId(name)))
                 .orElseThrow(NotFoundException::new);
         var twist = new Twist<>(generalAccount.getAccounts().get(accountMapper.toNumber(number)),
+                generalAccount,
+                new TwistNumber(),
                 twistedCase,
                 wonSlot.getItem(),
                 wonSlot.getQuantityItem(),
-                Instant.now(),
-                generalAccount);
+                Instant.now());
         return twistMapper.toDTO(wonSlot, twistRepository.save(twist));
     }
 

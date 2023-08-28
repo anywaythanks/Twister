@@ -1,17 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.general;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class GeneralAccountNameResponseDto implements Name {
+    @NonNull
     String name;
-
-    protected GeneralAccountNameResponseDto() {
-    }
-
-    public GeneralAccountNameResponseDto(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

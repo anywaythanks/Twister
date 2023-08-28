@@ -9,28 +9,19 @@ import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterItemServiceImpl implements RegisterItemService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final MoneyTypeMapper moneyTypeMapper;
     private final MoneyTypeInformationService moneyTypeInformationService;
     private final MoneyTypeRepository moneyTypeRepository;
-
-    public RegisterItemServiceImpl(ItemRepository itemRepository,
-                                   ItemMapper itemMapper, MoneyTypeMapper moneyTypeMapper,
-                                   MoneyTypeInformationService moneyTypeInformationService,
-                                   MoneyTypeRepository moneyTypeRepository) {
-        this.itemRepository = itemRepository;
-        this.itemMapper = itemMapper;
-        this.moneyTypeMapper = moneyTypeMapper;
-        this.moneyTypeInformationService = moneyTypeInformationService;
-        this.moneyTypeRepository = moneyTypeRepository;
-    }
 
     public ItemPartialResponseDto merge(ItemNameRequestDto name, ItemCreateRequestDto mergeItem) {
         var item = switch (mergeItem.getType()) {

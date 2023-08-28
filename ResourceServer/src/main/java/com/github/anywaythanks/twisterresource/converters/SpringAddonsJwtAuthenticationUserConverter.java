@@ -1,8 +1,8 @@
 package com.github.anywaythanks.twisterresource.converters;
 
 import com.github.anywaythanks.twisterresource.configs.AuthorizeServerProperties;
-import com.github.anywaythanks.twisterresource.models.AuthorizationTokenUser;
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
+import com.github.anywaythanks.twisterresource.models.auth.AuthorizationTokenUser;
+import com.github.anywaythanks.twisterresource.models.auth.UserPrincipal;
 import com.jayway.jsonpath.JsonPath;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;

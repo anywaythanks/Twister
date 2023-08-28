@@ -16,6 +16,7 @@ import com.github.anywaythanks.twisterresource.services.InventoryInformationServ
 import com.github.anywaythanks.twisterresource.services.SellService;
 import com.github.anywaythanks.twisterresource.services.TransferItemService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SellServiceImpl implements SellService {
     private final TransferMoneyService transferMoneyService;
     private final TransferItemService transferItemService;
@@ -31,22 +33,6 @@ public class SellServiceImpl implements SellService {
     private final ItemMapper itemMapper;
     private final InventoryInformationService inventoryInformationService;
     private final ItemRepository itemRepository;
-
-    public SellServiceImpl(TransferMoneyService transferMoneyService,
-                           TransferItemService transferItemService,
-                           MoneyMapper moneyMapper,
-                           SlotMapper slotMapper,
-                           ItemMapper itemMapper,
-                           InventoryInformationService inventoryInformationService,
-                           ItemRepository itemRepository) {
-        this.transferMoneyService = transferMoneyService;
-        this.transferItemService = transferItemService;
-        this.moneyMapper = moneyMapper;
-        this.slotMapper = slotMapper;
-        this.itemMapper = itemMapper;
-        this.inventoryInformationService = inventoryInformationService;
-        this.itemRepository = itemRepository;
-    }
 
     public void sell(GeneralAccountNameRequestDto name,
                      InventoryNameRequestDto nameInventory,

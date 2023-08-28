@@ -2,6 +2,7 @@ package com.github.anywaythanks.twisterresource.models.dto.item;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.*;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -11,24 +12,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = ItemMoneyCreateRequestDto.class, name = ItemTypes.Constants.MONEY_NAME),
         @JsonSubTypes.Type(value = ItemTrashCreateRequestDto.class, name = ItemTypes.Constants.TRASH_NAME)
 })
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public abstract class ItemCreateRequestDto implements VisibleName, Type {
+    @NonNull
     protected String visibleName;
     protected ItemTypes type;
-
-    public ItemCreateRequestDto() {
-    }
-
-    public ItemCreateRequestDto(String visibleName) {
-        this.visibleName = visibleName;
-    }
-
-    @Override
-    public String getVisibleName() {
-        return visibleName;
-    }
-
-    @Override
-    public ItemTypes getType() {
-        return type;
-    }
 }

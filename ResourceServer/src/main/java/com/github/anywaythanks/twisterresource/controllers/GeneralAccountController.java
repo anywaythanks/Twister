@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
+import com.github.anywaythanks.twisterresource.models.auth.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameResponseDto;

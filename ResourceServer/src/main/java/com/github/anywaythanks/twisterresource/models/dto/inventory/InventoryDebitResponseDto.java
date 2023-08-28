@@ -1,10 +1,12 @@
 package com.github.anywaythanks.twisterresource.models.dto.inventory;
 
-public class InventoryDebitResponseDto extends InventoryIdResponseDto {
-    protected InventoryDebitResponseDto() {
-    }
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-    public InventoryDebitResponseDto(Long id) {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class InventoryDebitResponseDto extends InventoryIdResponseDto {
+    public InventoryDebitResponseDto(@NonNull Long id) {
         super(id);
     }
 }

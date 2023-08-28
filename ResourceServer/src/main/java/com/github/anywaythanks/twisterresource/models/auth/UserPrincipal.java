@@ -1,4 +1,4 @@
-package com.github.anywaythanks.twisterresource.models;
+package com.github.anywaythanks.twisterresource.models.auth;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.services;
 
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
+import com.github.anywaythanks.twisterresource.models.auth.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.*;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;

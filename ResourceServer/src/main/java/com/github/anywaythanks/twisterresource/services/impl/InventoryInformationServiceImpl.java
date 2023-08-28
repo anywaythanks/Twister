@@ -18,6 +18,7 @@ import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.InventoryInformationService;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class InventoryInformationServiceImpl implements InventoryInformationService {
     private final GeneralAccountInformationService generalAccountInformationService;
     private final ItemMapper itemMapper;
@@ -35,26 +37,6 @@ public class InventoryInformationServiceImpl implements InventoryInformationServ
     private final InventoryRepository inventoryRepository;
     private final ItemInformationService itemInformationService;
     private final ItemRepository itemRepository;
-
-    public InventoryInformationServiceImpl(GeneralAccountInformationService generalAccountInformationService,
-                                           ItemMapper itemMapper,
-                                           SlotMapper slotMapper,
-                                           GeneralAccountMapper generalAccountMapper,
-                                           GeneralAccountRepository generalAccountRepository,
-                                           InventoryMapper inventoryMapper,
-                                           InventoryRepository inventoryRepository,
-                                           ItemInformationService itemInformationService,
-                                           ItemRepository itemRepository) {
-        this.generalAccountInformationService = generalAccountInformationService;
-        this.itemMapper = itemMapper;
-        this.slotMapper = slotMapper;
-        this.generalAccountMapper = generalAccountMapper;
-        this.generalAccountRepository = generalAccountRepository;
-        this.inventoryMapper = inventoryMapper;
-        this.inventoryRepository = inventoryRepository;
-        this.itemInformationService = itemInformationService;
-        this.itemRepository = itemRepository;
-    }
 
     private Inventory get(GeneralAccountNameRequestDto nameGeneral,
                           InventoryNameRequestDto nameInventory) {

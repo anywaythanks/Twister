@@ -13,6 +13,7 @@ import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterCaseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterCaseServiceImpl implements RegisterCaseService {
     private final CaseRepository caseRepository;
     private final CaseMapper caseMapper;
@@ -29,24 +31,6 @@ public class RegisterCaseServiceImpl implements RegisterCaseService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final ItemInformationService itemInformationService;
-
-    public RegisterCaseServiceImpl(CaseRepository caseRepository,
-                                   CaseMapper caseMapper,
-                                   MoneyTypeRepository moneyTypeRepository,
-                                   MoneyTypeInformationService moneyTypeInformationService,
-                                   MoneyTypeMapper moneyTypeMapper,
-                                   ItemRepository itemRepository,
-                                   ItemMapper itemMapper,
-                                   ItemInformationService itemInformationService) {
-        this.caseRepository = caseRepository;
-        this.caseMapper = caseMapper;
-        this.moneyTypeRepository = moneyTypeRepository;
-        this.moneyTypeInformationService = moneyTypeInformationService;
-        this.moneyTypeMapper = moneyTypeMapper;
-        this.itemRepository = itemRepository;
-        this.itemMapper = itemMapper;
-        this.itemInformationService = itemInformationService;
-    }
 
     public CasePartialResponseDto merge(CaseNameRequestDto name, CaseCreateRequestDto create) {
         var oCase = caseRepository.findByName(name.getName());

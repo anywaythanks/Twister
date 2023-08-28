@@ -6,20 +6,16 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNa
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.RegisterMoneyTypeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterMoneyTypeServiceImpl implements RegisterMoneyTypeService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeMapper moneyTypeMapper;
-
-    public RegisterMoneyTypeServiceImpl(MoneyTypeRepository moneyTypeRepository,
-                                        MoneyTypeMapper moneyTypeMapper) {
-        this.moneyTypeRepository = moneyTypeRepository;
-        this.moneyTypeMapper = moneyTypeMapper;
-    }
 
     public MoneyTypePartialResponseDto merge(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create) {
         var typeMoney = moneyTypeMapper.toType(name, create);

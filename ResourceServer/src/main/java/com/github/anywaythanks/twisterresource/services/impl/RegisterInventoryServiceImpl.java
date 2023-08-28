@@ -11,29 +11,19 @@ import com.github.anywaythanks.twisterresource.repository.GeneralAccountReposito
 import com.github.anywaythanks.twisterresource.repository.InventoryNameRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterInventoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterInventoryServiceImpl implements RegisterInventoryService {
     private final GeneralAccountInformationService generalAccountInformationService;
     public final InventoryNameRepository inventoryNameRepository;
     private final GeneralAccountMapper generalAccountMapper;
     private final GeneralAccountRepository generalAccountRepository;
     private final InventoryMapper inventoryMapper;
-
-    public RegisterInventoryServiceImpl(GeneralAccountInformationService generalAccountInformationService,
-                                        InventoryNameRepository inventoryNameRepository,
-                                        GeneralAccountMapper generalAccountMapper,
-                                        GeneralAccountRepository generalAccountRepository,
-                                        InventoryMapper inventoryMapper) {
-        this.generalAccountInformationService = generalAccountInformationService;
-        this.inventoryNameRepository = inventoryNameRepository;
-        this.generalAccountMapper = generalAccountMapper;
-        this.generalAccountRepository = generalAccountRepository;
-        this.inventoryMapper = inventoryMapper;
-    }
 
     public InventoryPartialResponseDto register(GeneralAccountNameRequestDto name) {
         var generalAccount = generalAccountRepository

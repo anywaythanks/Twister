@@ -3,11 +3,15 @@ package com.github.anywaythanks.twisterresource.models;
 import com.github.anywaythanks.twisterresource.generators.StringPrefixedSequenceIdGenerator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "case_slot_name")
+@NoArgsConstructor
+@Getter
 public class CaseSlotName {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "case_slot_name_seq")
@@ -20,10 +24,4 @@ public class CaseSlotName {
     @NotBlank
     @Length(min = 1, max = 64)
     String name;
-
-    public CaseSlotName() {
-    }
-    public String getName() {
-        return name;
-    }
 }

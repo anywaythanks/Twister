@@ -1,14 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.account;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class AccountNumberResponseDto implements Number {
+    @NonNull
     String number;
-
-    public AccountNumberResponseDto(String number) {
-        this.number = number;
-    }
-
-    @Override
-    public String getNumber() {
-        return number;
-    }
 }

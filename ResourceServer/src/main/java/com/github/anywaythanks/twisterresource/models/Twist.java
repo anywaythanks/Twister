@@ -2,11 +2,15 @@ package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "twistes")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class Twist<T extends Item> {
     @Id
     @GeneratedValue
@@ -15,71 +19,33 @@ public class Twist<T extends Item> {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
+    @NonNull
     Account account;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "general_account_id", nullable = false)
+    @NonNull
     GeneralAccount generalAccount;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "number", nullable = false, unique = true)
+    @NonNull
     TwistNumber number;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "case_id", nullable = false)
+    @NonNull
     Case twistCase;
     @NotNull
     @ManyToOne(targetEntity = Item.class)
     @JoinColumn(name = "item_id", nullable = false)
+    @NonNull
     T wonItem;
     @Column(name = "quantity_item", nullable = false)
+    @NonNull
     Integer quantityItem;
     @NotNull
     @Column(name = "created_on", nullable = false)
+    @NonNull
     Instant createdOn;
-
-    protected Twist() {
-    }
-
-    public Twist(Account account, Case twistCase, T wonItem, Integer quantityItem, Instant createdOn, GeneralAccount generalAccount) {
-        this.account = account;
-        this.twistCase = twistCase;
-        this.wonItem = wonItem;
-        this.quantityItem = quantityItem;
-        this.createdOn = createdOn;
-        this.number = new TwistNumber();
-        this.generalAccount = generalAccount;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public Case getTwistCase() {
-        return twistCase;
-    }
-
-    public Item getWonItem() {
-        return wonItem;
-    }
-
-    public Integer getQuantityItem() {
-        return quantityItem;
-    }
-
-    public Instant getCreatedOn() {
-        return createdOn;
-    }
-
-    public TwistNumber getNumber() {
-        return number;
-    }
-
-    public GeneralAccount getGeneralAccount() {
-        return generalAccount;
-    }
 }

@@ -20,8 +20,8 @@ public class ItemMapperImpl implements ItemMapper {
 
     public ItemPartialResponseDto toPartialDTO(Item item) {
         if (item instanceof ItemMoney itemMoney)
-            return new ItemMoneyPartialResponseDto(ItemTypes.MONEY, moneyMapper.toPartialDTO(itemMoney.getCost()),
-                    itemMoney.getName(), itemMoney.getVisibleName());
+            return new ItemMoneyPartialResponseDto(ItemTypes.MONEY,
+                    itemMoney.getName(), itemMoney.getVisibleName(), moneyMapper.toPartialDTO(itemMoney.getCost()));
         else if (item instanceof ItemTrash itemTrash)
             return new ItemTrashPartialResponseDto(ItemTypes.TRASH,
                     itemTrash.getName(), itemTrash.getVisibleName());

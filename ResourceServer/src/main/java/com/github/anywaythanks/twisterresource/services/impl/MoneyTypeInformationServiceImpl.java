@@ -7,6 +7,7 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNa
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,16 +15,10 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MoneyTypeInformationServiceImpl implements MoneyTypeInformationService {
     private final MoneyTypeRepository typeMoneyRepository;
     private final MoneyTypeMapper moneyTypeMapper;
-
-    public MoneyTypeInformationServiceImpl(MoneyTypeRepository moneyTypeRepository,
-                                           MoneyTypeMapper moneyTypeMapper) {
-        this.typeMoneyRepository = moneyTypeRepository;
-
-        this.moneyTypeMapper = moneyTypeMapper;
-    }
 
     public List<MoneyTypePartialResponseDto> listPartial() {
         return typeMoneyRepository.findAll().stream().map(moneyTypeMapper::toPartialDTO).toList();

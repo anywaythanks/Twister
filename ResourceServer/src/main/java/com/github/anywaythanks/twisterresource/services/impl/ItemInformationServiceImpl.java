@@ -7,20 +7,16 @@ import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDt
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import com.github.anywaythanks.twisterresource.services.ItemInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemInformationServiceImpl implements ItemInformationService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
-
-    public ItemInformationServiceImpl(ItemRepository itemRepository,
-                                      ItemMapper itemMapper) {
-        this.itemRepository = itemRepository;
-        this.itemMapper = itemMapper;
-    }
 
     public ItemPartialResponseDto getPartial(ItemNameRequestDto name) {
         return itemMapper.toPartialDTO(itemRepository.findByName(name.getName())

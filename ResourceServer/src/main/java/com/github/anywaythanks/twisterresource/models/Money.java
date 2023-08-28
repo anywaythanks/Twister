@@ -5,33 +5,25 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Embeddable
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class Money {
     @NotNull
+    @NonNull
     BigDecimal value;
 
     @ManyToOne
     @JoinColumn(name = "money_type_id", nullable = false)
+    @NonNull
     MoneyType moneyType;
-
-    protected Money() {
-    }
-
-    public Money(BigDecimal value, MoneyType moneyType) {
-        this.value = value;
-        this.moneyType = moneyType;
-    }
-
-    public Money toZero() {
-        return new Money(BigDecimal.ZERO, moneyType);
-    }
-
     public Money add(Money money) {
-        if (!money.getTypeMoney().equals(moneyType))
+        if (!money.getMoneyType().equals(moneyType))
             throw new MoneyNotTypeExceptions();
         return new Money(value.add(money.getValue()), moneyType);
     }
@@ -41,16 +33,8 @@ public class Money {
     }
 
     public Money subtract(Money money) {
-        if (!money.getTypeMoney().equals(moneyType))
+        if (!money.getMoneyType().equals(moneyType))
             throw new MoneyNotTypeExceptions();
         return new Money(value.subtract(money.getValue()), moneyType);
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public MoneyType getTypeMoney() {
-        return moneyType;
     }
 }

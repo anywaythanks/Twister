@@ -1,32 +1,16 @@
 package com.github.anywaythanks.twisterresource.models.dto.acase;
 
+import lombok.*;
+
 import java.time.Duration;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class CaseCooldownIdResponseDto implements Id, Cooldown {
+    @NonNull
     Long id;
+    @Setter
+    @NonNull
     Duration cooldown;
-
-    protected CaseCooldownIdResponseDto() {
-
-    }
-
-    public CaseCooldownIdResponseDto(Long id, Duration cooldown) {
-        this.id = id;
-        this.cooldown = cooldown;
-    }
-
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public Duration getCooldown() {
-        return cooldown;
-    }
-
-
-    public void setCooldown(Duration cooldown) {
-        this.cooldown = cooldown;
-    }
 }

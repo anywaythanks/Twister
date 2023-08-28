@@ -2,6 +2,7 @@ package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
 
@@ -12,20 +13,27 @@ import java.util.Map;
 @Table(name = "general_accounts")
 @NamedEntityGraph(name = "GeneralAccount.detail",
         attributeNodes = @NamedAttributeNode("name"))
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class GeneralAccount {
     @Id
     @GeneratedValue
     Long id;
     @NotBlank
     @Column(name = "user_uuid", nullable = false, unique = true)
+    @NonNull
     String userUuid;
-    
+
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "name", nullable = false, unique = true)
+    @NonNull
     GeneralAccountName name;
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
+    @NonNull
     String nickname;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
@@ -33,6 +41,7 @@ public class GeneralAccount {
             joinColumns = {@JoinColumn(name = "general_account_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")})
     @MapKey(name = "number")
+    @NonNull
     Map<AccountNumber, Account> accounts = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -41,50 +50,6 @@ public class GeneralAccount {
             joinColumns = {@JoinColumn(name = "general_account_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "inventory_id", referencedColumnName = "id")})
     @MapKey(name = "name")
+    @NonNull
     Map<InventoryName, Inventory> inventories = new HashMap<>();
-
-    protected GeneralAccount() {
-    }
-
-    public GeneralAccount(String userUuid, String nickname, GeneralAccountName name) {
-        this.userUuid = userUuid;
-        this.nickname = nickname;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUserUuid() {
-        return userUuid;
-    }
-
-    public Map<AccountNumber, Account> getAccounts() {
-        return accounts;
-    }
-
-    public GeneralAccountName getName() {
-        return name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public Map<InventoryName, Inventory> getInventories() {
-        return inventories;
-    }
-
-    public void setName(GeneralAccountName name) {
-        this.name = name;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 }

@@ -18,11 +18,11 @@ public class SlotMapperImpl implements SlotMapper {
     }
 
     public SlotPartialResponseDto toPartialDTO(Slot<?> slot) {
-        return new SlotPartialResponseDto(slot.getQuantityItem(), itemMapper.toPartialDTO(slot.getItem()));
+        return new SlotPartialResponseDto(itemMapper.toPartialDTO(slot.getItem()), slot.getQuantityItem());
     }
 
     public SlotIdResponseDto toIdsDTO(Slot<?> slot) {
-        return new SlotIdResponseDto(slot.getQuantityItem(), itemMapper.toIdDTO(slot.getItem()), slot.getId());
+        return new SlotIdResponseDto(itemMapper.toIdDTO(slot.getItem()), slot.getQuantityItem(), slot.getId());
     }
 
     public SlotTransferRequestDto toTransfer(Slot<?> slot) {

@@ -3,24 +3,20 @@ package com.github.anywaythanks.twisterresource.services.impl;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.exceptions.NotRegisterGeneralAccount;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.UserPrincipal;
+import com.github.anywaythanks.twisterresource.models.auth.UserPrincipal;
 import com.github.anywaythanks.twisterresource.models.dto.general.*;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class GeneralAccountInformationServiceImpl implements GeneralAccountInformationService {
     private final GeneralAccountRepository generalAccountRepository;
     private final GeneralAccountMapper generalAccountMapper;
-
-    public GeneralAccountInformationServiceImpl(GeneralAccountRepository generalAccountRepository,
-                                                GeneralAccountMapper generalAccountMapper) {
-        this.generalAccountRepository = generalAccountRepository;
-        this.generalAccountMapper = generalAccountMapper;
-    }
 
     public GeneralAccountPartialResponseDto getPartial(GeneralAccountNameRequestDto name) {
         return generalAccountMapper.toPartialDTO(generalAccountRepository.findByName(generalAccountMapper.toName(name))

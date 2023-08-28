@@ -17,6 +17,7 @@ import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
 import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterAccountService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import java.math.BigDecimal;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegisterAccountServiceImpl implements RegisterAccountService {
     private final GeneralAccountInformationService generalAccountInformationService;
     private final AccountNumberRepository accountNumberRepository;
@@ -33,24 +35,6 @@ public class RegisterAccountServiceImpl implements RegisterAccountService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeInformationService moneyTypeInformationService;
     private final MoneyTypeMapper moneyTypeMapper;
-
-    public RegisterAccountServiceImpl(GeneralAccountInformationService generalAccountInformationService,
-                                      AccountNumberRepository accountNumberRepository,
-                                      AccountMapper accountMapper,
-                                      GeneralAccountMapper generalAccountMapper,
-                                      GeneralAccountRepository generalAccountRepository,
-                                      MoneyTypeRepository moneyTypeRepository,
-                                      MoneyTypeInformationService moneyTypeInformationService,
-                                      MoneyTypeMapper moneyTypeMapper) {
-        this.generalAccountInformationService = generalAccountInformationService;
-        this.accountNumberRepository = accountNumberRepository;
-        this.accountMapper = accountMapper;
-        this.generalAccountMapper = generalAccountMapper;
-        this.generalAccountRepository = generalAccountRepository;
-        this.moneyTypeRepository = moneyTypeRepository;
-        this.moneyTypeInformationService = moneyTypeInformationService;
-        this.moneyTypeMapper = moneyTypeMapper;
-    }
 
     public AccountPartialResponseDto merge(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
                                            AccountCreateRequestDto create) {

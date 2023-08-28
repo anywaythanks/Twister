@@ -3,8 +3,6 @@ package com.github.anywaythanks.twisterresource.converters;
 import com.github.anywaythanks.twisterresource.configs.AuthorizeServerProperties;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

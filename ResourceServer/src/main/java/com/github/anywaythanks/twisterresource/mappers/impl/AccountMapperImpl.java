@@ -16,7 +16,7 @@ public class AccountMapperImpl implements AccountMapper {
     }
 
     public AccountPartialResponseDto toPartialDTO(Account account) {
-        return new AccountPartialResponseDto(account.getNumber().getNumber(), moneyMapper.toPartialDTO(account.getAmount()));
+        return new AccountPartialResponseDto(moneyMapper.toPartialDTO(account.getAmount()), account.getNumber().getNumber());
     }
 
     public AccountIdResponseDto toIdDTO(Account account) {

@@ -22,7 +22,7 @@ public class GeneralAccountMapperImpl implements GeneralAccountMapper {
     }
 
     public GeneralAccount toAccount(String uuid, GeneralAccountNameRequestDto name, GeneralAccountCreateRequestDto request) {
-        return new GeneralAccount(uuid, request.getNickname(), toName(name));
+        return new GeneralAccount(uuid, toName(name), request.getNickname());
     }
 
     public Long toId(GeneralAccountIdResponseDto id) {

@@ -1,10 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.general;
 
-public class GeneralAccountCreateRequestDto implements Nickname {
-    String nickname;
+import lombok.*;
 
-    @Override
-    public String getNickname() {
-        return nickname;
-    }
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
+public class GeneralAccountCreateRequestDto implements Nickname {
+    @NonNull
+    String nickname;
 }

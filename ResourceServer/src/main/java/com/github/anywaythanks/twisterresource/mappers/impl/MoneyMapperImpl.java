@@ -17,12 +17,12 @@ public class MoneyMapperImpl implements MoneyMapper {
     }
 
     public MoneyCreateRequestDto toRequest(Money money) {
-        return new MoneyCreateRequestDto(moneyTypeMapper.toName(money.getTypeMoney()), money.getValue());
+        return new MoneyCreateRequestDto(moneyTypeMapper.toName(money.getMoneyType()), money.getValue());
     }
 
 
     public MoneyPartialResponseDto toPartialDTO(Money money) {
-        return new MoneyPartialResponseDto(moneyTypeMapper.toPartialDTO(money.getTypeMoney()), money.getValue());
+        return new MoneyPartialResponseDto(moneyTypeMapper.toPartialDTO(money.getMoneyType()), money.getValue());
     }
 
     public Money toMoney(MoneyType type, MoneyCreateRequestDto request) {
