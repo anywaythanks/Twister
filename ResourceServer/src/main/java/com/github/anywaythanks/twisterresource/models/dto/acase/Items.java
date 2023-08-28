@@ -5,6 +5,6 @@ import com.github.anywaythanks.twisterresource.validators.SumEq;
 import java.util.List;
 
 interface Items<T> {
-    @SumEq(eqSum = "1", converter = Converter.class)
+    @SumEq(eqSum = "1")
     List<T> getItems();
 }
