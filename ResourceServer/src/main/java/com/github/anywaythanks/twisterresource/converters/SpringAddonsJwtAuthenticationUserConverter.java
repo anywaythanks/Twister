@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.converters;
 
-import com.github.anywaythanks.twisterresource.configs.SpringAddonsProperties;
+import com.github.anywaythanks.twisterresource.configs.AuthorizeServerProperties;
 import com.github.anywaythanks.twisterresource.models.AuthorizationTokenUser;
 import com.github.anywaythanks.twisterresource.models.UserPrincipal;
 import com.jayway.jsonpath.JsonPath;
@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SpringAddonsJwtAuthenticationUserConverter implements Converter<Jwt, AbstractAuthenticationToken> {
-    private final SpringAddonsProperties springAddonsProperties;
-    public SpringAddonsJwtAuthenticationUserConverter(SpringAddonsProperties springAddonsProperties) {
+    private final AuthorizeServerProperties springAddonsProperties;
+    public SpringAddonsJwtAuthenticationUserConverter(AuthorizeServerProperties springAddonsProperties) {
         this.springAddonsProperties = springAddonsProperties;
     }
 

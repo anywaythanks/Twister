@@ -8,8 +8,8 @@ import java.net.URL;
 import java.util.stream.Stream;
 
 @Configuration
-@ConfigurationProperties(prefix = "spring-addons")
-public class SpringAddonsProperties {
+@ConfigurationProperties(prefix = "auth-props")
+public class AuthorizeServerProperties {
     private IssuerProperties[] issuers = {};
 
     public static class IssuerProperties {

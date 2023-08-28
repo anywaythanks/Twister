@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.converters;
 
-import com.github.anywaythanks.twisterresource.configs.SpringAddonsProperties;
+import com.github.anywaythanks.twisterresource.configs.AuthorizeServerProperties;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.PathNotFoundException;
 import org.slf4j.Logger;
@@ -14,17 +14,14 @@ import java.util.Collection;
 import java.util.stream.Stream;
 
 public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<? extends GrantedAuthority>> {
-    private final SpringAddonsProperties.IssuerProperties properties;
-    private static Logger logger = LoggerFactory.getLogger(JwtGrantedAuthoritiesConverter.class);
-
-    public JwtGrantedAuthoritiesConverter(SpringAddonsProperties.IssuerProperties properties) {
+    private final AuthorizeServerProperties.IssuerProperties properties;
+    public JwtGrantedAuthoritiesConverter(AuthorizeServerProperties.IssuerProperties properties) {
         this.properties = properties;
     }
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Collection<? extends GrantedAuthority> convert(Jwt jwt) {
-        logger.info(jwt.toString());
         return Stream.of(properties.getClaims()).flatMap(claimProperties -> {
             Object claim;
             try {
