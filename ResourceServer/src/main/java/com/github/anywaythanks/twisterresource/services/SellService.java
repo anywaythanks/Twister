@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.exceptions.NoSellingItemException
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
-import com.github.anywaythanks.twisterresource.models.SellingItem;
+import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;

@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
+import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
