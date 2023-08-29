@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.generators;
 
+import com.github.anywaythanks.twisterresource.exceptions.GeneratorException;
 import jakarta.persistence.Id;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
@@ -11,6 +12,7 @@ import org.hibernate.type.Type;
 import org.hibernate.type.spi.TypeConfiguration;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 public class StringPrefixedSequenceIdGenerator extends SequenceStyleGenerator {
@@ -33,7 +35,20 @@ public class StringPrefixedSequenceIdGenerator extends SequenceStyleGenerator {
                     field.setAccessible(true);
                     id = field.get(object);
                 } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    throw new GeneratorException(e);
+                }
+            }
+        }
+        if (id == null) {
+            var methods = object.getClass().getMethods();
+            for (var method : methods) {
+                if (method.isAnnotationPresent(Id.class)) {
+                    try {
+                        method.setAccessible(true);
+                        id = method.invoke(object);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        throw new GeneratorException(e);
+                    }
                 }
             }
         }
