@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class SumPercentageEqValidator implements ConstraintValidator<SumEq, List<Percentage>> {
+public class SumPercentageEqValidator implements ConstraintValidator<SumEq, List<? extends Percentage>> {
     private BigDecimal eq;
 
     public void initialize(SumEq constraintAnnotation) {
@@ -15,7 +15,7 @@ public class SumPercentageEqValidator implements ConstraintValidator<SumEq, List
     }
 
     @Override
-    public boolean isValid(List<Percentage> value, ConstraintValidatorContext context) {
+    public boolean isValid(List<? extends Percentage> value, ConstraintValidatorContext context) {
         return value.stream().map(Percentage::getPercentage).reduce(BigDecimal::add).orElseThrow().compareTo(eq) == 0;
     }
 }
