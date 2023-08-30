@@ -6,15 +6,14 @@ import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
 import com.github.anywaythanks.twisterresource.mappers.TwistMapper;
-import com.github.anywaythanks.twisterresource.models.CaseSlot;
-import com.github.anywaythanks.twisterresource.models.Item;
-import com.github.anywaythanks.twisterresource.models.Twist;
-import com.github.anywaythanks.twisterresource.models.TwistNumber;
+import com.github.anywaythanks.twisterresource.models.*;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseCooldownIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
@@ -51,17 +50,17 @@ public class TwistService {
         CaseCooldownIdResponseDto cooldownId = caseActualInformationService.getAndUpdateCooldownId(name, caseName);
         if (!cooldownId.getCooldown().isZero())
             throw new CooldownException();
-        var twistedCase = caseRepository.findById(cooldownId.getId())
+        Case twistedCase = caseRepository.findById(cooldownId.getId())
                 .orElseThrow(NotFoundException::new);
-        var wonSlot = twist(twistedCase.getCaseSlotSet());
-        var price = moneyMapper.toRequest(twistedCase.getPrice());
+        CaseSlot<?> wonSlot = twist(twistedCase.getCaseSlotSet());
+        MoneyCreateRequestDto price = moneyMapper.toRequest(twistedCase.getPrice());
         shopService.buy(name, nameInventory, slotMapper.toTransfer(wonSlot), number, price);
-        var generalId = generalAccountInformationService.getId(name);
-        var generalAccount = generalAccountRepository.findById(generalId.getId())
+        GeneralAccountIdResponseDto generalId = generalAccountInformationService.getId(name);
+        GeneralAccount generalAccount = generalAccountRepository.findById(generalId.getId())
                 .orElseThrow(NotFoundException::new);
-        var newNumber = new TwistNumber();
-        var account = generalAccount.getAccounts().get(accountMapper.toNumber(number));
-        var resultTwist = new Twist<>(account, generalAccount, newNumber, twistedCase, wonSlot.getItem(),
+        TwistNumber newNumber = new TwistNumber();
+        Account account = generalAccount.getAccounts().get(accountMapper.toNumber(number));
+        Twist<?> resultTwist = new Twist<>(account, generalAccount, newNumber, twistedCase, wonSlot.getItem(),
                 wonSlot.getQuantityItem(), Instant.now());
         return twistMapper.toDTO(wonSlot, twistRepository.save(resultTwist));
     }
@@ -75,11 +74,6 @@ public class TwistService {
             wonSlot = slot;
             sum = sum.add(slot.getPercentageWining());
             if (sum.compareTo(dice) > 0) break;
-        }
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
         return wonSlot;
     }
