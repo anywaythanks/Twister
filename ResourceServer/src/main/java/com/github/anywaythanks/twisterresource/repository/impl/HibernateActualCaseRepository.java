@@ -2,34 +2,48 @@ package com.github.anywaythanks.twisterresource.repository.impl;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.Twist;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLastTwistResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.criteria.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
-@Transactional
 public class HibernateActualCaseRepository implements ActualCaseRepository {
     @PersistenceContext
     private EntityManager em;
 
-    public List<? extends Map.Entry<Long, Instant>> dates(GeneralAccount generalAccount, Long startId, Long endId) {
-        var cb = em.getCriteriaBuilder();
-        var queryDate = cb.createQuery(Object[].class);
-        var twist = queryDate.from(Twist.class);
-        var c = queryDate.multiselect(twist.get("twistCase").get("id"), cb.max(twist.get("createdOn")));
-        var p = cb.and(cb.greaterThanOrEqualTo(twist.get("twistCase").get("id"), startId),
+    //select t.twistCase.id, max(t.createdOn) from Twist t where t.generalAccount = #generalAccount and
+    //(t.twistCase.id >= #startId and t.twistCase.id <= #endId) groupBy t.twistCase orderBy #sort
+    @SuppressWarnings("rawtypes")
+    @Transactional(readOnly = true)
+    public List<CaseLastTwistResponseDto> dates(GeneralAccount generalAccount, Long startId, Long endId, Sort sort) {
+        if (startId < 0 || startId > endId) throw new IllegalArgumentException();
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<CaseLastTwistResponseDto> queryDate = cb.createQuery(CaseLastTwistResponseDto.class);
+        Root<Twist> twist = queryDate.from(Twist.class);
+        CriteriaQuery<CaseLastTwistResponseDto> c = queryDate.multiselect(twist.get("twistCase").get("id"),
+                cb.max(twist.get("createdOn")));
+        Predicate p = cb.and(cb.greaterThanOrEqualTo(twist.get("twistCase").get("id"), startId),
                 cb.lessThanOrEqualTo(twist.get("twistCase").get("id"), endId));
         c.where(cb.and(cb.equal(twist.get("generalAccount"), generalAccount), p));
         c.groupBy(twist.get("twistCase"));
-        c.orderBy(cb.desc(twist.get("twistCase").get("id")));
-        return em.createQuery(c).getResultList().stream()
-                .map(objects -> new AbstractMap.SimpleEntry<>((Long) objects[0], (Instant) objects[1])).toList();
+        if (!sort.isUnsorted()) {
+            List<Order> orders = new ArrayList<>();
+            for (Sort.Order order : sort) {
+                Expression<Twist> exp = twist.get("twistCase").get(order.getProperty());
+                orders.add(order.isAscending() ? cb.asc(exp) : cb.desc(exp));
+            }
+            c.orderBy(orders);
+        }
+        System.out.println("______");
+        return em.createQuery(c).getResultList();
     }
 }
