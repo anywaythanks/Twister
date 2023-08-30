@@ -33,7 +33,7 @@ public class Case {
     String name;
     @NotBlank
     @Length(min = 1, max = 64)
-    @Column(nullable = false)
+    @Column(name = "visible_name", nullable = false)
     @NonNull
     @Setter
     String visibleName;
