@@ -10,11 +10,10 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Item {
     @Id
     @GeneratedValue(generator = "ITEM_ID_GENERATOR")
-    @EqualsAndHashCode.Exclude
     Long id;
 
     @NotBlank
@@ -27,7 +26,6 @@ public abstract class Item {
     @Length(min = 1, max = 64)
     @Column(nullable = false)
     @NonNull
-    @EqualsAndHashCode.Exclude
     @Setter
     String visibleName;
 

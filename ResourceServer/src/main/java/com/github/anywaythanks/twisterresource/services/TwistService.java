@@ -21,7 +21,6 @@ import com.github.anywaythanks.twisterresource.repository.GeneralAccountReposito
 import com.github.anywaythanks.twisterresource.repository.TwistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -49,7 +48,7 @@ public class TwistService {
                                          InventoryNameRequestDto nameInventory,
                                          AccountNumberRequestDto number,
                                          CaseNameRequestDto caseName) throws NoSuchAlgorithmException {
-        CaseCooldownIdResponseDto cooldownId = caseActualInformationService.getCooldownId(name, caseName);
+        CaseCooldownIdResponseDto cooldownId = caseActualInformationService.getAndUpdateCooldownId(name, caseName);
         if (!cooldownId.getCooldown().isZero())
             throw new CooldownException();
         var twistedCase = caseRepository.findById(cooldownId.getId())

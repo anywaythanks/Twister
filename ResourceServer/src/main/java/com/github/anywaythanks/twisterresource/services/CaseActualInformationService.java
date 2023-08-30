@@ -5,6 +5,7 @@ import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.PageMapper;
 import com.github.anywaythanks.twisterresource.models.Case;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
+import com.github.anywaythanks.twisterresource.models.TwistMark;
 import com.github.anywaythanks.twisterresource.models.dto.acase.*;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
@@ -12,6 +13,7 @@ import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialRe
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
+import com.github.anywaythanks.twisterresource.repository.TwistMarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,10 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LongSummaryStatistics;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +34,8 @@ public class CaseActualInformationService {
     private final GeneralAccountRepository generalAccountRepository;
     private final PageMapper pageMapper;
     private final GeneralAccountInformationService generalAccountInformationService;
+    private final TwistMarkRepository twistMarkRepository;
+    private final RegisterTwistMarkService registerTwistMarkService;
     private static final Sort.Order ORDER_DESC_CASE_ID = Sort.Order.desc("id");
 
     private Case getCase(CaseNameRequestDto caseName) {
@@ -54,20 +55,40 @@ public class CaseActualInformationService {
                 subtractDuration(dates.get(0).getLastTwist(), foundCase.getCooldown());
     }
 
+    private Duration getAndUpdateActualCooldown(GeneralAccountNameRequestDto name,
+                                                Case foundCase) {
+        GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
+        GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())
+                .orElseThrow(NotFoundException::new);
+        Instant now = Instant.now();
+        registerTwistMarkService.registerIfAbsent(new TwistMark(foundCase, generalAccount, false, now, now));
+        Optional<TwistMark> optionalTwistMark = twistMarkRepository.findFirstByGeneralAccountAndTwistCase(generalAccount, foundCase);
+        TwistMark twistMark = optionalTwistMark.orElseThrow(NotFoundException::new);
+        Duration actualDuration = !twistMark.getConsider() ?
+                Duration.ZERO :
+                subtractDuration(optionalTwistMark.get().getUpdatedOn(), foundCase.getCooldown());
+        twistMark.setUpdatedOn(Instant.now());
+        twistMark.setConsider(true);
+        twistMarkRepository.saveAndFlush(twistMark);
+        return actualDuration;
+    }
+
     private Duration subtractDuration(Instant lastDate, Duration cooldown) {
         Duration duration = cooldown.minus(Duration.between(lastDate, Instant.now()));
         if (duration.isNegative()) return Duration.ZERO;
         return duration;
     }
 
-    public CaseCooldownIdResponseDto getCooldownId(GeneralAccountNameRequestDto name,
-                                                   CaseNameRequestDto caseName) {
+    @Transactional
+    public CaseCooldownIdResponseDto getAndUpdateCooldownId(GeneralAccountNameRequestDto name,
+                                                            CaseNameRequestDto caseName) {
         Case foundCase = getCase(caseName);
-        Duration duration = getActualCooldown(name, foundCase);
+        Duration duration = getAndUpdateActualCooldown(name, foundCase);
         return caseMapper
                 .toCooldownIdDto(foundCase)
                 .setCooldown(duration);
     }
+
     @Transactional(readOnly = true)
     public CasePartialResponseDto getPartial(GeneralAccountNameRequestDto name,
                                              CaseNameRequestDto caseName) {
