@@ -1,11 +1,11 @@
 package com.github.anywaythanks.twisterresource.repository;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLastTwistResponseDto;
+import org.springframework.data.domain.Sort;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 
 public interface ActualCaseRepository {
-    List<? extends Map.Entry<Long, Instant>> dates(GeneralAccount generalAccount, Long startId, Long endId);
+    List<CaseLastTwistResponseDto> dates(GeneralAccount generalAccount, Long startId, Long endId, Sort sort);
 }

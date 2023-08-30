@@ -3,10 +3,7 @@ package com.github.anywaythanks.twisterresource.models;
 import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "item_money_id")
@@ -27,5 +24,6 @@ public class ItemMoney extends Item implements SellingItem {
             @AttributeOverride(name = "value", column = @Column(name = "cost")),
     })
     @NonNull
+    @Setter
     Money cost;
 }

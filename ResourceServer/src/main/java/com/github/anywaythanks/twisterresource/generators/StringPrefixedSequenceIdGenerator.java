@@ -12,6 +12,7 @@ import org.hibernate.type.Type;
 import org.hibernate.type.spi.TypeConfiguration;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
@@ -27,7 +28,7 @@ public class StringPrefixedSequenceIdGenerator extends SequenceStyleGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor session,
                                  Object object) throws HibernateException {
-        var fields = object.getClass().getDeclaredFields();
+        Field[] fields = object.getClass().getDeclaredFields();
         Object id = null;
         for (var field : fields) {
             if (field.isAnnotationPresent(Id.class)) {

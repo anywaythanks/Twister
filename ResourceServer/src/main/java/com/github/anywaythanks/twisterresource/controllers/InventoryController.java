@@ -10,7 +10,7 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialRespon
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
 import com.github.anywaythanks.twisterresource.services.InventoryInformationService;
 import com.github.anywaythanks.twisterresource.services.RegisterInventoryService;
-import com.github.anywaythanks.twisterresource.services.SellService;
+import com.github.anywaythanks.twisterresource.services.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/general/{name}/inventory")
 @RequiredArgsConstructor
 public class InventoryController {
-    private final SellService sellService;
+    private final ShopService sellService;
     private final RegisterInventoryService registerInventoryService;
     private final InventoryInformationService inventoryInformationService;
 
@@ -43,7 +43,7 @@ public class InventoryController {
     @GetMapping("/{nameInventory}")
     public InventoryPartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
                                             @Valid @PathVariable InventoryNameRequestDto nameInventory) {
-        return inventoryInformationService.getPartial(name, nameInventory);
+        return inventoryInformationService.getInventoryPartial(name, nameInventory);
     }
 
     @GetMapping("/{nameInventory}/{item}")
@@ -55,6 +55,6 @@ public class InventoryController {
 
     @GetMapping
     public List<InventoryNameResponseDto> names(@Valid @PathVariable GeneralAccountNameRequestDto name) {
-        return inventoryInformationService.names(name);
+        return inventoryInformationService.getInventoryNames(name);
     }
 }

@@ -9,6 +9,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.hibernate.annotations.CascadeType.ALL;
@@ -19,7 +20,6 @@ import static org.hibernate.annotations.CascadeType.ALL;
         attributeNodes = @NamedAttributeNode("price"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-@Setter
 @Getter
 public class Case {
     @Id
@@ -34,11 +34,13 @@ public class Case {
     @Length(min = 1, max = 64)
     @Column(nullable = false)
     @NonNull
+    @Setter
     String visibleName;
     @NotNull
     @Length(max = 1000)
     @Column(nullable = false)
     @NonNull
+    @Setter
     String description;
     @NotNull
     @Embedded
@@ -46,6 +48,7 @@ public class Case {
             @AttributeOverride(name = "value", column = @Column(name = "price", nullable = false))
     })
     @NonNull
+    @Setter
     Money price;
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "case_id", nullable = false)
@@ -53,8 +56,9 @@ public class Case {
     @BatchSize(size = 25)
     @OrderBy("percentageWining desc")
     @NonNull
-    Set<CaseSlot<Item>> caseSlotSet;
+    Set<CaseSlot<Item>> caseSlotSet = new HashSet<>();
     @NotNull
     @NonNull
+    @Setter
     Duration cooldown;
 }

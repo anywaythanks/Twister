@@ -8,7 +8,7 @@ import lombok.*;
 @Table(name = "accounts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-@Setter
+
 @Getter
 public class Account {
     @Id
@@ -26,5 +26,6 @@ public class Account {
     @AttributeOverrides({
             @AttributeOverride(name = "value", column = @Column(name = "amount", nullable = false))
     })
+    @Setter
     Money amount;
 }

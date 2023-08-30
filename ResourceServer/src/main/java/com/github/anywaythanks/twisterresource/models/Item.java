@@ -28,6 +28,7 @@ public abstract class Item {
     @Column(nullable = false)
     @NonNull
     @EqualsAndHashCode.Exclude
+    @Setter
     String visibleName;
 
 //    String picturePath; //TODO

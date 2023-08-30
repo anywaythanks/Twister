@@ -20,7 +20,7 @@ public class PublicItemController {
 
     @GetMapping
     public List<ItemPartialResponseDto> listItems() {
-        return itemInformationService.listPartial();
+        return itemInformationService.getPartials();
     }
 
     @GetMapping("/{name}")

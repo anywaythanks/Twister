@@ -16,7 +16,6 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 @Getter
-@Setter
 public class GeneralAccount {
     @Id
     @GeneratedValue
@@ -29,11 +28,13 @@ public class GeneralAccount {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "name", nullable = false, unique = true)
     @NonNull
+    @Setter
     GeneralAccountName name;
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
     @NonNull
+    @Setter
     String nickname;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @BatchSize(size = 5)

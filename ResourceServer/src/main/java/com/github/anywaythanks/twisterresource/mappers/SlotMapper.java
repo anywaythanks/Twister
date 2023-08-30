@@ -3,6 +3,7 @@ package com.github.anywaythanks.twisterresource.mappers;
 import com.github.anywaythanks.twisterresource.models.InventorySlot;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Slot;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
@@ -24,6 +25,7 @@ public interface SlotMapper {
 
     SlotIdResponseDto toIdsDTO(Slot<?> slot);
 
+    @Mapping(source = "slot.quantityItem", target = "quantity")
     SlotTransferRequestDto toTransfer(Slot<?> slot);
 
     @Mapping(source = "quantity.quantity", target = "quantity")

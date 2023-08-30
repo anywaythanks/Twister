@@ -1,6 +1,7 @@
 package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
+import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
@@ -11,17 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class RegisterMoneyTypeService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeMapper moneyTypeMapper;
     @PreAuthorize("hasAuthority('ADMIN')")
+    @Transactional
     public MoneyTypePartialResponseDto merge(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create) {
-        var typeMoney = moneyTypeMapper.toType(name, create);
-        var pTypeMoney = moneyTypeRepository.findByName(name.getName())
-                .orElse(typeMoney);
-        pTypeMoney.setPathToIcon(typeMoney.getPathToIcon());
-        return moneyTypeMapper.toPartialDTO(moneyTypeRepository.save(pTypeMoney));
+        MoneyType mergedType = moneyTypeMapper.toType(name, create);
+        MoneyType resultType = moneyTypeRepository.findByName(name.getName())
+                .orElse(mergedType);
+        resultType.setPathToIcon(mergedType.getPathToIcon());
+        return moneyTypeMapper.toPartialDTO(moneyTypeRepository.save(resultType));
     }
 }

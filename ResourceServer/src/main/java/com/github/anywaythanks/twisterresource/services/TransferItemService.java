@@ -1,8 +1,14 @@
 package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
+import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventorySlot;
+import com.github.anywaythanks.twisterresource.models.Item;
+import com.github.anywaythanks.twisterresource.models.Slot;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryCreditResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryDebitResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
@@ -11,35 +17,43 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 @Service
-@Transactional
+
 @RequiredArgsConstructor
 public class TransferItemService {
     private final ItemRepository itemRepository;
     private final InventoryInformationService inventoryInformationService;
     private final InventoryRepository inventoryRepository;
 
-    public void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer) {
-        final var inventory = inventoryRepository.findById(inventoryInformationService.getDebit(name).getId())
+    private void actionSlot(InventoryIdResponseDto inventoryIdResponseDto, SlotTransferRequestDto slotTransfer,
+                            Function<Slot<?>, BiConsumer<Item, Integer>> action) {
+        Inventory inventory = inventoryRepository.findById(inventoryIdResponseDto.getId())
                 .orElseThrow(NotFoundException::new);
-        final var item = itemRepository.findById(slotTransfer.getItem().getId())
+        Item item = itemRepository.findById(slotTransfer.getItem().getId())
                 .orElseThrow(NotFoundException::new);
         inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
-        var slot = inventory.getInventorySlotMap().get(item);
-        slot.addItems(item, slotTransfer.getQuantity());
+        InventorySlot<?> slot = inventory.getInventorySlotMap().get(item);
+        action.apply(slot).accept(item, slot.getQuantityItem());
     }
 
+    @Transactional
+    public void add(InventoryNameRequestDto name, SlotTransferRequestDto slotTransfer) {
+        InventoryDebitResponseDto debit = inventoryInformationService.getDebit(name);
+        actionSlot(debit, slotTransfer, slot -> slot::addItems);
+    }
+
+    @Transactional
     public void remove(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory,
                        SlotTransferRequestDto slotTransfer) {
-        final var inventory = inventoryRepository.findById(inventoryInformationService.getCredit(name, nameInventory).getId())
-                .orElseThrow(NotFoundException::new);
-        final var item = itemRepository.findById(slotTransfer.getItem().getId())
-                .orElseThrow(NotFoundException::new);
-        inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
-        var slot = inventory.getInventorySlotMap().get(item);
-        slot.removeItems(item, slotTransfer.getQuantity());
+        InventoryCreditResponseDto credit = inventoryInformationService.getCredit(name, nameInventory);
+        actionSlot(credit, slotTransfer, slot -> slot::removeItems);
     }
 
+    @Transactional
     public void transfer(GeneralAccountNameRequestDto name,
                          InventoryNameRequestDto inventoryFrom, InventoryNameRequestDto inventoryTo,
                          SlotTransferRequestDto slotTransfer) {

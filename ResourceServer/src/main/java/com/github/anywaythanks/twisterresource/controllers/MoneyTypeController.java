@@ -33,7 +33,7 @@ public class MoneyTypeController {
     @GetMapping
     @Transactional
     public List<MoneyTypePartialResponseDto> listMoneyTypes() {
-        return moneyTypeInformationService.listPartial();
+        return moneyTypeInformationService.getPartials();
     }
 
     @GetMapping("/{name}")

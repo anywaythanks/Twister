@@ -1,6 +1,7 @@
 package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.exceptions.GeneralAccountExistsException;
+import com.github.anywaythanks.twisterresource.exceptions.NicknameUniqueException;
 import com.github.anywaythanks.twisterresource.exceptions.UniqueException;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
@@ -25,36 +26,37 @@ public class RegisterGeneralAccountService {
     private final GeneralAccountMapper generalAccountMapper;
 
     @PreAuthorize("#userPrincipal.uuid == authentication.principal.uuid")
+    @Transactional
     public GeneralAccountPartialResponseDto register(UserPrincipal userPrincipal, GeneralAccountCreateRequestDto create) {
         generalAccountRepository.findByUserUuid(userPrincipal.getUuid()).ifPresent(account -> {
             throw new GeneralAccountExistsException(account);
         });
         generalAccountRepository.findByNickname(create.getNickname()).ifPresent(account -> {
-            throw new UniqueException();//TODO: throws
+            throw new NicknameUniqueException();
         });
         var account = new GeneralAccount(userPrincipal.getUuid(), new GeneralAccountName(), create.getNickname());
         return generalAccountMapper.toPartialDTO(generalAccountRepository.save(account));
     }
 
-    @PreAuthorize("@generalAccountNameRepository.findById(#name.name).isEmpty() " +
-            "or @generalAccountRepository.isAccountBelongsUser(authentication.principal.uuid, @generalAccountMapperImpl.toName(#name)) " +
-            "and #userPrincipal.uuid == authentication.principal.uuid")
-    public GeneralAccountPartialResponseDto merge(UserPrincipal userPrincipal, GeneralAccountNameRequestDto name,
+    @PreAuthorize("#userPrincipal.uuid == authentication.principal.uuid " +
+            "and ((@generalAccountNameRepository.findById(#nameDto.name).isEmpty() " +
+            "and @generalAccountRepository.findByUserUuid(#userPrincipal.uuid).isEmpty())" +
+            "or (@generalAccountNameRepository.findById(#nameDto.name).isPresent() " +
+            "and @generalAccountRepository.isAccountBelongsUser(authentication.principal.uuid, " +
+            "@generalAccountNameRepository.findById(#nameDto.name).get())))")
+    @Transactional
+    public GeneralAccountPartialResponseDto merge(UserPrincipal userPrincipal, GeneralAccountNameRequestDto nameDto,
                                                   GeneralAccountCreateRequestDto create) {
-        var generalAccount = generalAccountMapper.toAccount(userPrincipal.getUuid(), name, create);
-        generalAccountRepository.findByUserUuid(generalAccount.getUserUuid()).ifPresent(account -> {
-            if (!account.getName().equals(generalAccount.getName()))
-                throw new UniqueException();//TODO: throws
+        GeneralAccount mergedAccount = generalAccountMapper.toAccount(userPrincipal.getUuid(), nameDto, create);
+        generalAccountRepository.findByNickname(mergedAccount.getNickname()).ifPresent(account -> {
+            if (!account.getName().equals(mergedAccount.getName()))
+                throw new NicknameUniqueException();
         });
-        generalAccountRepository.findByNickname(generalAccount.getNickname()).ifPresent(account -> {
-            if (!account.getName().equals(generalAccount.getName()))
-                throw new UniqueException();//TODO: throws
-        });
-
-        var persistenceAccount = generalAccountRepository.findByName(generalAccountMapper.toName(name))
-                .orElse(generalAccount);
+        GeneralAccountName accountName = generalAccountMapper.toName(nameDto);
+        var persistenceAccount = generalAccountRepository.findByName(accountName)
+                .orElse(mergedAccount);
         persistenceAccount.setName(generalAccountNameRepository.save(persistenceAccount.getName()));
-        persistenceAccount.setNickname(generalAccount.getNickname());
+        persistenceAccount.setNickname(mergedAccount.getNickname());
         return generalAccountMapper.toPartialDTO(generalAccountRepository.save(persistenceAccount));
     }
 }
