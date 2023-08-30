@@ -31,9 +31,8 @@ public class RegisterInventoryService {
                 .orElseThrow(NotFoundException::new);
         InventoryName persistenceName = inventoryNameRepository.save(new InventoryName());
         Instant now = Instant.now();
-        Inventory newInventory = new Inventory(persistenceName, now, now);
-        generalAccount.getInventories().put(newInventory.getName(), newInventory);
-        Inventory resultInventory = generalAccount.getInventories().get(persistenceName);
-        return inventoryMapper.toPartialDTO(resultInventory);
+        Inventory newInventory = new Inventory(persistenceName, now, now, generalAccount);
+        generalAccount.getInventories().add(newInventory);
+        return inventoryMapper.toPartialDTO(newInventory);
     }
 }

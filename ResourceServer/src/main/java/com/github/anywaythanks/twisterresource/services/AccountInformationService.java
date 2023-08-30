@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +31,8 @@ public class AccountInformationService {
         GeneralAccount generalAccount = generalAccountRepository.findById(id.getId())
                 .orElseThrow(NotFoundException::new);
         AccountNumber number = accountMapper.toNumber(accountNumberDto);
-        Account account = generalAccount.getAccounts().get(number);
-        if (account == null) throw new NotFoundException();
-        return account;
+        return accountRepository.findContaining(generalAccount, number)
+                .orElseThrow(NotFoundException::new);
     }
 
     public AccountPartialResponseDto getPartial(GeneralAccountNameRequestDto name,
@@ -67,7 +67,6 @@ public class AccountInformationService {
                 .orElseThrow(NotFoundException::new);
         return generalAccount
                 .getAccounts()
-                .values()
                 .stream()
                 .map(accountMapper::toPartialDTO)
                 .toList();

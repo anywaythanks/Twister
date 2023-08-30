@@ -10,7 +10,6 @@ import java.time.Instant;
 @Table(name = "accounts")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-
 @Getter
 public class Account {
     @Id
@@ -41,4 +40,10 @@ public class Account {
     @Column(name = "created_on", nullable = false)
     @NonNull
     Instant createdOn;
+    @NotNull
+    @ManyToOne
+    @NonNull
+    @JoinColumn(name = "general_account_id", insertable = false, updatable = false)
+    @Getter(AccessLevel.NONE)
+    GeneralAccount generalAccount;
 }

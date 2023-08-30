@@ -10,6 +10,7 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
 import com.github.anywaythanks.twisterresource.repository.AccountNumberRepository;
+import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class RegisterAccountService {
     private final GeneralAccountRepository generalAccountRepository;
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeInformationService moneyTypeInformationService;
+    private final AccountRepository accountRepository;
 
     private Money createAmount(AccountCreateRequestDto create) {
         MoneyTypeIdResponseDto moneyTypeId = moneyTypeInformationService.getId(create.getType());
@@ -42,16 +44,14 @@ public class RegisterAccountService {
         Instant now = Instant.now();
         Money amount = createAmount(create);
         AccountNumber accountNumber = accountMapper.toNumber(number);
-        Account mergedAccount = new Account(accountNumber, amount, now, now);
+
 
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())
                 .orElseThrow(NotFoundException::new);
-
+        Account mergedAccount = new Account(accountNumber, amount, now, now, generalAccount);
         AccountNumber persistenceNumber = accountNumberRepository.save(accountMapper.toNumber(number));
-        generalAccount.getAccounts().putIfAbsent(persistenceNumber, mergedAccount);
-
-        Account accountPersistence = generalAccount.getAccounts().get(persistenceNumber);
+        Account accountPersistence = accountRepository.findContaining(generalAccount, persistenceNumber).orElse(mergedAccount);
         if (accountPersistence.getAmount().getValue().compareTo(BigDecimal.ZERO) == 0)
             accountPersistence.setAmount(mergedAccount.getAmount());
         accountPersistence.setNumber(persistenceNumber);
@@ -64,12 +64,12 @@ public class RegisterAccountService {
         AccountNumber persistenceNumber = accountNumberRepository.save(new AccountNumber());
         Money amount = createAmount(create);
         Instant now = Instant.now();
-        Account newAccount = new Account(persistenceNumber, amount, now, now);
 
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())
                 .orElseThrow(NotFoundException::new);
-        generalAccount.getAccounts().put(newAccount.getNumber(), newAccount);
-        return accountMapper.toPartialDTO(generalAccount.getAccounts().get(persistenceNumber));
+        Account newAccount = new Account(persistenceNumber, amount, now, now, generalAccount);
+        generalAccount.getAccounts().add(newAccount);
+        return accountMapper.toPartialDTO(newAccount);
     }
 }

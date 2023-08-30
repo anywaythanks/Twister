@@ -15,6 +15,7 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
+import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.TwistRepository;
@@ -41,6 +42,7 @@ public class TwistService {
     private final MoneyMapper moneyMapper;
     private final CaseRepository caseRepository;
     private final ShopService shopService;
+    private final AccountRepository accountRepository;
 
     @Transactional
     public TwistPartialResponseDto twist(GeneralAccountNameRequestDto name,
@@ -59,7 +61,8 @@ public class TwistService {
         GeneralAccount generalAccount = generalAccountRepository.findById(generalId.getId())
                 .orElseThrow(NotFoundException::new);
         TwistNumber newNumber = new TwistNumber();
-        Account account = generalAccount.getAccounts().get(accountMapper.toNumber(number));
+        Account account = accountRepository.findContaining(generalAccount, accountMapper.toNumber(number))
+                .orElseThrow(NotFoundException::new);
         Twist<?> resultTwist = new Twist<>(account, generalAccount, newNumber, twistedCase, wonSlot.getItem(),
                 wonSlot.getQuantityItem(), Instant.now());
         return twistMapper.toDTO(wonSlot, twistRepository.save(resultTwist));

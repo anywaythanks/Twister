@@ -12,6 +12,7 @@ import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryIdR
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
+import com.github.anywaythanks.twisterresource.repository.InventorySlotRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Service
@@ -29,16 +29,19 @@ public class TransferItemService {
     private final ItemRepository itemRepository;
     private final InventoryInformationService inventoryInformationService;
     private final InventoryRepository inventoryRepository;
+    private final RegisterInventorySlotService registerInventorySlotService;
+    private final InventorySlotRepository inventorySlotRepository;
 
     private void actionSlot(InventoryIdResponseDto inventoryIdResponseDto, SlotTransferRequestDto slotTransfer,
                             Function<Slot<?>, BiConsumer<Item, Integer>> action) {
-        Inventory inventory = inventoryRepository.findById(inventoryIdResponseDto.getId())
-                .orElseThrow(NotFoundException::new);
+        registerInventorySlotService.registerIfAbsent(inventoryIdResponseDto, slotTransfer.getItem());
         Item item = itemRepository.findById(slotTransfer.getItem().getId())
                 .orElseThrow(NotFoundException::new);
-        inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
-        InventorySlot<?> slot = inventory.getInventorySlotMap().get(item);
-        action.apply(slot).accept(item, slot.getQuantityItem());
+        Inventory inventory = inventoryRepository.findById(inventoryIdResponseDto.getId())
+                .orElseThrow(NotFoundException::new);
+        InventorySlot<?> slot = inventorySlotRepository.findFirstByInventoryAndItem(inventory, item)
+                .orElseThrow(NotFoundException::new);
+        action.apply(slot).accept(item, slotTransfer.getQuantity());
         inventory.setModifiedBy(Instant.now());
     }
 

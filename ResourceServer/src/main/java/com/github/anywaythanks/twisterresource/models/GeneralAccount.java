@@ -43,21 +43,14 @@ public class GeneralAccount {
     String nickname;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
-    @JoinTable(name = "general_account_mapping",
-            joinColumns = {@JoinColumn(name = "general_account_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "account_id", referencedColumnName = "id")})
-    @MapKey(name = "number")
+    @JoinColumn(name = "general_account_id", nullable = false)
     @NonNull
-    Map<AccountNumber, Account> accounts = new HashMap<>();
-
+    Set<Account> accounts = new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
-    @JoinTable(name = "general_inventory_mapping",
-            joinColumns = {@JoinColumn(name = "general_account_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "inventory_id", referencedColumnName = "id")})
-    @MapKey(name = "name")
+    @JoinColumn(name = "general_account_id", nullable = false)
     @NonNull
-    Map<InventoryName, Inventory> inventories = new HashMap<>();
+    Set<Inventory> inventories = new HashSet<>();
 
     @NotNull
     @Column(name = "modified_by", nullable = false)

@@ -13,6 +13,7 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
+import com.github.anywaythanks.twisterresource.repository.InventorySlotRepository;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class InventoryInformationService {
     private final InventoryRepository inventoryRepository;
     private final ItemInformationService itemInformationService;
     private final ItemRepository itemRepository;
+    private final InventorySlotRepository inventorySlotRepository;
 
     private Inventory getInventory(GeneralAccountNameRequestDto nameGeneral,
                                    InventoryNameRequestDto nameInventory) {
@@ -37,9 +39,8 @@ public class InventoryInformationService {
         GeneralAccount account = generalAccountRepository.findById(id.getId())
                 .orElseThrow(NotFoundException::new);
         InventoryName name = inventoryMapper.toName(nameInventory);
-        Inventory inventory = account.getInventories().get(name);
-        if (inventory == null) throw new NotFoundException();
-        return inventory;
+        return inventoryRepository.findContaining(account, name)
+                .orElseThrow(NotFoundException::new);
     }
 
     private Slot<?> getSlot(GeneralAccountNameRequestDto nameGeneral,
@@ -47,9 +48,9 @@ public class InventoryInformationService {
         ItemIdResponseDto itemId = itemInformationService.getId(nameItem);
         Item item = itemRepository.findById(itemId.getId())
                 .orElseThrow(NotFoundException::new);
-        Slot<?> slot = getInventory(nameGeneral, nameInventory).getInventorySlotMap().get(item);
-        if (slot == null) throw new NotFoundException();
-        return slot;
+        Inventory inventory = getInventory(nameGeneral, nameInventory);
+        return inventorySlotRepository.findFirstByInventoryAndItem(inventory, item)
+                .orElseThrow(NotFoundException::new);
     }
 
     public InventoryIdResponseDto getInventoryId(GeneralAccountNameRequestDto name,
@@ -92,9 +93,7 @@ public class InventoryInformationService {
         GeneralAccountIdResponseDto id = generalAccountInformationService.getId(nameGeneral);
         GeneralAccount account = generalAccountRepository.findById(id.getId())
                 .orElseThrow(NotFoundException::new);
-        return account
-                .getInventories()
-                .keySet()
+        return inventoryRepository.findNames(account)
                 .stream()
                 .map(inventoryMapper::toNameDTO)
                 .toList();

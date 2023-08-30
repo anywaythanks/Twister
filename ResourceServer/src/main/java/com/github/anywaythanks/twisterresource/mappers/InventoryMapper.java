@@ -22,7 +22,7 @@ public interface InventoryMapper {
 
     @Mappings({
             @Mapping(source = "inventory.name.name", target = "name"),
-            @Mapping(source = "inventory.inventorySlotMap", target = "slots")
+            @Mapping(source = "inventory.slots", target = "slots")
     })
     InventoryPartialResponseDto toPartialDTO(Inventory inventory);
 }

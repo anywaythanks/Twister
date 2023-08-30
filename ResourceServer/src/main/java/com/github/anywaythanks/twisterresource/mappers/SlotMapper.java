@@ -14,6 +14,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Mapper(uses = ItemMapper.class, componentModel = "spring")
 public interface SlotMapper {
@@ -31,7 +32,7 @@ public interface SlotMapper {
     @Mapping(source = "quantity.quantity", target = "quantity")
     SlotTransferRequestDto toTransfer(SlotQuantityRequestDto quantity, SlotIdResponseDto slot);
 
-    default List<SlotPartialResponseDto> toPartialsDto(Map<Item, InventorySlot<?>> map) {
-        return map.values().stream().map(this::toPartialDTO).toList();
+    default List<SlotPartialResponseDto> toPartialsDto(Set<InventorySlot<?>> set) {
+        return set.stream().map(this::toPartialDTO).toList();
     }
 }

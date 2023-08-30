@@ -7,7 +7,9 @@ import org.hibernate.annotations.BatchSize;
 
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "inventories")
@@ -26,12 +28,9 @@ public class Inventory {
     InventoryName name;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @BatchSize(size = 5)
-    @JoinTable(name = "inventory_slot_mapping",
-            joinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "slot_id", referencedColumnName = "id")})
-    @MapKeyColumn(name = "item")
+    @JoinColumn(name = "inventory_id", nullable = false)
     @NonNull
-    Map<Item, InventorySlot<?>> inventorySlotMap = new HashMap<>();
+    Set<InventorySlot<?>> slots = new HashSet<>();
     @NotNull
     @Column(name = "modified_by", nullable = false)
     @NonNull
@@ -41,4 +40,10 @@ public class Inventory {
     @Column(name = "created_on", nullable = false)
     @NonNull
     Instant createdOn;
+    @NotNull
+    @ManyToOne
+    @NonNull
+    @JoinColumn(name = "general_account_id", insertable = false, updatable = false)
+    @Getter(AccessLevel.NONE)
+    GeneralAccount generalAccount;
 }
