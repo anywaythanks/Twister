@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,6 +37,7 @@ public class RegisterCaseService {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public CasePartialResponseDto merge(CaseNameRequestDto name, CaseCreateRequestDto create) {
+
         Optional<Case> optionalCase = caseRepository.findByName(name.getName());
         MoneyTypeIdResponseDto moneyTypeId = moneyTypeInformationService.getId(create.getPrice().getType());
         MoneyType type = moneyTypeRepository.findById(moneyTypeId.getId())
@@ -49,7 +51,7 @@ public class RegisterCaseService {
                     return caseMapper.toCaseSlot(item, slot);
                 })
                 .collect(Collectors.toSet());
-        Case mergedCase = caseMapper.toCase(slots, name, type, create);
+        Case mergedCase = caseMapper.toCase(Instant.now(), slots, name, type, create);
         optionalCase.ifPresent(persistenceCase -> {
             persistenceCase.getCaseSlotSet().clear();//TODO:DELETE in PUT
             persistenceCase.setCooldown(mergedCase.getCooldown());
@@ -57,6 +59,7 @@ public class RegisterCaseService {
             persistenceCase.setPrice(mergedCase.getPrice());
             persistenceCase.setDescription(mergedCase.getDescription());
             persistenceCase.setVisibleName(mergedCase.getVisibleName());
+            persistenceCase.setModifiedBy(Instant.now());
         });
         Case resultCase = optionalCase.orElse(mergedCase);
         return caseMapper.toPartialDTO(caseRepository.save(resultCase));

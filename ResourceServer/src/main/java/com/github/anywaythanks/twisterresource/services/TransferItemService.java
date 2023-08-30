@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -38,6 +39,7 @@ public class TransferItemService {
         inventory.getInventorySlotMap().putIfAbsent(item, new InventorySlot<>(item, 0));
         InventorySlot<?> slot = inventory.getInventorySlotMap().get(item);
         action.apply(slot).accept(item, slot.getQuantityItem());
+        inventory.setModifiedBy(Instant.now());
     }
 
     @Transactional

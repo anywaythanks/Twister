@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -46,6 +47,7 @@ public class TransferMoneyService {
             throw new InsufficientFundsException();
         }
         account.setAmount(newVal);
+        account.setModifiedBy(Instant.now());
     }
 
     @Transactional

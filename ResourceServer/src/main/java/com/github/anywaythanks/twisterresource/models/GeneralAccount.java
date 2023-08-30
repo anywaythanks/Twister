@@ -2,11 +2,13 @@ package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -56,4 +58,14 @@ public class GeneralAccount {
     @MapKey(name = "name")
     @NonNull
     Map<InventoryName, Inventory> inventories = new HashMap<>();
+
+    @NotNull
+    @Column(name = "modified_by", nullable = false)
+    @NonNull
+    @Setter
+    Instant modifiedBy;
+    @NotNull
+    @Column(name = "created_on", nullable = false)
+    @NonNull
+    Instant createdOn;
 }

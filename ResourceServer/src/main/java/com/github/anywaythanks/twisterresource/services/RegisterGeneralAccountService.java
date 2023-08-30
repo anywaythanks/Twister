@@ -17,6 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -34,7 +36,8 @@ public class RegisterGeneralAccountService {
         generalAccountRepository.findByNickname(create.getNickname()).ifPresent(account -> {
             throw new NicknameUniqueException();
         });
-        var account = new GeneralAccount(userPrincipal.getUuid(), new GeneralAccountName(), create.getNickname());
+        Instant now = Instant.now();
+        var account = new GeneralAccount(userPrincipal.getUuid(), new GeneralAccountName(), create.getNickname(), now, now);
         return generalAccountMapper.toPartialDTO(generalAccountRepository.save(account));
     }
 
@@ -47,7 +50,7 @@ public class RegisterGeneralAccountService {
     @Transactional
     public GeneralAccountPartialResponseDto merge(UserPrincipal userPrincipal, GeneralAccountNameRequestDto nameDto,
                                                   GeneralAccountCreateRequestDto create) {
-        GeneralAccount mergedAccount = generalAccountMapper.toAccount(userPrincipal.getUuid(), nameDto, create);
+        GeneralAccount mergedAccount = generalAccountMapper.toAccount(Instant.now(), userPrincipal.getUuid(), nameDto, create);
         generalAccountRepository.findByNickname(mergedAccount.getNickname()).ifPresent(account -> {
             if (!account.getName().equals(mergedAccount.getName()))
                 throw new NicknameUniqueException();
@@ -57,6 +60,7 @@ public class RegisterGeneralAccountService {
                 .orElse(mergedAccount);
         persistenceAccount.setName(generalAccountNameRepository.save(persistenceAccount.getName()));
         persistenceAccount.setNickname(mergedAccount.getNickname());
+        persistenceAccount.setModifiedBy(Instant.now());
         return generalAccountMapper.toPartialDTO(generalAccountRepository.save(persistenceAccount));
     }
 }

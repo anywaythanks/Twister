@@ -9,6 +9,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,4 +62,13 @@ public class Case {
     @NonNull
     @Setter
     Duration cooldown;
+    @NotNull
+    @Column(name = "modified_by", nullable = false)
+    @NonNull
+    @Setter
+    Instant modifiedBy;
+    @NotNull
+    @Column(name = "created_on", nullable = false)
+    @NonNull
+    Instant createdOn;
 }

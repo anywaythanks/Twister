@@ -11,6 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -46,9 +47,11 @@ public interface CaseMapper {
     @Mappings({
             @Mapping(source = "slots", target = "caseSlotSet"),
             @Mapping(source = "name.name", target = "name"),
-            @Mapping(expression = "java(moneyMapper.toMoney(moneyType, request.getPrice()))", target = "price")
+            @Mapping(expression = "java(moneyMapper.toMoney(moneyType, request.getPrice()))", target = "price"),
+            @Mapping(source = "now", target = "modifiedBy"),
+            @Mapping(source = "now", target = "createdOn")
     })
-    Case toCase(Set<CaseSlot<Item>> slots, CaseNameRequestDto name, MoneyType moneyType, CaseCreateRequestDto request);
+    Case toCase(Instant now,Set<CaseSlot<Item>> slots, CaseNameRequestDto name, MoneyType moneyType, CaseCreateRequestDto request);
 
     CaseNameResponseDto toName(Case nCase);
 

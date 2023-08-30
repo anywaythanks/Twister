@@ -6,9 +6,12 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeId
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+
+import java.time.Instant;
 
 @Mapper(componentModel = "spring")
-
 public interface MoneyTypeMapper {
     MoneyTypeIdResponseDto toIdDTO(MoneyType moneyType);
 
@@ -16,5 +19,9 @@ public interface MoneyTypeMapper {
 
     MoneyTypeNameRequestDto toName(MoneyType moneyType);
 
-    MoneyType toType(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto request);
+    @Mappings({
+            @Mapping(source = "now", target = "modifiedBy"),
+            @Mapping(source = "now", target = "createdOn")
+    })
+    MoneyType toType(Instant now, MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto request);
 }

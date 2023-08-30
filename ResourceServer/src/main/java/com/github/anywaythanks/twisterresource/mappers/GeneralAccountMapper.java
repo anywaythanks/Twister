@@ -7,10 +7,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.time.Instant;
+
 @Mapper(componentModel = "spring")
 public interface GeneralAccountMapper {
     @Mapping(source = "account.name.name", target = "name")
     GeneralAccountPartialResponseDto toPartialDTO(GeneralAccount account);
+
     @Mapping(source = "account.userUuid", target = "uuid")
     GeneralAccountIdResponseDto toIdDTO(GeneralAccount account);
 
@@ -19,12 +22,15 @@ public interface GeneralAccountMapper {
 
     @Mappings({
             @Mapping(source = "uuid", target = "userUuid"),
-            @Mapping(source = "name", target = "name")
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "now", target = "modifiedBy"),
+            @Mapping(source = "now", target = "createdOn")
     })
-    GeneralAccount toAccount(String uuid, GeneralAccountNameRequestDto name,
+    GeneralAccount toAccount(Instant now, String uuid, GeneralAccountNameRequestDto name,
                              GeneralAccountCreateRequestDto request);
 
     GeneralAccountName toName(GeneralAccountNameRequestDto name);
+
     @Mapping(source = "account.name.name", target = "name")
     GeneralAccountNameResponseDto toName(GeneralAccount account);
 }

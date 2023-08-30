@@ -10,6 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import java.time.Instant;
+
 @Mapper(uses = MoneyMapper.class, componentModel = "spring")
 public interface ItemMapper {
     default ItemPartialResponseDto toPartialDTO(Item item) {
@@ -28,11 +30,18 @@ public interface ItemMapper {
 
     @Mappings({
             @Mapping(source = "name.name", target = "name"),
-            @Mapping(expression = "java(moneyMapper.toMoney(moneyType, itemMoney.getCost()))", target = "cost")
+            @Mapping(expression = "java(moneyMapper.toMoney(moneyType, itemMoney.getCost()))", target = "cost"),
+            @Mapping(source = "now", target = "modifiedBy"),
+            @Mapping(source = "now", target = "createdOn")
     })
-    ItemMoney toItemMoney(ItemNameRequestDto name, MoneyType moneyType, ItemMoneyCreateRequestDto itemMoney);
+    ItemMoney toItemMoney(Instant now, ItemNameRequestDto name, MoneyType moneyType, ItemMoneyCreateRequestDto itemMoney);
 
-    ItemTrash toItemTrash(ItemNameRequestDto name, ItemTrashCreateRequestDto itemTrash);
+    @Mappings({
+            @Mapping(source = "name.name", target = "name"),
+            @Mapping(source = "now", target = "modifiedBy"),
+            @Mapping(source = "now", target = "createdOn")
+    })
+    ItemTrash toItemTrash(Instant now, ItemNameRequestDto name, ItemTrashCreateRequestDto itemTrash);
 
     ItemIdResponseDto toIdDTO(Item item);
 

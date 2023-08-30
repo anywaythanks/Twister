@@ -55,6 +55,7 @@ public class CaseActualInformationService {
                 subtractDuration(dates.get(0).getLastTwist(), foundCase.getCooldown());
     }
 
+
     private Duration getAndUpdateActualCooldown(GeneralAccountNameRequestDto name,
                                                 Case foundCase) {
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
@@ -99,6 +100,7 @@ public class CaseActualInformationService {
                 .setCooldown(duration);
     }
 
+    @Transactional(readOnly = true)
     public CasePagePartialResponseDto getPage(int page, int size, GeneralAccountNameRequestDto name) {
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())

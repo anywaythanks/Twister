@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class RegisterInventoryService {
@@ -28,7 +30,8 @@ public class RegisterInventoryService {
         GeneralAccount generalAccount = generalAccountRepository.findById(accountId.getId())
                 .orElseThrow(NotFoundException::new);
         InventoryName persistenceName = inventoryNameRepository.save(new InventoryName());
-        Inventory newInventory = new Inventory(persistenceName);
+        Instant now = Instant.now();
+        Inventory newInventory = new Inventory(persistenceName, now, now);
         generalAccount.getInventories().put(newInventory.getName(), newInventory);
         Inventory resultInventory = generalAccount.getInventories().get(persistenceName);
         return inventoryMapper.toPartialDTO(resultInventory);

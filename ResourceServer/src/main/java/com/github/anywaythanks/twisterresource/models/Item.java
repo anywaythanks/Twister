@@ -2,8 +2,11 @@ package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+
+import java.time.Instant;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,4 +33,14 @@ public abstract class Item {
     String visibleName;
 
 //    String picturePath; //TODO
+
+    @NotNull
+    @Column(name = "modified_by", nullable = false)
+    @NonNull
+    @Setter
+    Instant modifiedBy;
+    @NotNull
+    @Column(name = "created_on", nullable = false)
+    @NonNull
+    Instant createdOn;
 }

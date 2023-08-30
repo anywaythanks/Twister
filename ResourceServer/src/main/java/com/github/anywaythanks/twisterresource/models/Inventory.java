@@ -1,9 +1,11 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,4 +32,13 @@ public class Inventory {
     @MapKeyColumn(name = "item")
     @NonNull
     Map<Item, InventorySlot<?>> inventorySlotMap = new HashMap<>();
+    @NotNull
+    @Column(name = "modified_by", nullable = false)
+    @NonNull
+    @Setter
+    Instant modifiedBy;
+    @NotNull
+    @Column(name = "created_on", nullable = false)
+    @NonNull
+    Instant createdOn;
 }

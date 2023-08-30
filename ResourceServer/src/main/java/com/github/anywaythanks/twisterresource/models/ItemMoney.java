@@ -2,8 +2,12 @@ package com.github.anywaythanks.twisterresource.models;
 
 import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
+
+import java.time.Instant;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "item_money_id")
@@ -12,8 +16,8 @@ import lombok.*;
 @Getter
 public class ItemMoney extends Item implements SellingItem {
 
-    public ItemMoney(@NonNull String name, @NonNull String visibleName, @NonNull Money cost) {
-        super(name, visibleName);
+    public ItemMoney(@NonNull String name, @NonNull String visibleName, @NonNull Instant modifiedBy, @NonNull Instant createdOn, @NonNull Money cost) {
+        super(name, visibleName, modifiedBy, createdOn);
         this.cost = cost;
     }
 

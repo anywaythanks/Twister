@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +39,10 @@ public class RegisterAccountService {
     @Transactional
     public AccountPartialResponseDto merge(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
                                            AccountCreateRequestDto create) {
+        Instant now = Instant.now();
         Money amount = createAmount(create);
         AccountNumber accountNumber = accountMapper.toNumber(number);
-        Account mergedAccount = new Account(accountNumber, amount);
+        Account mergedAccount = new Account(accountNumber, amount, now, now);
 
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())
@@ -50,9 +52,10 @@ public class RegisterAccountService {
         generalAccount.getAccounts().putIfAbsent(persistenceNumber, mergedAccount);
 
         Account accountPersistence = generalAccount.getAccounts().get(persistenceNumber);
-        //accountPersistence.setNumber(persistenceNumber);TODO
         if (accountPersistence.getAmount().getValue().compareTo(BigDecimal.ZERO) == 0)
             accountPersistence.setAmount(mergedAccount.getAmount());
+        accountPersistence.setNumber(persistenceNumber);
+        accountPersistence.setModifiedBy(Instant.now());
         return accountMapper.toPartialDTO(accountPersistence);
     }
 
@@ -60,7 +63,8 @@ public class RegisterAccountService {
     public AccountPartialResponseDto register(GeneralAccountNameRequestDto name, AccountCreateRequestDto create) {
         AccountNumber persistenceNumber = accountNumberRepository.save(new AccountNumber());
         Money amount = createAmount(create);
-        Account newAccount = new Account(persistenceNumber, amount);
+        Instant now = Instant.now();
+        Account newAccount = new Account(persistenceNumber, amount, now, now);
 
         GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalAccountId.getId())

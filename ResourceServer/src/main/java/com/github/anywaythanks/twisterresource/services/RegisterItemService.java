@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -26,18 +27,19 @@ public class RegisterItemService {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto merge(ItemNameRequestDto name, ItemCreateRequestDto itemDto) {
+        Instant now = Instant.now();
         Item mergedItem = switch (itemDto.getType()) {
             case MONEY -> {
                 if (itemDto instanceof ItemMoneyCreateRequestDto itemMoney) {
                     var type = moneyTypeRepository.findById(moneyTypeInformationService.getId(itemMoney.getCost().getType()).getId())
                             .orElseThrow(NotFoundException::new);
-                    yield itemMapper.toItemMoney(name, type, itemMoney);
+                    yield itemMapper.toItemMoney(now, name, type, itemMoney);
                 }
                 throw new ItemNotTypeException();
             }
             case TRASH -> {
                 if (itemDto instanceof ItemTrashCreateRequestDto itemTrash)
-                    yield itemMapper.toItemTrash(name, itemTrash);
+                    yield itemMapper.toItemTrash(now, name, itemTrash);
                 throw new ItemNotTypeException();
             }
         };
@@ -45,6 +47,7 @@ public class RegisterItemService {
         optionalItem.ifPresent(item -> {
             if (!item.getClass().isInstance(mergedItem)) throw new ItemNotTypeException();
             item.setVisibleName(mergedItem.getVisibleName());
+            item.setModifiedBy(Instant.now());
             if (item instanceof ItemMoney itemMoney) {
                 if (mergedItem instanceof ItemMoney mergedItemMoney) {
                     itemMoney.setCost(mergedItemMoney.getCost());

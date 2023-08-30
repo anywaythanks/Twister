@@ -11,18 +11,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class RegisterMoneyTypeService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeMapper moneyTypeMapper;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public MoneyTypePartialResponseDto merge(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create) {
-        MoneyType mergedType = moneyTypeMapper.toType(name, create);
+        MoneyType mergedType = moneyTypeMapper.toType(Instant.now(), name, create);
         MoneyType resultType = moneyTypeRepository.findByName(name.getName())
                 .orElse(mergedType);
         resultType.setPathToIcon(mergedType.getPathToIcon());
+        resultType.setModifiedBy(Instant.now());
         return moneyTypeMapper.toPartialDTO(moneyTypeRepository.save(resultType));
     }
 }
