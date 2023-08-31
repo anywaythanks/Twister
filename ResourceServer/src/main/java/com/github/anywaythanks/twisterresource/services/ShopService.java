@@ -33,7 +33,6 @@ public class ShopService {
     private final SlotMapper slotMapper;
     private final InventoryInformationService inventoryInformationService;
     private final ItemRepository itemRepository;
-    private final ItemInformationService itemInformationService;
 
     @Transactional
     public void sell(GeneralAccountNameRequestDto name,

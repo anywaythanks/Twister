@@ -13,7 +13,6 @@ import java.time.Instant;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Item {
     @Id
     @GeneratedValue(generator = "ITEM_ID_GENERATOR")
@@ -23,7 +22,6 @@ public abstract class Item {
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
     @NonNull
-    @EqualsAndHashCode.Include
     String name;
     @NotBlank
     @Length(min = 1, max = 64)

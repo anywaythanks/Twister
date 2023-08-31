@@ -16,20 +16,17 @@ import java.time.Instant;
 public class MoneyType {
     @Id
     @GeneratedValue
-    @EqualsAndHashCode.Exclude
     Integer id;
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
     @NonNull
-    @EqualsAndHashCode.Include
     String name;
 
     @NotBlank
     @Length(min = 1, max = 64)
     @Column(nullable = false)
     @NonNull
-    @EqualsAndHashCode.Exclude
     String pathToIcon;
     @NotNull
     @Column(name = "modified_by", nullable = false)
