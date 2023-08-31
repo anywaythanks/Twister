@@ -17,6 +17,7 @@ public class CasePartialResponseDto implements Name, Cooldown, Items<CaseSlotPar
     @NonNull
     MoneyPartialResponseDto price;
     @NonNull
+    @With
     Duration cooldown;
     @NonNull
     String name;
@@ -24,8 +25,4 @@ public class CasePartialResponseDto implements Name, Cooldown, Items<CaseSlotPar
     String visibleName;
     @NonNull
     String description;
-
-    public CasePartialResponseDto setCooldown(Duration cooldown) {
-        return new CasePartialResponseDto(items, price, cooldown, name, visibleName, description);
-    }
 }

@@ -13,6 +13,7 @@ public class CaseLightPartialResponseDto implements Name, Cooldown,
     @NonNull
     MoneyPartialResponseDto price;
     @NonNull
+    @With
     Duration cooldown;
     @NonNull
     String name;
@@ -20,8 +21,4 @@ public class CaseLightPartialResponseDto implements Name, Cooldown,
     String visibleName;
     @NonNull
     String description;
-
-    public CaseLightPartialResponseDto setCooldown(Duration cooldown) {
-        return new CaseLightPartialResponseDto(price, cooldown, name, visibleName, description);
-    }
 }

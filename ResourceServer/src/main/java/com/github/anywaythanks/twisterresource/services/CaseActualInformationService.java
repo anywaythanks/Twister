@@ -87,7 +87,7 @@ public class CaseActualInformationService {
         Duration duration = getAndUpdateActualCooldown(name, foundCase);
         return caseMapper
                 .toCooldownIdDto(foundCase)
-                .setCooldown(duration);
+                .withCooldown(duration);
     }
 
     @Transactional(readOnly = true)
@@ -97,7 +97,7 @@ public class CaseActualInformationService {
         Duration duration = getActualCooldown(name, foundCase);
         return caseMapper
                 .toPartialDTO(foundCase)
-                .setCooldown(duration);
+                .withCooldown(duration);
     }
 
     @Transactional(readOnly = true)
@@ -130,7 +130,7 @@ public class CaseActualInformationService {
             }
             result.add(caseMapper
                     .toLightPartialDTO(aCase)
-                    .setCooldown(duration));
+                    .withCooldown(duration));
         }
         return pageMapper.toPartialDTO(result, pageCase.getTotalPages(), page);
     }

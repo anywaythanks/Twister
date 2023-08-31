@@ -12,9 +12,6 @@ public class CaseCooldownIdResponseDto implements Id, Cooldown {
     Long id;
 
     @NonNull
+    @With
     Duration cooldown;
-
-    public CaseCooldownIdResponseDto setCooldown(Duration cooldown) {
-        return new CaseCooldownIdResponseDto(id, cooldown);
-    }
 }
