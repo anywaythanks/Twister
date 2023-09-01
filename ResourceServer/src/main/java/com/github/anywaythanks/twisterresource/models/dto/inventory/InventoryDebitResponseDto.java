@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InventoryDebitResponseDto extends InventoryIdResponseDto {
+public class InventoryDebitResponseDto extends InventoryIdDto {
     public InventoryDebitResponseDto(@NonNull Long id) {
         super(id);
     }

@@ -1,9 +1,9 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialWithoutCooldownResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialItemsWithoutCooldownResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.CaseInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.CaseInformationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -24,7 +24,7 @@ public class PublicCaseController {
     }
 
     @GetMapping("/{name}")
-    public CasePartialWithoutCooldownResponseDto info(@Valid @PathVariable CaseNameRequestDto name) {
+    public CasePartialItemsWithoutCooldownResponseDto info(@Valid @PathVariable CaseNameRequestDto name) {
         return caseInformationService.getPartialWithoutCooldown(name);
     }
 }

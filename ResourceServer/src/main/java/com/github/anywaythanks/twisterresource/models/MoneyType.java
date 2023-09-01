@@ -10,12 +10,14 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "money_type")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Data
 public class MoneyType {
     @Id
     @GeneratedValue
+    @Setter
     Integer id;
     @NotBlank
     @Length(min = 3, max = 64)

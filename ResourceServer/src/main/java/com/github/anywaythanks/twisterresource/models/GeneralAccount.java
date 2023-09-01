@@ -4,30 +4,26 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 @Table(name = "general_accounts")
 @NamedEntityGraph(name = "GeneralAccount.detail",
         attributeNodes = @NamedAttributeNode("name"))
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 public class GeneralAccount {
     @Id
     @GeneratedValue
+    @Setter
     Long id;
     @NotBlank
     @Column(name = "user_uuid", nullable = false, unique = true)
     @NonNull
+    @Setter
     String userUuid;
 
     @OneToOne(cascade = CascadeType.PERSIST)
@@ -41,16 +37,16 @@ public class GeneralAccount {
     @NonNull
     @Setter
     String nickname;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @BatchSize(size = 5)
-    @JoinColumn(name = "general_account_id", nullable = false)
-    @NonNull
-    Set<Account> accounts = new HashSet<>();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @BatchSize(size = 5)
-    @JoinColumn(name = "general_account_id", nullable = false)
-    @NonNull
-    Set<Inventory> inventories = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @BatchSize(size = 5)
+//    @JoinColumn(name = "general_account_id", nullable = false)
+//    @NonNull
+//    Set<Account> accounts = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @BatchSize(size = 5)
+//    @JoinColumn(name = "general_account_id", nullable = false)
+//    @NonNull
+//    Set<Inventory> inventories = new HashSet<>();
 
     @NotNull
     @Column(name = "modified_by", nullable = false)

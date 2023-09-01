@@ -3,8 +3,8 @@ package com.github.anywaythanks.twisterresource.controllers;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.ItemInformationService;
-import com.github.anywaythanks.twisterresource.services.RegisterItemService;
+import com.github.anywaythanks.twisterresource.services.managers.ItemInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.ItemRegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/item")
 @RequiredArgsConstructor
 public class ItemController {
-    private final RegisterItemService registerItemService;
+    private final ItemRegisterService registerItemService;
     private final ItemInformationService itemInformationService;
 
     @PreAuthorize("hasAuthority('ADMIN')")

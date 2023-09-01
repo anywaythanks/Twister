@@ -19,10 +19,10 @@ public class HibernateActualCaseRepository implements ActualCaseRepository {
     @PersistenceContext
     private EntityManager em;
 
-    //select t.twistCase.id, t.updatedOn from TwistMark tm where t.generalAccount = #generalAccount and
+    //select t.twistCase.id, t.updatedOn from TwistMark tm where t.generalAccount.id = #generalAccountId and
     //(t.twistCase.id >= #startId and t.twistCase.id <= #endId) and t.consider groupBy t.generalAccount orderBy #sort
     @Transactional(readOnly = true)
-    public List<CaseLastTwistResponseDto> dates(GeneralAccount generalAccount, Long startId, Long endId, Sort sort) {
+    public List<CaseLastTwistResponseDto> dates(Long generalAccountId, Long startId, Long endId, Sort sort) {
         if (startId < 0 || startId > endId) throw new IllegalArgumentException();
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -32,7 +32,7 @@ public class HibernateActualCaseRepository implements ActualCaseRepository {
                 twistMark.get("updatedOn"));
         Predicate p = cb.and(cb.greaterThanOrEqualTo(twistMark.get("twistCase").get("id"), startId),
                 cb.lessThanOrEqualTo(twistMark.get("twistCase").get("id"), endId));
-        c.where(cb.and(cb.equal(twistMark.get("generalAccount"), generalAccount), p, cb.isTrue(twistMark.get("consider"))));
+        c.where(cb.and(cb.equal(twistMark.get("generalAccount").get("id"), generalAccountId), p, cb.isTrue(twistMark.get("consider"))));
         c.groupBy(twistMark.get("generalAccount"));
         if (!sort.isUnsorted()) {
             List<Order> orders = new ArrayList<>();

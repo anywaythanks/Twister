@@ -2,7 +2,7 @@ package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.ItemInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.ItemInformationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

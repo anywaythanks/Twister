@@ -51,13 +51,13 @@ public class Case {
     @NonNull
     @Setter
     Money price;
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "case_id", nullable = false)
-    @Cascade(ALL)
-    @BatchSize(size = 25)
-    @OrderBy("percentageWining desc")
-    @NonNull
-    Set<CaseSlot<Item>> caseSlotSet = new HashSet<>();
+//    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+//    @JoinColumn(name = "case_id", nullable = false)
+//    @Cascade(ALL)
+//    @BatchSize(size = 25)
+//    @OrderBy("percentageWining desc")
+//    @NonNull
+//    Set<CaseSlot<Item>> caseSlotSet = new HashSet<>();
     @NotNull
     @NonNull
     @Setter

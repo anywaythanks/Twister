@@ -17,7 +17,7 @@ public abstract class Slot<T extends Item> {
     Long id;
     @NotNull
     @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", nullable = false)
+    @JoinColumn(name = "item_id", nullable = false, insertable = false, updatable = false)
     @NonNull
     T item;
     @NotNull

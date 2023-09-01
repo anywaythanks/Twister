@@ -16,6 +16,7 @@ import java.time.Instant;
 public abstract class Item {
     @Id
     @GeneratedValue(generator = "ITEM_ID_GENERATOR")
+    @Setter
     Long id;
 
     @NotBlank

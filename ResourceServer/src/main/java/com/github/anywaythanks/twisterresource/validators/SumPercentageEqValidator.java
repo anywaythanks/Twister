@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.validators;
 
+import com.github.anywaythanks.twisterresource.annotation.SumEq;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.Percentage;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

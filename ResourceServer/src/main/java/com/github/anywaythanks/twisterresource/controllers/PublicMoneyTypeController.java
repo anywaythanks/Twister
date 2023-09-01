@@ -2,7 +2,7 @@ package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,14 +1,14 @@
 package com.github.anywaythanks.twisterresource.models.dto.slot;
 
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdDto;
 import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 @Getter
-public class SlotIdResponseDto implements Quantity, ItemTypes<ItemIdResponseDto>, Id {
+public class SlotIdResponseDto implements Quantity, Item<ItemIdDto>, Id {
     @NonNull
-    ItemIdResponseDto item;
+    ItemIdDto item;
     @NonNull
     Integer quantity;
     @NonNull

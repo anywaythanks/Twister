@@ -5,8 +5,9 @@ import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberR
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
-import com.github.anywaythanks.twisterresource.services.AccountInformationService;
-import com.github.anywaythanks.twisterresource.services.RegisterAccountService;
+import com.github.anywaythanks.twisterresource.services.managers.AccountInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.AccountPutService;
+import com.github.anywaythanks.twisterresource.services.managers.AccountRegisterService;
 import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountController {
     private final TransferMoneyService transferMoneyService;
-    private final RegisterAccountService registerAccountService;
+    private final AccountRegisterService registerAccountService;
     private final AccountInformationService accountInformationService;
+    private final AccountPutService putAccountService;
 
     @PostMapping(path = "/{sourceNumber}/transfer/{recipientNumber}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void transfer(@Valid @PathVariable GeneralAccountNameRequestDto name,
@@ -37,7 +39,7 @@ public class AccountController {
     public AccountPartialResponseDto register(@Valid @PathVariable GeneralAccountNameRequestDto name,
                                               @Valid @PathVariable AccountNumberRequestDto number,
                                               @Valid @RequestBody AccountCreateRequestDto requestAccount) {
-        return registerAccountService.merge(name, number, requestAccount);
+        return putAccountService.put(name, number, requestAccount);
     }
 
     @PostMapping(headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +53,7 @@ public class AccountController {
 
     @GetMapping
     public List<AccountPartialResponseDto> listAccounts(@Valid @PathVariable GeneralAccountNameRequestDto name) {
-        return accountInformationService.listPartial(name);
+        return accountInformationService.getPartials(name);
     }
 
     @GetMapping("/{number}")

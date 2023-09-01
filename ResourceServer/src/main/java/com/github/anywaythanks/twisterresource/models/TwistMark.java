@@ -15,14 +15,14 @@ public class TwistMark {
     @Id
     @GeneratedValue
     Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
-    @JoinColumn(name = "twist_case_id", nullable = false)
+    @JoinColumn(name = "twist_case_id", nullable = false, insertable = false, updatable = false)
     @NonNull
     Case twistCase;
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "general_account_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "general_account_id", nullable = false, insertable = false, updatable = false)
     @NonNull
     GeneralAccount generalAccount;
     @NotNull

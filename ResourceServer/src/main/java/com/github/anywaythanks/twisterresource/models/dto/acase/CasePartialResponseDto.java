@@ -10,10 +10,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 @Getter
-public class CasePartialResponseDto implements Name, Cooldown, Items<CaseSlotPartialResponseDto>,
+public class CasePartialResponseDto implements Name, Cooldown,
         Price<MoneyPartialResponseDto>, VisibleName, Description {
-    @NonNull
-    List<CaseSlotPartialResponseDto> items;
     @NonNull
     MoneyPartialResponseDto price;
     @NonNull

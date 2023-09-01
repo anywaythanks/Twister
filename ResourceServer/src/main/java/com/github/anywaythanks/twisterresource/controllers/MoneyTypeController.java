@@ -3,8 +3,8 @@ package com.github.anywaythanks.twisterresource.controllers;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.MoneyTypeInformationService;
-import com.github.anywaythanks.twisterresource.services.RegisterMoneyTypeService;
+import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeRegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -12,13 +12,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/money/type")
 @RequiredArgsConstructor
 public class MoneyTypeController {
-    private final RegisterMoneyTypeService registerMoneyTypeService;
+    private final MoneyTypeRegisterService registerMoneyTypeService;
     private final MoneyTypeInformationService moneyTypeInformationService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -32,7 +32,7 @@ public class MoneyTypeController {
 
     @GetMapping
     @Transactional
-    public List<MoneyTypePartialResponseDto> listMoneyTypes() {
+    public Collection<MoneyTypePartialResponseDto> listMoneyTypes() {
         return moneyTypeInformationService.getPartials();
     }
 

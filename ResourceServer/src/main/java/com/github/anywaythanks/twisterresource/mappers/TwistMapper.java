@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.mappers;
 
+import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Twist;
@@ -8,8 +9,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(uses = {ItemMapper.class, AccountMapper.class, CaseMapper.class},
-        componentModel = "spring")
+@Mapper(config = MapstructConfig.class)
 public interface TwistMapper {
     @Mappings({
             @Mapping(source = "wonSlot.name.name", target = "wonSlotName"),

@@ -5,8 +5,8 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
-import com.github.anywaythanks.twisterresource.services.RegisterGeneralAccountService;
+import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountRegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/api/general")
 @RequiredArgsConstructor
 public class GeneralAccountController {
-    private final RegisterGeneralAccountService registerGeneralAccountService;
+    private final GeneralAccountRegisterService registerGeneralAccountService;
     private final GeneralAccountInformationService generalAccountInformationService;
 
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)

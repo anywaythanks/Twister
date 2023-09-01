@@ -1,10 +1,10 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialItemsResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
-import com.github.anywaythanks.twisterresource.services.CaseActualInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.CaseActualInformationService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -25,8 +25,8 @@ public class ActualCaseController {
     }
 
     @GetMapping("/{caseName}")
-    public CasePartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
-                                       @Valid @PathVariable CaseNameRequestDto caseName) {
-        return caseActualInformationService.getPartial(name, caseName);
+    public CasePartialItemsResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
+                                            @Valid @PathVariable CaseNameRequestDto caseName) {
+        return caseActualInformationService.getPartialItems(name, caseName);
     }
 }

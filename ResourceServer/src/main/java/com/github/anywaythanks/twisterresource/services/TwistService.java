@@ -19,6 +19,9 @@ import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import com.github.anywaythanks.twisterresource.repository.TwistRepository;
+import com.github.anywaythanks.twisterresource.services.managers.CaseActualInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.TwistMarkPutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,25 +46,28 @@ public class TwistService {
     private final CaseRepository caseRepository;
     private final ShopService shopService;
     private final AccountRepository accountRepository;
+    private final TwistMarkPutService twistMarkPutService;
 
     @Transactional
     public TwistPartialResponseDto twist(GeneralAccountNameRequestDto name,
                                          InventoryNameRequestDto nameInventory,
                                          AccountNumberRequestDto number,
                                          CaseNameRequestDto caseName) throws NoSuchAlgorithmException {
-        CaseCooldownIdResponseDto cooldownId = caseActualInformationService.getAndUpdateCooldownId(name, caseName);
+        CaseCooldownIdResponseDto cooldownId = caseActualInformationService.getCooldownId(name, caseName);
         if (!cooldownId.getCooldown().isZero())
             throw new CooldownException();
+        twistMarkPutService.put();
         Case twistedCase = caseRepository.findById(cooldownId.getId())
                 .orElseThrow(NotFoundException::new);
-        CaseSlot<?> wonSlot = twist(twistedCase.getCaseSlotSet());
+        CaseSlot<Item> wonSlot = twist(twistedCase.getCaseSlotSet());
+
         MoneyCreateRequestDto price = moneyMapper.toRequest(twistedCase.getPrice());
         shopService.buy(name, nameInventory, slotMapper.toTransfer(wonSlot), number, price);
         GeneralAccountIdResponseDto generalId = generalAccountInformationService.getId(name);
         GeneralAccount generalAccount = generalAccountRepository.findById(generalId.getId())
                 .orElseThrow(NotFoundException::new);
         TwistNumber newNumber = new TwistNumber();
-        Account account = accountRepository.findContaining(generalAccount, accountMapper.toNumber(number))
+        Account account = accountRepository.findContaining(generalAccount.getId(), accountMapper.toNumber(number))
                 .orElseThrow(NotFoundException::new);
         Twist<?> resultTwist = new Twist<>(account, generalAccount, newNumber, twistedCase, wonSlot.getItem(),
                 wonSlot.getQuantityItem(), Instant.now());

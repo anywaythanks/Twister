@@ -1,24 +1,13 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class MoneyTypePartialResponseDto implements Name, PathToIcon {
+    @NonNull
     String name;
+    @NonNull
     String pathToIcon;
-
-    protected MoneyTypePartialResponseDto() {
-    }
-
-    public MoneyTypePartialResponseDto(String name, String pathToIcon) {
-        this.name = name;
-        this.pathToIcon = pathToIcon;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getPathToIcon() {
-        return pathToIcon;
-    }
 }

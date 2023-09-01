@@ -8,12 +8,14 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "accounts")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class Account {
     @Id
     @GeneratedValue
+    @Setter
     Long id;
     @OneToOne(cascade = CascadeType.PERSIST)
     @NonNull
@@ -41,9 +43,8 @@ public class Account {
     @NonNull
     Instant createdOn;
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NonNull
     @JoinColumn(name = "general_account_id", insertable = false, updatable = false)
-    @Getter(AccessLevel.NONE)
     GeneralAccount generalAccount;
 }

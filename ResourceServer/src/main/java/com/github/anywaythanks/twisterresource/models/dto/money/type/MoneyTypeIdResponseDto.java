@@ -1,17 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class MoneyTypeIdResponseDto implements Id {
+    @NonNull
     Integer id;
-
-    protected MoneyTypeIdResponseDto() {
-    }
-
-    public MoneyTypeIdResponseDto(Integer id) {
-        this.id = id;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
 }

@@ -1,17 +1,11 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
+import lombok.*;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
+@Getter
 public class MoneyTypeNameResponseDto implements Name {
+    @NonNull
     String name;
-
-    protected MoneyTypeNameResponseDto() {
-    }
-
-    public MoneyTypeNameResponseDto(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
 }

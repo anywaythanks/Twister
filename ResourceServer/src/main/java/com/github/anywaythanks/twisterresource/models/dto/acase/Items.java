@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.models.dto.acase;
 
+import com.github.anywaythanks.twisterresource.annotation.SumEq;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.Percentage;
-import com.github.anywaythanks.twisterresource.validators.SumEq;
 
 import java.util.List;
 

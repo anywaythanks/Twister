@@ -1,6 +1,8 @@
 package com.github.anywaythanks.twisterresource.repository;
 
-import com.github.anywaythanks.twisterresource.models.*;
+import com.github.anywaythanks.twisterresource.models.GeneralAccount;
+import com.github.anywaythanks.twisterresource.models.Inventory;
+import com.github.anywaythanks.twisterresource.models.InventoryName;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

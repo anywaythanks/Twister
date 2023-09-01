@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RequiredArgsConstructor
 @Getter
-public class SlotPartialResponseDto implements Quantity, ItemTypes<ItemPartialResponseDto> {
+public class SlotPartialResponseDto implements Quantity, Item<ItemPartialResponseDto> {
     @NonNull
     ItemPartialResponseDto item;
     @NonNull

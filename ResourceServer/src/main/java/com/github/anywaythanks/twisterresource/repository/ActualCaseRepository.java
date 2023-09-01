@@ -7,5 +7,5 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface ActualCaseRepository {
-    List<CaseLastTwistResponseDto> dates(GeneralAccount generalAccount, Long startId, Long endId, Sort sort);
+    List<CaseLastTwistResponseDto> dates(Long generalAccountId, Long startId, Long endId, Sort sort);
 }

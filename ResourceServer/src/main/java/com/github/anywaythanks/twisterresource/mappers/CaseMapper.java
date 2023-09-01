@@ -1,9 +1,9 @@
 package com.github.anywaythanks.twisterresource.mappers;
 
+import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
 import com.github.anywaythanks.twisterresource.models.Case;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.Item;
-import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.acase.*;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
@@ -11,20 +11,22 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
-@Mapper(uses = {ItemMapper.class, MoneyMapper.class}, componentModel = "spring")
+@Mapper(config = MapstructConfig.class)
 public interface CaseMapper {
-    @Mapping(source = "aCase.caseSlotSet", target = "items")
-    CasePartialResponseDto toPartialDTO(Case aCase);
+    @Mapping(source = "items", target = "items")
+    @Mapping(target = "withCooldown", ignore = true)
+    CasePartialItemsResponseDto toPartialItemsDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
 
-    @Mapping(source = "aCase.caseSlotSet", target = "items")
-    CasePartialWithoutCooldownResponseDto toPartialWithoutCooldownDTO(Case aCase);
+    @Mapping(source = "items", target = "items")
+    CasePartialItemsWithoutCooldownResponseDto toPartialWithoutCooldownDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
 
+    @Mapping(target = "withCooldown", ignore = true)
     CaseCooldownIdResponseDto toCooldownIdDto(Case aCase);
 
+    @Mapping(target = "withCooldown", ignore = true)
     CaseLightPartialResponseDto toLightPartialDTO(Case aCase);
 
     CaseLightPartialWithoutCooldownResponseDto toLightPartialWithoutCooldownDTO(Case aCase);
@@ -37,6 +39,8 @@ public interface CaseMapper {
     })
     CaseSlotPartialResponseDto toPartialDTO(CaseSlot<? extends Item> slot);
 
+    CasePartialResponseDto toPartialDTO(Case aCase);
+
     @Mappings({
             @Mapping(source = "item", target = "item"),
             @Mapping(source = "request.quantity", target = "quantityItem"),
@@ -44,14 +48,9 @@ public interface CaseMapper {
     })
     CaseSlot<Item> toCaseSlot(Item item, CaseSlotCreateRequestDto request);
 
-    @Mappings({
-            @Mapping(source = "slots", target = "caseSlotSet"),
-            @Mapping(source = "name.name", target = "name"),
-            @Mapping(expression = "java(moneyMapper.toMoney(moneyType, request.getPrice()))", target = "price"),
-            @Mapping(source = "now", target = "modifiedBy"),
-            @Mapping(source = "now", target = "createdOn")
-    })
-    Case toCase(Instant now,Set<CaseSlot<Item>> slots, CaseNameRequestDto name, MoneyType moneyType, CaseCreateRequestDto request);
+    Case toCase(CaseIdDto caseIdDto);
+
+    CaseIdDto toCaseId(Case aCase);
 
     CaseNameResponseDto toName(Case nCase);
 

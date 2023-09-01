@@ -3,7 +3,7 @@ package com.github.anywaythanks.twisterresource.controllers;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNicknameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPublicResponseDto;
-import com.github.anywaythanks.twisterresource.services.GeneralAccountInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountInformationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

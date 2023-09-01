@@ -19,9 +19,10 @@ public class Money {
     BigDecimal value;
 
     @ManyToOne
-    @JoinColumn(name = "money_type_id", nullable = false)
+    @JoinColumn(name = "money_type_id", nullable = false, updatable = false, insertable = false)
     @NonNull
     MoneyType moneyType;
+
     public Money add(Money money) {
         if (!money.getMoneyType().equals(moneyType))
             throw new MoneyNotTypeExceptions();

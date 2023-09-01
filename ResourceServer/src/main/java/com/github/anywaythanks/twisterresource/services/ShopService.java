@@ -8,16 +8,19 @@ import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryDebitResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeFullDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.slot.SlotTransferRequestDto;
 import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
+import com.github.anywaythanks.twisterresource.services.managers.InventoryInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,7 @@ public class ShopService {
     private final SlotMapper slotMapper;
     private final InventoryInformationService inventoryInformationService;
     private final ItemRepository itemRepository;
+    private final MoneyTypeInformationService moneyTypeInformationService;
 
     @Transactional
     public void sell(GeneralAccountNameRequestDto name,
@@ -41,23 +45,25 @@ public class ShopService {
                      AccountNumberRequestDto number,
                      SlotQuantityRequestDto quantity) {
         SlotIdResponseDto slot = inventoryInformationService.getSlotId(name, nameInventory, nameItem);
-        ItemIdResponseDto itemId = slot.getItem();
+        ItemIdDto itemId = slot.getItem();
         Item item = itemRepository.findById(itemId.getId())
                 .orElseThrow(NotFoundException::new);
         if (item instanceof SellingItem sellingItem) {
             Money costAllItems = sellingItem.getCost().multiply(BigDecimal.valueOf(quantity.getQuantity()));
             transferItemService.remove(name, nameInventory, slotMapper.toTransfer(quantity, slot));
-            transferMoneyService.debit(number, moneyMapper.toRequest(costAllItems));
+            transferMoneyService.debit(number, moneyMapper.toFull(costAllItems));
         } else throw new NoSellingItemException();
     }
 
     @Transactional
     public void buy(GeneralAccountNameRequestDto name,
                     InventoryNameRequestDto nameInventory,
-                    SlotTransferRequestDto bought,
+                    SlotFullDto bought,
                     AccountNumberRequestDto number,
                     MoneyCreateRequestDto price) {
-        transferMoneyService.credit(name, number, price);
+        MoneyTypeFullDto typeFull = moneyTypeInformationService.getFull(price.getType());
+        MoneyFullDto moneyFull = moneyMapper.toFull(typeFull, price);
+        transferMoneyService.credit(name, number, moneyFull);
         transferItemService.add(nameInventory, bought);
     }
 }

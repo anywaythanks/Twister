@@ -1,6 +1,8 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +25,16 @@ public class CaseSlot<T extends Item> extends Slot<T> {
     @JoinColumn(name = "name", nullable = false)
     @NonNull
     CaseSlotName name;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NonNull
+    @JoinColumn(name = "case_id", insertable = false, updatable = false)
+    Case ownerCase;
 
-    public CaseSlot(@NonNull T item, @NonNull Integer quantityItem, @NonNull BigDecimal percentageWining) {
+    public CaseSlot(@NonNull T item, @NonNull Integer quantityItem, @NonNull BigDecimal percentageWining, @NonNull CaseSlotName name, @NonNull Case ownerCase) {
         super(item, quantityItem);
         this.percentageWining = percentageWining;
-        this.name = new CaseSlotName();
+        this.name = name;
+        this.ownerCase = ownerCase;
     }
 }
