@@ -3,8 +3,7 @@ package com.github.anywaythanks.twisterresource.services.managers;
 import com.github.anywaythanks.twisterresource.annotation.RegisterService;
 import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.Money;
-import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import lombok.RequiredArgsConstructor;
 
@@ -17,8 +16,10 @@ public class MoneyRegisterService {
     private final MoneyTypeMapper moneyTypeMapper;
 
     public Money register(MoneyTypeNameRequestDto typeName) {
-        MoneyTypeIdResponseDto moneyTypeId = moneyTypeInformationService.getId(typeName);
-        MoneyType type = moneyTypeMapper.toType(moneyTypeId);
-        return new Money(BigDecimal.ZERO, type);
+        MoneyTypeFullDto moneyTypeId = moneyTypeInformationService.getFull(typeName);
+        return Money.builder()
+                .moneyType(moneyTypeMapper.toType(moneyTypeId))
+                .value(BigDecimal.ZERO)
+                .build();
     }
 }

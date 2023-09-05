@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 public class JwtGrantedAuthoritiesConverter implements Converter<Jwt, Collection<? extends GrantedAuthority>> {
     private final AuthorizeServerProperties.IssuerProperties properties;
+
     public JwtGrantedAuthoritiesConverter(AuthorizeServerProperties.IssuerProperties properties) {
         this.properties = properties;
     }

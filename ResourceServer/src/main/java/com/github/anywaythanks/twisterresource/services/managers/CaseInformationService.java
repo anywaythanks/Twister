@@ -5,16 +5,15 @@ import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.PageMapper;
 import com.github.anywaythanks.twisterresource.models.Case;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseItemsPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseItemsWithoutCooldownPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialItemsResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialItemsWithoutCooldownResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CaseWithoutCooldownPagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.CaseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,14 +25,14 @@ public class CaseInformationService {
     private final PageMapper pageMapper;
     private final CaseSlotInformationService caseSlotInformationService;
 
-    public CasePartialItemsResponseDto getPartialItems(CaseNameRequestDto caseName) {
+    public CaseItemsPartialResponseDto getPartialItems(CaseNameRequestDto caseName) {
         Case foundCase = caseRepository.findByName(caseName.getName())
                 .orElseThrow(NotFoundException::new);
         List<CaseSlotPartialResponseDto> slots = caseSlotInformationService.getPartials(caseMapper.toCaseId(foundCase));
         return caseMapper.toPartialItemsDTO(slots, foundCase);
     }
 
-    public CasePartialItemsWithoutCooldownResponseDto getPartialWithoutCooldown(CaseNameRequestDto caseName) {
+    public CaseItemsWithoutCooldownPartialResponseDto getPartialWithoutCooldown(CaseNameRequestDto caseName) {
         Case foundCase = caseRepository.findByName(caseName.getName())
                 .orElseThrow(NotFoundException::new);
         List<CaseSlotPartialResponseDto> slots = caseSlotInformationService.getPartials(caseMapper.toCaseId(foundCase));

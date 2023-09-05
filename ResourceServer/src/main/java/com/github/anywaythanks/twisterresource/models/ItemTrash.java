@@ -3,18 +3,20 @@ package com.github.anywaythanks.twisterresource.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 
 @Entity
 @PrimaryKeyJoinColumn(name = "item_trash_id")
 @Table(name = "item_trash")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Setter
+@SuperBuilder
+@Getter
 public class ItemTrash extends Item {
-    public ItemTrash(@NonNull String name, @NonNull String visibleName,@NonNull Instant modifiedBy,@NonNull Instant createdOn) {
-        super(name, visibleName, modifiedBy, createdOn);
-    }
 }

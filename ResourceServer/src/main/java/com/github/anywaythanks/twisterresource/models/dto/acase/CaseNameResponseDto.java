@@ -1,11 +1,17 @@
 package com.github.anywaythanks.twisterresource.models.dto.acase;
 
-import lombok.*;
+import com.github.anywaythanks.twisterresource.annotation.ResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@ResponseDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
 public class CaseNameResponseDto implements Name {
-    @NonNull
-    String name;
+    @NonNull String name;
 }

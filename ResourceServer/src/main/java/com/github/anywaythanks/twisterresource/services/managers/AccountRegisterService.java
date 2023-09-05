@@ -4,9 +4,14 @@ import com.github.anywaythanks.twisterresource.annotation.RegisterService;
 import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
-import com.github.anywaythanks.twisterresource.models.*;
-import com.github.anywaythanks.twisterresource.models.dto.account.*;
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.Account;
+import com.github.anywaythanks.twisterresource.models.AccountNumber;
+import com.github.anywaythanks.twisterresource.models.GeneralAccount;
+import com.github.anywaythanks.twisterresource.models.Money;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountCreateRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.account.AccountRegisterDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.repository.AccountNumberRepository;
 import com.github.anywaythanks.twisterresource.repository.AccountRepository;
@@ -29,18 +34,24 @@ public class AccountRegisterService {
     @Transactional
     public AccountPartialResponseDto register(AccountRegisterDto accountRegisterDto) {
         Instant now = Instant.now();
-        Account newAccount = new Account(accountMapper.toNumber(accountRegisterDto),
-                moneyMapper.toMoney(accountRegisterDto.getAmount()), now, now,
-                generalAccountMapper.toAccount(accountRegisterDto.getGeneral()));
+        AccountNumber number = (accountMapper.toNumber(accountRegisterDto));
+        GeneralAccount generalAccount = generalAccountMapper.toAccount(accountRegisterDto.getGeneral());
+        Account newAccount = Account.builder()
+                .number(accountNumberRepository.save(number))
+                .amount(moneyMapper.toMoney(accountRegisterDto.getAmount()))
+                .createdOn(now)
+                .modifiedBy(now)
+                .generalAccount(generalAccount)
+                .build();
         Account result = accountRepository.save(newAccount);
         return accountMapper.toPartialDTO(result);
     }
 
     @Transactional
     public AccountPartialResponseDto register(GeneralAccountNameRequestDto name, AccountCreateRequestDto create) {
-        AccountNumber persistenceNumber = accountNumberRepository.save(new AccountNumber());
+        AccountNumber persistenceNumber = accountNumberRepository.save(AccountNumber.builder().build());
         Money amount = registerMoneyService.register(create.getType());
-        GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
+        GeneralAccountIdAndUuidDto generalAccountId = generalAccountInformationService.getId(name);
         return register(accountMapper.toRegister(generalAccountId, persistenceNumber, amount));
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringAddonsJwtAuthenticationUserConverter implements Converter<Jwt, AbstractAuthenticationToken> {
     private final AuthorizeServerProperties springAddonsProperties;
+
     public SpringAddonsJwtAuthenticationUserConverter(AuthorizeServerProperties springAddonsProperties) {
         this.springAddonsProperties = springAddonsProperties;
     }

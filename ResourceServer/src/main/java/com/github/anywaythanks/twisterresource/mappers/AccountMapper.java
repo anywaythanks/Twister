@@ -5,40 +5,51 @@ import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.AccountNumber;
 import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.dto.account.*;
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(config = MapstructConfig.class)
 public interface AccountMapper {
+    @Mapping(source = "account.number.number", target = "number")
     AccountPartialResponseDto toPartialDTO(Account account);
 
     @Mapping(source = "account.generalAccount", target = "general")
+    @Mapping(source = "account.number.number", target = "number")
     AccountFullDto toFullDTO(Account account);
 
     @Mapping(source = "generalAccountId", target = "general")
+    @Mapping(source = "account.number.number", target = "number")
     @Mapping(source = "account.id", target = "id")
-    AccountFullDto toFullDTO(GeneralAccountIdResponseDto generalAccountId, Account account);
+    AccountFullDto toFullDTO(GeneralAccountIdAndUuidDto generalAccountId, Account account);
 
-    AccountIdResponseDto toIdDTO(Account account);
+    AccountIdDto toIdDTO(Account account);
 
 
     @Mapping(source = "account.generalAccount", target = "general")
+    @Mapping(source = "account.number.number", target = "number")
     AccountDebitResponseDto toDebitDTO(Account account);
 
     AccountNumber toNumber(AccountNumberRequestDto number);
 
     AccountNumber toNumber(AccountRegisterDto accountRegisterDto);
+
     @Mapping(source = "generalId", target = "general")
     @Mapping(source = "accountNumber.number", target = "number")
     @Mapping(source = "money", target = "amount")
-    AccountRegisterDto toRegister(GeneralAccountIdResponseDto generalId, AccountNumber accountNumber, Money money);
+    AccountRegisterDto toRegister(GeneralAccountIdAndUuidDto generalId, AccountNumber accountNumber, Money money);
 
     @InheritInverseConfiguration
-    Account toModel(AccountFullDto accountFullDto);
+    Account toAccount(AccountFullDto accountFullDto);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(target = "number", ignore = true)
+    @Mapping(target = "amount", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "generalAccount", ignore = true)
+    Account toAccount(AccountIdDto id);
 
     AccountNumber toNumber(String number);
-    @InheritInverseConfiguration
-    String toNumber(AccountNumber number);
 }

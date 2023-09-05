@@ -1,10 +1,13 @@
 package com.github.anywaythanks.twisterresource.models.dto.item;
 
-import lombok.AccessLevel;
+import com.github.anywaythanks.twisterresource.annotation.CreateRequestDto;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+import static lombok.AccessLevel.PROTECTED;
+
+@CreateRequestDto
+@NoArgsConstructor(access = PROTECTED)
 public class ItemTrashCreateRequestDto extends ItemCreateRequestDto {
     public ItemTrashCreateRequestDto(@NonNull String visibleName) {
         super(visibleName);

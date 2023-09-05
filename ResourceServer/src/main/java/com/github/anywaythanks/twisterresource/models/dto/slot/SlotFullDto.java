@@ -1,17 +1,20 @@
 package com.github.anywaythanks.twisterresource.models.dto.slot;
 
+import com.github.anywaythanks.twisterresource.annotation.FullDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemFullDto;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@FullDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
 public class SlotFullDto implements Quantity, Item<ItemFullDto>, Id {
-    @NonNull
-    Long id;
-    @NonNull
-    Integer quantity;
-    @NonNull
-    ItemFullDto item;
+    @NonNull Long id;
+    @NonNull Integer quantity;
+    @NonNull ItemFullDto item;
 }

@@ -1,6 +1,5 @@
 package com.github.anywaythanks.twisterresource.repository.impl;
 
-import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.TwistMark;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLastTwistResponseDto;
 import com.github.anywaythanks.twisterresource.repository.ActualCaseRepository;

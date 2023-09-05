@@ -23,7 +23,11 @@ public class InventorySlotRegisterService {
     public void register(InventorySlotRegisterDto inventorySlotRegisterDto) {
         Inventory inventory = inventoryMapper.toInventory(inventorySlotRegisterDto.getInventory());
         Item item = itemMapper.toItem(inventorySlotRegisterDto.getItem());
-        InventorySlot<?> inventorySlot = new InventorySlot<>(item, inventorySlotRegisterDto.getQuantity(), inventory);
+        InventorySlot<Item> inventorySlot = InventorySlot.builder()
+                .quantityItem(inventorySlotRegisterDto.getQuantity())
+                .item(item)
+                .inventory(inventory)
+                .build();
         inventorySlotRepository.save(inventorySlot);
     }
 }

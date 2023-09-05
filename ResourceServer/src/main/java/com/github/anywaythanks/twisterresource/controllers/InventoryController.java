@@ -9,9 +9,10 @@ import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryPar
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityRequestDto;
+import com.github.anywaythanks.twisterresource.services.ShopService;
 import com.github.anywaythanks.twisterresource.services.managers.InventoryInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.InventoryRegisterService;
-import com.github.anywaythanks.twisterresource.services.ShopService;
+import com.github.anywaythanks.twisterresource.services.managers.InventorySlotInformationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -28,6 +29,7 @@ public class InventoryController {
     private final ShopService sellService;
     private final InventoryRegisterService registerInventoryService;
     private final InventoryInformationService inventoryInformationService;
+    private final InventorySlotInformationService inventorySlotInformationService;
 
     @PostMapping(path = "/{nameInventory}/{item}/sell/{accountNumber}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void sell(@Valid @PathVariable GeneralAccountNameRequestDto name,

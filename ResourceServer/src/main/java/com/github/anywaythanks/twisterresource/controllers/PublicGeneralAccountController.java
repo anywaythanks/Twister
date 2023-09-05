@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PublicGeneralAccountController {
     private final GeneralAccountInformationService generalAccountInformationService;
+
     @RequestMapping(path = "/{name}")
     public GeneralAccountPublicResponseDto infoPublic(@Valid @PathVariable GeneralAccountNameRequestDto name) {
         return generalAccountInformationService.getPublic(name);

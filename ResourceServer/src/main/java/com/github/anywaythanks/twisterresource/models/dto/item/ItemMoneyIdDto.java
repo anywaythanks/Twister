@@ -1,9 +1,9 @@
 package com.github.anywaythanks.twisterresource.models.dto.item;
 
-import lombok.*;
+import com.github.anywaythanks.twisterresource.annotation.IdDto;
+import lombok.NonNull;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@IdDto
 public class ItemMoneyIdDto extends ItemIdDto {
     public ItemMoneyIdDto(@NonNull Long id) {
         super(id);

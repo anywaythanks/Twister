@@ -6,7 +6,7 @@ import com.github.anywaythanks.twisterresource.mappers.InventoryMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.InventoryNameRepository;
@@ -27,11 +27,16 @@ public class InventoryRegisterService {
 
     @Transactional
     public InventoryPartialResponseDto register(GeneralAccountNameRequestDto name) {
-        GeneralAccountIdResponseDto accountId = generalAccountInformationService.getId(name);
-        InventoryName persistenceName = inventoryNameRepository.save(new InventoryName());
+        GeneralAccountIdAndUuidDto accountId = generalAccountInformationService.getId(name);
+        InventoryName persistenceName = inventoryNameRepository.save(InventoryName.builder().build());
         Instant now = Instant.now();
         GeneralAccount generalAccount = generalAccountMapper.toAccount(accountId);
-        Inventory newInventory = new Inventory(persistenceName, now, now, generalAccount);
+        Inventory newInventory = Inventory.builder()
+                .name(persistenceName)
+                .generalAccount(generalAccount)
+                .createdOn(now)
+                .modifiedBy(now)
+                .build();
         Inventory result = inventoryRepository.save(newInventory);
         return inventoryMapper.toPartialDTO(result);
     }

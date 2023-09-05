@@ -2,7 +2,6 @@ package com.github.anywaythanks.twisterresource.configs;
 
 import com.github.anywaythanks.twisterresource.mappers.*;
 import org.mapstruct.MapperConfig;
-import org.springframework.cache.CacheManager;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
@@ -17,9 +16,9 @@ import static org.mapstruct.SubclassExhaustiveStrategy.COMPILE_ERROR;
         unmappedTargetPolicy = ERROR,
         subclassExhaustiveStrategy = COMPILE_ERROR,
 
-        uses = {AccountMapper.class, CacheManager.class, GeneralAccountMapper.class,
+        uses = {AccountMapper.class, GeneralAccountMapper.class,
                 InventoryMapper.class, InventoryMapper.class, MoneyMapper.class,
                 MoneyTypeMapper.class, PageMapper.class, SlotMapper.class, ItemMapper.class,
-                TwistMapper.class, TwistMarkMapper.class})
+                TwistMapper.class, TwistMarkMapper.class, CaseMapper.class})
 public interface MapstructConfig {
 }

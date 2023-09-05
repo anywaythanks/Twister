@@ -1,12 +1,9 @@
 package com.github.anywaythanks.twisterresource.models.dto.item;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.github.anywaythanks.twisterresource.annotation.IdDto;
 import lombok.NonNull;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
+@IdDto
 public class ItemTrashIdDto extends ItemIdDto {
     public ItemTrashIdDto(@NonNull Long id) {
         super(id);

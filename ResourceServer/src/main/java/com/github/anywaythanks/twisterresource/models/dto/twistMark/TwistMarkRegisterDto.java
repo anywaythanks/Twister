@@ -1,16 +1,20 @@
 package com.github.anywaythanks.twisterresource.models.dto.twistMark;
 
+import com.github.anywaythanks.twisterresource.annotation.RegisterDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseIdDto;
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@RegisterDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
-public class TwistMarkRegisterDto implements Account<GeneralAccountIdResponseDto>, TwistCase<CaseIdDto> {
-    @NonNull
-    GeneralAccountIdResponseDto account;
-    @NotNull
-    CaseIdDto twistCase;
+public class TwistMarkRegisterDto implements Account<GeneralAccountIdAndUuidDto>, TwistCase<CaseIdDto> {
+    @NonNull GeneralAccountIdAndUuidDto account;
+    @NonNull CaseIdDto twistCase;
 }

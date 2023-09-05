@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCr
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
-import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeRegisterService;
+import com.github.anywaythanks.twisterresource.services.managers.MoneyTypePutService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -18,7 +18,7 @@ import java.util.Collection;
 @RequestMapping("/api/money/type")
 @RequiredArgsConstructor
 public class MoneyTypeController {
-    private final MoneyTypeRegisterService registerMoneyTypeService;
+    private final MoneyTypePutService moneyTypePutService;
     private final MoneyTypeInformationService moneyTypeInformationService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -27,7 +27,7 @@ public class MoneyTypeController {
     public MoneyTypePartialResponseDto putMoneyType(
             @Valid @PathVariable MoneyTypeNameRequestDto name,
             @RequestBody @Valid MoneyTypeCreateRequestDto create) {
-        return registerMoneyTypeService.merge(name, create);
+        return moneyTypePutService.put(name, create);
     }
 
     @GetMapping

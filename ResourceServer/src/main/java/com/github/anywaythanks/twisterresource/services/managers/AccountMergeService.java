@@ -19,7 +19,7 @@ public class AccountMergeService {
 
     @Transactional
     public AccountPartialResponseDto merge(AccountFullDto accountFullDto) {
-        Account account = accountMapper.toModel(accountFullDto);
+        Account account = accountMapper.toAccount(accountFullDto);
         account.setModifiedBy(Instant.now());
         Account result = accountRepository.save(account);
         return accountMapper.toPartialDTO(result);

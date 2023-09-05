@@ -3,17 +3,17 @@ package com.github.anywaythanks.twisterresource.models;
 import com.github.anywaythanks.twisterresource.generators.StringPrefixedSequenceIdGenerator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "account_number")
-@NoArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@Builder
 @Data
 public class AccountNumber {
     @Id
@@ -24,7 +24,6 @@ public class AccountNumber {
             parameters = {
                     @org.hibernate.annotations.Parameter(name = StringPrefixedSequenceIdGenerator.INCREMENT_PARAM, value = "1")})
     @NotBlank
-    @NonNull
     @Length(min = 1, max = 64)
     String number;
 }

@@ -8,11 +8,14 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "money_type")
-@NoArgsConstructor
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@Getter
+@Builder
 @Data
 public class MoneyType {
     @Id
@@ -22,21 +25,17 @@ public class MoneyType {
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
-    @NonNull
     String name;
 
     @NotBlank
     @Length(min = 1, max = 64)
     @Column(nullable = false)
-    @NonNull
     String pathToIcon;
     @NotNull
     @Column(name = "modified_by", nullable = false)
-    @NonNull
     @Setter
     Instant modifiedBy;
     @NotNull
     @Column(name = "created_on", nullable = false)
-    @NonNull
     Instant createdOn;
 }

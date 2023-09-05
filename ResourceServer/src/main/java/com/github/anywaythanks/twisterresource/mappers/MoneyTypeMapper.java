@@ -5,9 +5,6 @@ import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
-
-import java.time.Instant;
 
 @Mapper(config = MapstructConfig.class)
 public interface MoneyTypeMapper {
@@ -18,6 +15,7 @@ public interface MoneyTypeMapper {
     MoneyTypeFullDto toFullDto(MoneyType moneyType);
 
     MoneyTypeNameRequestDto toName(MoneyType moneyType);
+
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "pathToIcon", ignore = true)
     @Mapping(target = "modifiedBy", ignore = true)
@@ -25,4 +23,6 @@ public interface MoneyTypeMapper {
     MoneyType toType(MoneyTypeIdResponseDto id);
 
     MoneyType toType(MoneyTypeFullDto full);
+
+    MoneyTypeRegisterDto toRegister(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create);
 }

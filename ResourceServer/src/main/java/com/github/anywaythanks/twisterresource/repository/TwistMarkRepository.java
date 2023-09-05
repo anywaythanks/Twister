@@ -1,7 +1,5 @@
 package com.github.anywaythanks.twisterresource.repository;
 
-import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.TwistMark;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,17 +1,21 @@
 package com.github.anywaythanks.twisterresource.models.dto.account;
 
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
+import com.github.anywaythanks.twisterresource.annotation.RegisterDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@RegisterDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
-public class AccountRegisterDto implements Amount<MoneyFullDto>, Number, General<GeneralAccountIdResponseDto> {
-    @NonNull
-    MoneyFullDto amount;
-    @NonNull
-    String number;
-    @NonNull
-    GeneralAccountIdResponseDto general;
+public class AccountRegisterDto implements Amount<MoneyFullDto>, Number, General<GeneralAccountIdAndUuidDto> {
+    @NonNull MoneyFullDto amount;
+    @NonNull String number;
+    @NonNull GeneralAccountIdAndUuidDto general;
 }

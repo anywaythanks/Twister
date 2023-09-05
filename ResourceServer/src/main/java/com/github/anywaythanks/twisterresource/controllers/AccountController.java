@@ -5,10 +5,10 @@ import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberR
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
+import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
 import com.github.anywaythanks.twisterresource.services.managers.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.AccountPutService;
 import com.github.anywaythanks.twisterresource.services.managers.AccountRegisterService;
-import com.github.anywaythanks.twisterresource.services.TransferMoneyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;

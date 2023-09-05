@@ -2,16 +2,13 @@ package com.github.anywaythanks.twisterresource.mappers;
 
 import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
 import com.github.anywaythanks.twisterresource.models.Money;
-import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeFullDto;
-import org.mapstruct.*;
-
-import static org.mapstruct.NullValueCheckStrategy.ALWAYS;
-import static org.mapstruct.NullValueCheckStrategy.ON_IMPLICIT_CONVERSION;
-import static org.mapstruct.NullValueMappingStrategy.RETURN_DEFAULT;
+import org.mapstruct.InheritInverseConfiguration;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(config = MapstructConfig.class)
 public interface MoneyMapper {
@@ -22,9 +19,6 @@ public interface MoneyMapper {
     MoneyPartialResponseDto toPartialDTO(Money money);
 
     @Mapping(source = "moneyFullDto.type", target = "moneyType")
-    @Mapping(target = "add", ignore = true)
-    @Mapping(target = "multiply", ignore = true)
-    @Mapping(target = "subtract", ignore = true)
     Money toMoney(MoneyFullDto moneyFullDto);
 
     @InheritInverseConfiguration

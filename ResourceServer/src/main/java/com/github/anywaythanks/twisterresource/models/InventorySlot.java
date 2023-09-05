@@ -1,25 +1,25 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "inventory_slots")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@Setter
+@SuperBuilder
 @Getter
 public class InventorySlot<T extends Item> extends Slot<T> {
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NonNull
-    @JoinColumn(name = "inventory_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "inventory_id", nullable = false)
     Inventory inventory;
-
-    public InventorySlot(@NonNull T item, @NonNull Integer quantityItem, @NonNull Inventory inventory) {
-        super(item, quantityItem);
-        this.inventory = inventory;
-    }
 }

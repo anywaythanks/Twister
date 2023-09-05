@@ -25,4 +25,10 @@ public interface GeneralAccountRepository extends JpaRepository<GeneralAccount, 
     boolean isAccountBelongsUser(
             @Param("uuid") String userUuid,
             @Param("name") GeneralAccountName accountName);
+
+    @Query("select case when (count(a) > 0) then true else false end " +
+            "from GeneralAccount a where a.userUuid = :uuid and a.id = :id")
+    boolean isAccountBelongsUser(
+            @Param("uuid") String userUuid,
+            @Param("id") Long id);
 }

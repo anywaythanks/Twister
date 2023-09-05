@@ -2,59 +2,57 @@ package com.github.anywaythanks.twisterresource.mappers;
 
 import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
 import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.CaseSlot;
-import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.dto.acase.*;
-import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotPartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotRegisterDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 
 import java.util.List;
-import java.util.Set;
 
 @Mapper(config = MapstructConfig.class)
 public interface CaseMapper {
     @Mapping(source = "items", target = "items")
     @Mapping(target = "withCooldown", ignore = true)
-    CasePartialItemsResponseDto toPartialItemsDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
+    CaseItemsPartialResponseDto toPartialItemsDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
 
     @Mapping(source = "items", target = "items")
-    CasePartialItemsWithoutCooldownResponseDto toPartialWithoutCooldownDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
-
-    @Mapping(target = "withCooldown", ignore = true)
-    CaseCooldownIdResponseDto toCooldownIdDto(Case aCase);
+    CaseItemsWithoutCooldownPartialResponseDto toPartialWithoutCooldownDTO(List<CaseSlotPartialResponseDto> items, Case aCase);
 
     @Mapping(target = "withCooldown", ignore = true)
     CaseLightPartialResponseDto toLightPartialDTO(Case aCase);
 
-    CaseLightPartialWithoutCooldownResponseDto toLightPartialWithoutCooldownDTO(Case aCase);
+    CaseLightWithoutCooldownPartialResponseDto toLightPartialWithoutCooldownDTO(Case aCase);
 
-    @Mappings({
-            @Mapping(source = "slot.item", target = "item"),
-            @Mapping(source = "slot.name.name", target = "name"),
-            @Mapping(source = "slot.quantityItem", target = "quantity"),
-            @Mapping(source = "slot.percentageWining", target = "percentage")
-    })
-    CaseSlotPartialResponseDto toPartialDTO(CaseSlot<? extends Item> slot);
-
+    @Mapping(target = "withCooldown", ignore = true)
     CasePartialResponseDto toPartialDTO(Case aCase);
 
-    @Mappings({
-            @Mapping(source = "item", target = "item"),
-            @Mapping(source = "request.quantity", target = "quantityItem"),
-            @Mapping(source = "request.percentage", target = "percentageWining")
-    })
-    CaseSlot<Item> toCaseSlot(Item item, CaseSlotCreateRequestDto request);
+    @Mapping(source = "idDto.id", target = "id")
+    @Mapping(target = "name", ignore = true)
+    @Mapping(target = "visibleName", ignore = true)
+    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "price", ignore = true)
+    @Mapping(target = "cooldown", ignore = true)
+    @Mapping(target = "createdOn", ignore = true)
+    @Mapping(target = "modifiedBy", ignore = true)
+    Case toCase(CaseIdDto idDto);
 
-    Case toCase(CaseIdDto caseIdDto);
+    Case toCase(CaseFullDto fullDto);
+
+    @Mapping(target = "withCooldown", ignore = true)
+    CaseFullDto toFull(Case aCase);
+
+    @Mapping(source = "items", target = "items")
+    @Mapping(source = "name.name", target = "name")
+    @Mapping(source = "price", target = "price")
+    @Mapping(source = "create.cooldown", target = "cooldown")
+    @Mapping(source = "create.visibleName", target = "visibleName")
+    @Mapping(source = "create.description", target = "description")
+    CaseRegisterDto toRegister(List<CaseSlotRegisterDto> items, CaseNameRequestDto name,
+                               MoneyFullDto price, CaseCreateRequestDto create);
 
     CaseIdDto toCaseId(Case aCase);
 
     CaseNameResponseDto toName(Case nCase);
-
-    default List<CaseSlotPartialResponseDto> toPartialsDto(Set<CaseSlot<Item>> set) {
-        return set.stream().map(this::toPartialDTO).toList();
-    }
 }

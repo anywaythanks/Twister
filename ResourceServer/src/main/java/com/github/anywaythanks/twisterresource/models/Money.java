@@ -9,18 +9,19 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 @Getter
+@Builder
 public class Money {
     @NotNull
-    @NonNull
     BigDecimal value;
 
-    @ManyToOne
-    @JoinColumn(name = "money_type_id", nullable = false, updatable = false, insertable = false)
-    @NonNull
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "money_type_id", nullable = false)
     MoneyType moneyType;
 
     public Money add(Money money) {

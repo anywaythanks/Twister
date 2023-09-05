@@ -5,25 +5,27 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+@NoArgsConstructor
+@Setter
+@SuperBuilder
 @Getter
 public abstract class Slot<T extends Item> {
     @Id
     @GeneratedValue(generator = "SLOT_ID_GENERATOR")
     Long id;
     @NotNull
-    @ManyToOne(targetEntity = Item.class)
-    @JoinColumn(name = "item_id", nullable = false, insertable = false, updatable = false)
-    @NonNull
+    @ManyToOne(targetEntity = Item.class, optional = false)
+    @JoinColumn(name = "item_id", nullable = false)
     T item;
     @NotNull
     @Min(0)
     @Column(name = "quantity_item", nullable = false)
-    @NonNull
     Integer quantityItem;
 
     public void addItems(@NonNull Item item, int quantity) {

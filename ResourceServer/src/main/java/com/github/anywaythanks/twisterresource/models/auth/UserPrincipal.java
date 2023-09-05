@@ -8,6 +8,7 @@ public class UserPrincipal {
     private final String uuid;
     private final String username;
     private final Collection<? extends GrantedAuthority> grantedAuthorityList;
+
     public UserPrincipal(String uuid, String username, Collection<? extends GrantedAuthority> grantedAuthorityList) {
         this.uuid = uuid;
         this.username = username;

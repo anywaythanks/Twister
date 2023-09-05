@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.models.dto.item.ItemCreateRequest
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.managers.ItemInformationService;
-import com.github.anywaythanks.twisterresource.services.managers.ItemRegisterService;
+import com.github.anywaythanks.twisterresource.services.managers.ItemPutService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/item")
 @RequiredArgsConstructor
 public class ItemController {
-    private final ItemRegisterService registerItemService;
+    private final ItemPutService itemPutService;
     private final ItemInformationService itemInformationService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -25,7 +25,7 @@ public class ItemController {
     public ItemPartialResponseDto put(
             @Valid @PathVariable ItemNameRequestDto name,
             @Valid @RequestBody ItemCreateRequestDto requestItem) {
-        return registerItemService.merge(name, requestItem);
+        return itemPutService.put(name, requestItem);
     }
 
     @GetMapping

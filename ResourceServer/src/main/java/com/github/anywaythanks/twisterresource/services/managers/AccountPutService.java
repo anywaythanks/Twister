@@ -7,7 +7,7 @@ import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountPartialResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class AccountPutService {
     @Transactional
     public AccountPartialResponseDto put(GeneralAccountNameRequestDto name, AccountNumberRequestDto numberDto,
                                          AccountCreateRequestDto create) {
-        GeneralAccountIdResponseDto generalAccountId = generalAccountInformationService.getId(name);
+        GeneralAccountIdAndUuidDto generalAccountId = generalAccountInformationService.getId(name);
         AccountNumber accountNumber = accountMapper.toNumber(numberDto);
         Optional<Account> optionalAccount = accountRepository.findContaining(generalAccountId.getId(), accountNumber);
         if (optionalAccount.isEmpty()) {

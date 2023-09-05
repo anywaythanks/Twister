@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.controllers;
 
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseItemsPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CasePartialItemsResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.page.CasePagePartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.managers.CaseActualInformationService;
@@ -19,13 +19,13 @@ public class ActualCaseController {
 
     @GetMapping
     public CasePagePartialResponseDto listCase(@Valid @PathVariable GeneralAccountNameRequestDto name,
-                                                                            @Valid @PositiveOrZero  @RequestParam(defaultValue = "0") Integer page,
-                                                                            @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
+                                               @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer page,
+                                               @Valid @Size(min = 1, max = 50) @RequestParam(defaultValue = "5") Integer size) {
         return caseActualInformationService.getPage(page, size, name);
     }
 
     @GetMapping("/{caseName}")
-    public CasePartialItemsResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
+    public CaseItemsPartialResponseDto info(@Valid @PathVariable GeneralAccountNameRequestDto name,
                                             @Valid @PathVariable CaseNameRequestDto caseName) {
         return caseActualInformationService.getPartialItems(name, caseName);
     }

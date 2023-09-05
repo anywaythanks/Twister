@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CaseRepository extends JpaRepository<Case, Long>, ActualCaseRepository {
+public interface CaseRepository extends JpaRepository<Case, Long> {
     @EntityGraph(value = "Case.detail", type = EntityGraph.EntityGraphType.LOAD)
     Optional<Case> findByName(String name);
 

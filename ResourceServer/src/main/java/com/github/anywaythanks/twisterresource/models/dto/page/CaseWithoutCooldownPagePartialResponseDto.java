@@ -1,18 +1,22 @@
 package com.github.anywaythanks.twisterresource.models.dto.page;
 
-import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightPartialWithoutCooldownResponseDto;
-import lombok.*;
+import com.github.anywaythanks.twisterresource.annotation.PartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLightWithoutCooldownPartialResponseDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@PartialResponseDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
-public class CaseWithoutCooldownPagePartialResponseDto implements Values<CaseLightPartialWithoutCooldownResponseDto>, Total, Num {
-    @NonNull
-    private List<CaseLightPartialWithoutCooldownResponseDto> values;
-    @NonNull
-    private Integer totalPages;
-    @NonNull
-    private Integer page;
+public class CaseWithoutCooldownPagePartialResponseDto implements Values<CaseLightWithoutCooldownPartialResponseDto>, Total, Num {
+    @NonNull List<CaseLightWithoutCooldownPartialResponseDto> values;
+    @NonNull Integer totalPages;
+    @NonNull Integer page;
 }

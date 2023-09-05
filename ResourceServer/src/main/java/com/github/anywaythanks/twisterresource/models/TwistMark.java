@@ -6,37 +6,35 @@ import lombok.*;
 
 import java.time.Instant;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "twist_marks")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 @Getter
+@Builder
 public class TwistMark {
     @Id
     @GeneratedValue
     Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @NotNull
-    @JoinColumn(name = "twist_case_id", nullable = false, insertable = false, updatable = false)
-    @NonNull
+    @JoinColumn(name = "twist_case_id", nullable = false)
     Case twistCase;
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "general_account_id", nullable = false, insertable = false, updatable = false)
-    @NonNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "general_account_id", nullable = false)
     GeneralAccount generalAccount;
     @NotNull
     @Column(nullable = false)
-    @NonNull
     @Setter
     Boolean consider;
     @NotNull
     @Column(name = "updated_on", nullable = false)
-    @NonNull
     @Setter
     Instant updatedOn;
     @NotNull
     @Column(name = "created_on", nullable = false)
-    @NonNull
     Instant createdOn;
 }

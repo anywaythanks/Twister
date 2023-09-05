@@ -1,19 +1,18 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.RegisterService;
 import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
-import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
-import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeRegisterDto;
 import com.github.anywaythanks.twisterresource.repository.MoneyTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
-@Service
+@RegisterService
 @RequiredArgsConstructor
 public class MoneyTypeRegisterService {
     private final MoneyTypeRepository moneyTypeRepository;
@@ -21,13 +20,15 @@ public class MoneyTypeRegisterService {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
-    public MoneyTypePartialResponseDto merge(MoneyTypeNameRequestDto name, MoneyTypeCreateRequestDto create) {
+    public MoneyTypePartialResponseDto register(MoneyTypeRegisterDto registerDto) {
         Instant now = Instant.now();
-        MoneyType mergedType = new MoneyType(name.getName(), create.getPathToIcon(), now, now);
-        MoneyType resultType = moneyTypeRepository.findByName(name.getName())
-                .orElse(mergedType);
-        resultType.setPathToIcon(mergedType.getPathToIcon());
-        resultType.setModifiedBy(Instant.now());
-        return moneyTypeMapper.toPartialDTO(moneyTypeRepository.save(resultType));
+        MoneyType moneyType = MoneyType.builder()
+                .name(registerDto.getName())
+                .pathToIcon(registerDto.getPathToIcon())
+                .createdOn(now)
+                .modifiedBy(now)
+                .build();
+        MoneyType resultType = moneyTypeRepository.save(moneyType);
+        return moneyTypeMapper.toPartialDTO(resultType);
     }
 }

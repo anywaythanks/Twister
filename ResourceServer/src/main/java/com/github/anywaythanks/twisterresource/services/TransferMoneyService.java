@@ -35,7 +35,7 @@ public class TransferMoneyService {
 
     private void actionAccount(AccountFullDto accountFullDto, MoneyFullDto val,
                                Function<Money, Function<Money, Money>> action) {
-        Account account = accountMapper.toModel(accountFullDto);
+        Account account = accountMapper.toAccount(accountFullDto);
         Money actionVal = moneyMapper.toMoney(val);
         Money newVal = action.apply(account.getAmount()).apply(actionVal);
         if (newVal.getValue().compareTo(BigDecimal.ZERO) < 0) {

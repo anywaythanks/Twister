@@ -1,17 +1,20 @@
 package com.github.anywaythanks.twisterresource.models.dto.money.type;
 
+import com.github.anywaythanks.twisterresource.annotation.CreateRequestDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
+
+import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
+
+@CreateRequestDto
+@FieldDefaults(level = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
+@Getter
 public class MoneyTypeCreateRequestDto implements PathToIcon {
-    String pathToIcon;
-
-    protected MoneyTypeCreateRequestDto() {
-    }
-
-    public MoneyTypeCreateRequestDto(String pathToIcon) {
-        this.pathToIcon = pathToIcon;
-    }
-
-    @Override
-    public String getPathToIcon() {
-        return pathToIcon;
-    }
+    @NonNull String pathToIcon;
 }

@@ -1,11 +1,20 @@
 package com.github.anywaythanks.twisterresource.models.dto.slot;
 
-import lombok.*;
+import com.github.anywaythanks.twisterresource.annotation.RequestDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
+
+@RequestDto
+@FieldDefaults(level = PRIVATE)
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 @Getter
 public class SlotQuantityRequestDto implements Quantity {
-    @NonNull
-    Integer quantity;
+    @NonNull Integer quantity;
 }

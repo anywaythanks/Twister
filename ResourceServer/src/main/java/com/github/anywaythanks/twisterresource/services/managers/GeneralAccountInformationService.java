@@ -29,11 +29,19 @@ public class GeneralAccountInformationService {
     }
 
     @PostAuthorize("returnObject.uuid == authentication.principal.uuid")
-    public GeneralAccountIdResponseDto getId(GeneralAccountNameRequestDto nameDto) {
+    public GeneralAccountIdAndUuidDto getId(GeneralAccountNameRequestDto nameDto) {
         GeneralAccountName name = generalAccountMapper.toName(nameDto);
         GeneralAccount generalAccount = generalAccountRepository.findByName(name)
                 .orElseThrow(NotFoundException::new);
         return generalAccountMapper.toIdDTO(generalAccount);
+    }
+
+    @PostAuthorize("returnObject.uuid == authentication.principal.uuid")
+    public GeneralAccountFullDto getFull(GeneralAccountNameRequestDto nameDto) {
+        GeneralAccountName name = generalAccountMapper.toName(nameDto);
+        GeneralAccount generalAccount = generalAccountRepository.findByName(name)
+                .orElseThrow(NotFoundException::new);
+        return generalAccountMapper.toFull(generalAccount);
     }
 
     @PreAuthorize("authentication.principal.uuid == #user.uuid")

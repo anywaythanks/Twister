@@ -15,7 +15,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByNumber(AccountNumber number);
 
     @Query("select a from Account a where a.number = :number and a.generalAccount.id = :gId")
-    Optional<Account> findContaining(@Param("gId") Long generalAccountId, AccountNumber number);
+    Optional<Account> findContaining(@Param("gId") Long generalAccountId, @Param("number") AccountNumber number);
 
     List<Account> findAllByGeneralAccountId(Long generalAccountId);
 }

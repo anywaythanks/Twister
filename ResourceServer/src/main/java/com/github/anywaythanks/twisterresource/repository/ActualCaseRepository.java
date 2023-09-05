@@ -1,6 +1,5 @@
 package com.github.anywaythanks.twisterresource.repository;
 
-import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseLastTwistResponseDto;
 import org.springframework.data.domain.Sort;
 

@@ -8,13 +8,16 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "general_accounts")
 @NamedEntityGraph(name = "GeneralAccount.detail",
         attributeNodes = @NamedAttributeNode("name"))
-@NoArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
 @Getter
+@Builder
 public class GeneralAccount {
     @Id
     @GeneratedValue
@@ -22,39 +25,23 @@ public class GeneralAccount {
     Long id;
     @NotBlank
     @Column(name = "user_uuid", nullable = false, unique = true)
-    @NonNull
     @Setter
     String userUuid;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "name", nullable = false, unique = true)
-    @NonNull
     @Setter
     GeneralAccountName name;
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
-    @NonNull
     @Setter
     String nickname;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @BatchSize(size = 5)
-//    @JoinColumn(name = "general_account_id", nullable = false)
-//    @NonNull
-//    Set<Account> accounts = new HashSet<>();
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @BatchSize(size = 5)
-//    @JoinColumn(name = "general_account_id", nullable = false)
-//    @NonNull
-//    Set<Inventory> inventories = new HashSet<>();
-
     @NotNull
     @Column(name = "modified_by", nullable = false)
-    @NonNull
     @Setter
     Instant modifiedBy;
     @NotNull
     @Column(name = "created_on", nullable = false)
-    @NonNull
     Instant createdOn;
 }

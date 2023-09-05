@@ -1,16 +1,21 @@
 package com.github.anywaythanks.twisterresource.models.dto.inventory;
 
+import com.github.anywaythanks.twisterresource.annotation.ResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PRIVATE;
+
+@ResponseDto
+@FieldDefaults(level = PRIVATE, makeFinal = true)
+@AllArgsConstructor
 @Getter
 public class InventoryPartialSlotsResponseDto implements Slots<SlotPartialResponseDto>, Name {
-    @NonNull
-    List<SlotPartialResponseDto> slots;
-    @NonNull
-    String name;
+    @NonNull List<SlotPartialResponseDto> slots;
+    @NonNull String name;
 }

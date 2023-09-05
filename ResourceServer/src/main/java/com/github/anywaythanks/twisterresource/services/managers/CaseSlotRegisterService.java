@@ -7,6 +7,7 @@ import com.github.anywaythanks.twisterresource.models.Case;
 import com.github.anywaythanks.twisterresource.models.CaseSlot;
 import com.github.anywaythanks.twisterresource.models.CaseSlotName;
 import com.github.anywaythanks.twisterresource.models.Item;
+import com.github.anywaythanks.twisterresource.models.dto.acase.CaseIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotRegisterDto;
 import com.github.anywaythanks.twisterresource.repository.CaseSlotRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +18,23 @@ import java.util.List;
 @RegisterService
 @RequiredArgsConstructor
 public class CaseSlotRegisterService {
-    CaseSlotRepository caseSlotRepository;
-    ItemMapper itemMapper;
-    CaseMapper caseMapper;
+    private final CaseSlotRepository caseSlotRepository;
+    private final ItemMapper itemMapper;
+    private final CaseMapper caseMapper;
 
     @Transactional
-    public void register(List<CaseSlotRegisterDto> slotsDto) {
+    public void register(CaseIdDto caseOwner, List<CaseSlotRegisterDto> slotsDto) {
+        Case owner = caseMapper.toCase(caseOwner);
         List<CaseSlot<Item>> slots = slotsDto.stream()
                 .map(caseSlot -> {
                     Item item = itemMapper.toItem(caseSlot.getItem());
-                    Case owner = caseMapper.toCase(caseSlot.getOwnerCase());
-                    return new CaseSlot<>(item,
-                            caseSlot.getQuantity(),
-                            caseSlot.getPercentage(),
-                            new CaseSlotName(), owner);
+                    return (CaseSlot<Item>) CaseSlot.builder()
+                            .item(item)
+                            .quantityItem(caseSlot.getQuantity())
+                            .percentageWining(caseSlot.getPercentage())
+                            .name(CaseSlotName.builder().build())
+                            .ownerCase(owner)
+                            .build();
                 })
                 .toList();
         caseSlotRepository.saveAll(slots);

@@ -6,6 +6,7 @@ import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;
 import com.github.anywaythanks.twisterresource.models.ItemTrash;
 import com.github.anywaythanks.twisterresource.models.dto.item.*;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
 import org.mapstruct.*;
 
 @Mapper(config = MapstructConfig.class)
@@ -26,7 +27,6 @@ public interface ItemMapper {
 
     ItemMoney toItemMoney(ItemMoneyFullDto moneyFull);
 
-
     ItemTrash toItemTrash(ItemTrashFullDto trashFull);
 
     @InheritInverseConfiguration
@@ -34,7 +34,7 @@ public interface ItemMapper {
 
     ItemMoneyFullDto toItemMoney(ItemMoney itemMoney);
 
-    ItemTrashFullDto toItemTrash(ItemTrash itemTrashFull);
+    ItemTrashFullDto toItemTrash(ItemTrash itemTrash);
 
     @SubclassMapping(source = ItemMoneyIdDto.class, target = ItemMoney.class)
     @SubclassMapping(source = ItemTrashIdDto.class, target = ItemTrash.class)
@@ -67,9 +67,16 @@ public interface ItemMapper {
 
     ItemTrashIdDto toIdTrashDto(ItemTrash item);
 
-    String toName(ItemNameRequestDto name);
-
     ItemNameRequestDto toNameDTO(Item item);
+
+    @Mapping(source = "cost", target = "cost")
+    @Mapping(source = "name.name", target = "name")
+    @Mapping(source = "create.visibleName", target = "visibleName")
+    ItemMoneyRegisterDto toRegister(MoneyFullDto cost, ItemNameRequestDto name, ItemMoneyCreateRequestDto create);
+
+    @Mapping(source = "name.name", target = "name")
+    @Mapping(source = "create.visibleName", target = "visibleName")
+    ItemTrashRegisterDto toRegister(ItemTrashCreateRequestDto create, ItemNameRequestDto name);
 
     @ObjectFactory
     default ItemPartialResponseDto getItemPartialResponseDto(Item item) {

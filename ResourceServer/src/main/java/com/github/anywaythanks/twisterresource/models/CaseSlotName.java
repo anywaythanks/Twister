@@ -3,15 +3,18 @@ package com.github.anywaythanks.twisterresource.models;
 import com.github.anywaythanks.twisterresource.generators.StringPrefixedSequenceIdGenerator;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 
+import static lombok.AccessLevel.PROTECTED;
+
 @Entity
 @Table(name = "case_slot_name")
-@NoArgsConstructor
-@Getter
+@NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor(access = PROTECTED)
+@Builder
+@Data
 public class CaseSlotName {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "case_slot_name_seq")

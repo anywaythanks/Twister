@@ -6,6 +6,7 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountPartialResponseDto;
 import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountPutService;
 import com.github.anywaythanks.twisterresource.services.managers.GeneralAccountRegisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequiredArgsConstructor
 public class GeneralAccountController {
     private final GeneralAccountRegisterService registerGeneralAccountService;
+    private final GeneralAccountPutService generalAccountPutService;
     private final GeneralAccountInformationService generalAccountInformationService;
 
     @PutMapping(path = "/{name}", headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     public GeneralAccountPartialResponseDto register(@AuthenticationPrincipal UserPrincipal user,
                                                      @Valid @PathVariable GeneralAccountNameRequestDto name,
                                                      @Valid @RequestBody GeneralAccountCreateRequestDto requestAccount) {
-        return registerGeneralAccountService.merge(user, name, requestAccount);
+        return generalAccountPutService.put(user, name, requestAccount);
     }
 
     @PostMapping(headers = "content-type=application/json", consumes = MediaType.APPLICATION_JSON_VALUE)

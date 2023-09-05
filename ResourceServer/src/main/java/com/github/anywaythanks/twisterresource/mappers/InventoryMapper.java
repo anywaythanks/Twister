@@ -3,9 +3,8 @@ package com.github.anywaythanks.twisterresource.mappers;
 import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
 import com.github.anywaythanks.twisterresource.models.Inventory;
 import com.github.anywaythanks.twisterresource.models.InventoryName;
-import com.github.anywaythanks.twisterresource.models.InventorySlot;
-import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.*;
+import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,11 +20,14 @@ public interface InventoryMapper {
     InventoryIdDto toIdDTO(Inventory inventory);
 
     InventoryDebitResponseDto toDebitDTO(Inventory inventory);
+
     @Mapping(source = "inventory.name.name", target = "name")
     @Mapping(source = "slots", target = "slots")
-    InventoryPartialSlotsResponseDto toPartialSlotsDTO(List<InventorySlot<Item>> slots, Inventory inventory);
+    InventoryPartialSlotsResponseDto toPartialSlotsDTO(List<SlotPartialResponseDto> slots, Inventory inventory);
+
     @Mapping(source = "inventory.name.name", target = "name")
     InventoryPartialResponseDto toPartialDTO(Inventory inventory);
+
     @Mapping(source = "id.id", target = "id")
     @Mapping(target = "name", ignore = true)
     @Mapping(target = "modifiedBy", ignore = true)
