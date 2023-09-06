@@ -3,10 +3,7 @@ package com.github.anywaythanks.twisterresource.models.dto.acase;
 import com.github.anywaythanks.twisterresource.annotation.CreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotCreateRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyCreateRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Duration;
@@ -20,6 +17,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class CaseCreateRequestDto implements Cooldown, Items<CaseSlotCreateRequestDto>, Price<MoneyCreateRequestDto>, VisibleName, Description {
     @NonNull List<CaseSlotCreateRequestDto> items;
     @NonNull MoneyCreateRequestDto price;

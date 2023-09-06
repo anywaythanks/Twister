@@ -3,6 +3,7 @@ package com.github.anywaythanks.twisterresource.models.dto.money;
 import com.github.anywaythanks.twisterresource.annotation.PartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypePartialResponseDto;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -15,6 +16,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class MoneyPartialResponseDto implements Value, GetterType<MoneyTypePartialResponseDto> {
     @NonNull MoneyTypePartialResponseDto type;
     @NonNull BigDecimal value;

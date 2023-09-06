@@ -3,6 +3,7 @@ package com.github.anywaythanks.twisterresource.models.dto.slot;
 import com.github.anywaythanks.twisterresource.annotation.FullDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.item.ItemFullDto;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FullDto
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @Getter
+@EqualsAndHashCode(callSuper = true)
 public class InventorySlotFullDto extends SlotFullDto implements Inventory<InventoryIdDto> {
     @NonNull InventoryIdDto inventory;
 

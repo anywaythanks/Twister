@@ -4,10 +4,7 @@ import com.github.anywaythanks.twisterresource.annotation.FullDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.CreatedOn;
 import com.github.anywaythanks.twisterresource.models.dto.account.ModifiedBy;
 import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.With;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Duration;
@@ -19,6 +16,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class CaseFullDto implements Id, Cooldown, Price<MoneyFullDto>, VisibleName, Description, Name, CreatedOn, ModifiedBy {
     @NonNull Long id;
     @NonNull String name;

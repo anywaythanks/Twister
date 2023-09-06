@@ -4,9 +4,9 @@ import com.github.anywaythanks.twisterresource.annotation.RegisterDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountFullDto;
-import com.github.anywaythanks.twisterresource.models.dto.account.AccountIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
@@ -17,6 +17,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @AllArgsConstructor
 @Getter
+@EqualsAndHashCode
 public class TwistRegisterDto implements SelectCase<CaseFullDto>, Account<AccountFullDto>, WonSlot<CaseSlotFullDto>, GeneralAccount<GeneralAccountIdAndUuidDto> {
     @NonNull CaseFullDto selectCase;
     @NonNull AccountFullDto account;
