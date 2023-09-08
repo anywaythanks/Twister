@@ -1,15 +1,11 @@
 package com.github.anywaythanks.twisterresource.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "inventory_slots")

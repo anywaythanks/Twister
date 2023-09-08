@@ -3,7 +3,6 @@ package com.github.anywaythanks.twisterresource.services;
 import com.github.anywaythanks.twisterresource.exceptions.InsufficientFundsException;
 import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
-import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.Account;
 import com.github.anywaythanks.twisterresource.models.Money;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountDebitResponseDto;

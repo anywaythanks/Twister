@@ -19,6 +19,7 @@ public class ItemMergeService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final Clock clock;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto merge(ItemFullDto itemFullDto) {

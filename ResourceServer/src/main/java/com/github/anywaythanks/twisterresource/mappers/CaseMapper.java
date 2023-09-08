@@ -55,5 +55,6 @@ public interface CaseMapper {
     CaseIdDto toCaseId(Case aCase);
 
     CaseNameResponseDto toName(Case nCase);
+
     CaseNameRequestDto toNameRequest(Case nCase);
 }

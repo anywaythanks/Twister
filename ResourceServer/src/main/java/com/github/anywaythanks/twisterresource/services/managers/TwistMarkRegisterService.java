@@ -3,8 +3,6 @@ package com.github.anywaythanks.twisterresource.services.managers;
 import com.github.anywaythanks.twisterresource.annotation.RegisterService;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
-import com.github.anywaythanks.twisterresource.models.Case;
-import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.TwistMark;
 import com.github.anywaythanks.twisterresource.models.dto.twistMark.TwistMarkRegisterDto;
 import com.github.anywaythanks.twisterresource.repository.TwistMarkRepository;
@@ -22,6 +20,7 @@ public class TwistMarkRegisterService {
     private final CaseMapper caseMapper;
     private final GeneralAccountMapper generalAccountMapper;
     private final Clock clock;
+
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void register(TwistMarkRegisterDto registerDto) {
         Instant now = Instant.now(clock);

@@ -32,6 +32,7 @@ public class AccountRegisterService {
     private final MoneyMapper moneyMapper;
     private final GeneralAccountMapper generalAccountMapper;
     private final Clock clock;
+
     @Transactional
     public AccountPartialResponseDto register(AccountRegisterDto accountRegisterDto) {
         Instant now = Instant.now(clock);

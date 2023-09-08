@@ -19,5 +19,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long> {
     List<InventoryName> findNames(@Param("generalId") Long generalId);
 
     @Query("select i from Inventory i where i.name = :name and i.generalAccount.id = :generalId")
-    Optional<Inventory> findContaining(@Param("generalId")Long generalId,@Param("name") InventoryName name);
+    Optional<Inventory> findContaining(@Param("generalId") Long generalId, @Param("name") InventoryName name);
 }

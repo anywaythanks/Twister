@@ -41,6 +41,7 @@ public interface SlotMapper {
     @Mapping(source = "inventorySlot.quantityItem", target = "quantity")
     @Mapping(source = "inventorySlot.inventory", target = "inventory", resultType = InventoryIdDto.class)
     InventorySlotFullDto toInventoryFull(InventorySlot<Item> inventorySlot);
+
     @Mapping(target = "withQuantity", ignore = true)
     InventorySlotActionDto toInventoryAction(InventoryIdDto inventory, SlotActionDto actionDto);
 

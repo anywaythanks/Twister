@@ -26,6 +26,7 @@ public class InventoryRegisterService {
     private final GeneralAccountMapper generalAccountMapper;
     private final InventoryRepository inventoryRepository;
     private final Clock clock;
+
     @Transactional
     public InventoryPartialResponseDto register(GeneralAccountNameRequestDto name) {
         GeneralAccountIdAndUuidDto accountId = generalAccountInformationService.getId(name);

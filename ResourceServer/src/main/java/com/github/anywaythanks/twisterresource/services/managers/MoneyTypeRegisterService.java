@@ -19,6 +19,7 @@ public class MoneyTypeRegisterService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeMapper moneyTypeMapper;
     private final Clock clock;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public MoneyTypePartialResponseDto register(MoneyTypeRegisterDto registerDto) {

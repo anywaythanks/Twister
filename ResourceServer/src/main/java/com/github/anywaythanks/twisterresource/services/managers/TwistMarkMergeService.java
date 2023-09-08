@@ -17,6 +17,7 @@ public class TwistMarkMergeService {
     private final TwistMarkMapper twistMarkMapper;
     private final TwistMarkRepository twistMarkRepository;
     private final Clock clock;
+
     @Transactional
     public void merge(TwistMarkFullDto fullDto) {
         TwistMark twistMark = twistMarkMapper.toMark(fullDto);

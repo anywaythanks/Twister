@@ -6,10 +6,8 @@ import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.Twist;
 import com.github.anywaythanks.twisterresource.models.TwistNumber;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseFullDto;
-import com.github.anywaythanks.twisterresource.models.dto.acase.CaseIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountFullDto;
-import com.github.anywaythanks.twisterresource.models.dto.account.AccountIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistPartialResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.twist.TwistRegisterDto;
@@ -26,6 +24,7 @@ public interface TwistMapper {
     @Mapping(source = "twist.account.number", target = "account")
     @Mapping(source = "twist.number.number", target = "number")
     TwistPartialResponseDto toPartialDTO(CaseSlotName wonSlotName, Twist<? extends Item> twist);
+
     @Mapping(source = "number.number", target = "number")
     TwistRegisterDto toRegister(TwistNumber number, GeneralAccountIdAndUuidDto generalAccount,
                                 CaseSlotFullDto slot, CaseFullDto selectCase, AccountFullDto account);

@@ -27,6 +27,7 @@ public class ItemRegisterService {
     private final ItemMapper itemMapper;
     private final MoneyMapper moneyMapper;
     private final Clock clock;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto register(ItemRegisterDto registerDto) {

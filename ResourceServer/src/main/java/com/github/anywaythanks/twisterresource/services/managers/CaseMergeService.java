@@ -19,6 +19,7 @@ public class CaseMergeService {
     private final CaseRepository caseRepository;
     private final CaseMapper caseMapper;
     private final Clock clock;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public CasePartialResponseDto merge(CaseFullDto caseMergeDto) {

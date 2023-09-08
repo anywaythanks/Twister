@@ -20,6 +20,7 @@ public class GeneralAccountMergeService {
     private final GeneralAccountRepository generalAccountRepository;
     private final GeneralAccountMapper generalAccountMapper;
     private final Clock clock;
+
     @PreAuthorize("#mergeDto.uuid == authentication.principal.uuid ")
     //+ "and @generalAccountRepository.isAccountBelongsUser(authentication.principal.uuid, #mergeDto.id)")
     @Transactional

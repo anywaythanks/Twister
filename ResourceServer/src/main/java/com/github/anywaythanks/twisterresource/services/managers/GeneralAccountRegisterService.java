@@ -27,6 +27,7 @@ public class GeneralAccountRegisterService {
     private final GeneralAccountNameRepository generalAccountNameRepository;
     private final GeneralAccountMapper generalAccountMapper;
     private final Clock clock;
+
     @PreAuthorize("#generalAccountRegisterDto.uuid == authentication.principal.uuid")
     @Transactional
     public GeneralAccountPartialResponseDto register(GeneralAccountRegisterDto generalAccountRegisterDto) {
