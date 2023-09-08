@@ -9,6 +9,7 @@ import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -16,11 +17,12 @@ import java.time.Instant;
 public class AccountMergeService {
     private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
+    private final Clock clock;
 
     @Transactional
     public AccountPartialResponseDto merge(AccountFullDto accountFullDto) {
         Account account = accountMapper.toAccount(accountFullDto);
-        account.setModifiedBy(Instant.now());
+        account.setModifiedBy(Instant.now(clock));
         Account result = accountRepository.save(account);
         return accountMapper.toPartialDTO(result);
     }

@@ -8,6 +8,7 @@ import com.github.anywaythanks.twisterresource.repository.TwistMarkRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -15,11 +16,11 @@ import java.time.Instant;
 public class TwistMarkMergeService {
     private final TwistMarkMapper twistMarkMapper;
     private final TwistMarkRepository twistMarkRepository;
-
+    private final Clock clock;
     @Transactional
     public void merge(TwistMarkFullDto fullDto) {
         TwistMark twistMark = twistMarkMapper.toMark(fullDto);
-        twistMark.setUpdatedOn(Instant.now());
+        twistMark.setUpdatedOn(Instant.now(clock));
         twistMarkRepository.save(twistMark);
     }
 }

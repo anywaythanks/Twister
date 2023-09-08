@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @Service
@@ -25,7 +26,7 @@ public class GeneralAccountRegisterService {
     private final GeneralAccountRepository generalAccountRepository;
     private final GeneralAccountNameRepository generalAccountNameRepository;
     private final GeneralAccountMapper generalAccountMapper;
-
+    private final Clock clock;
     @PreAuthorize("#generalAccountRegisterDto.uuid == authentication.principal.uuid")
     @Transactional
     public GeneralAccountPartialResponseDto register(GeneralAccountRegisterDto generalAccountRegisterDto) {
@@ -36,7 +37,7 @@ public class GeneralAccountRegisterService {
             throw new NicknameUniqueException();
         });
         GeneralAccountName name = generalAccountMapper.toName(generalAccountRegisterDto.getName());
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         var account = GeneralAccount.builder()
                 .userUuid(generalAccountRegisterDto.getUuid())
                 .name(generalAccountNameRepository.save(name))

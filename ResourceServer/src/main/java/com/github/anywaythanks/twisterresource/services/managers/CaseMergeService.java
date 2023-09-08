@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -17,12 +18,12 @@ import java.time.Instant;
 public class CaseMergeService {
     private final CaseRepository caseRepository;
     private final CaseMapper caseMapper;
-
+    private final Clock clock;
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public CasePartialResponseDto merge(CaseFullDto caseMergeDto) {
         Case mergedCase = caseMapper.toCase(caseMergeDto);
-        mergedCase.setModifiedBy(Instant.now());
+        mergedCase.setModifiedBy(Instant.now(clock));
         Case resultCase = caseRepository.save(mergedCase);
         return caseMapper.toPartialDTO(resultCase);
     }

@@ -19,6 +19,7 @@ import com.github.anywaythanks.twisterresource.repository.TwistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @RegisterService
@@ -31,7 +32,7 @@ public class TwistRegisterService {
     private final GeneralAccountMapper generalAccountMapper;
     private final CaseMapper caseMapper;
     private final SlotMapper slotMapper;
-
+    private final Clock clock;
     @Transactional
     public TwistPartialResponseDto register(TwistRegisterDto registerDto) {
         CaseSlot<Item> wonSlot = slotMapper.toCaseSlot(registerDto.getSlot());
@@ -43,7 +44,7 @@ public class TwistRegisterService {
                 .twistCase(caseMapper.toCase(registerDto.getSelectCase()))
                 .wonItem(wonSlot.getItem())
                 .quantityItem(wonSlot.getQuantityItem())
-                .createdOn(Instant.now())
+                .createdOn(Instant.now(clock))
                 .build();
         return twistMapper.toPartialDTO(wonSlot.getName(), twistRepository.save(resultTwist));
     }

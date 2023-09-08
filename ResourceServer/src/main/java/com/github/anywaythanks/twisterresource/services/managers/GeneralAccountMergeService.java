@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -18,7 +19,7 @@ import java.time.Instant;
 public class GeneralAccountMergeService {
     private final GeneralAccountRepository generalAccountRepository;
     private final GeneralAccountMapper generalAccountMapper;
-
+    private final Clock clock;
     @PreAuthorize("#mergeDto.uuid == authentication.principal.uuid ")
     //+ "and @generalAccountRepository.isAccountBelongsUser(authentication.principal.uuid, #mergeDto.id)")
     @Transactional
@@ -28,7 +29,7 @@ public class GeneralAccountMergeService {
                 throw new NicknameUniqueException();
         });
         GeneralAccount generalAccount = generalAccountMapper.toAccount(fullDto);
-        generalAccount.setModifiedBy(Instant.now());
+        generalAccount.setModifiedBy(Instant.now(clock));
         GeneralAccount resultAccount = generalAccountRepository.save(generalAccount);
         return generalAccountMapper.toPartialDTO(resultAccount);
     }

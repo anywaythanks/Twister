@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -17,12 +18,12 @@ import java.time.Instant;
 public class MoneyTypeMergeService {
     private final MoneyTypeRepository moneyTypeRepository;
     private final MoneyTypeMapper moneyTypeMapper;
-
+    private final Clock clock;
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public MoneyTypePartialResponseDto merge(MoneyTypeFullDto fullDto) {
         MoneyType moneyType = moneyTypeMapper.toType(fullDto);
-        moneyType.setModifiedBy(Instant.now());
+        moneyType.setModifiedBy(Instant.now(clock));
         MoneyType resultType = moneyTypeRepository.save(moneyType);
         return moneyTypeMapper.toPartialDTO(resultType);
     }

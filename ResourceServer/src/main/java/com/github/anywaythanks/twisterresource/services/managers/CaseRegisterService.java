@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @RegisterService
@@ -21,12 +22,12 @@ public class CaseRegisterService {
     private final CaseMapper caseMapper;
     private final MoneyMapper moneyMapper;
     private final CaseSlotRegisterService caseSlotRegisterService;
-
+    private final Clock clock;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public CasePartialResponseDto register(CaseRegisterDto caseRegisterDto) {
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         Money price = moneyMapper.toMoney(caseRegisterDto.getPrice());
         Case newCase = Case.builder()
                 .name(caseRegisterDto.getName())

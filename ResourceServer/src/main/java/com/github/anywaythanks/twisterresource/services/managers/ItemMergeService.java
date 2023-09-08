@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @MergeService
@@ -17,12 +18,12 @@ import java.time.Instant;
 public class ItemMergeService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
-
+    private final Clock clock;
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto merge(ItemFullDto itemFullDto) {
         Item item = itemMapper.toItem(itemFullDto);
-        item.setModifiedBy(Instant.now());
+        item.setModifiedBy(Instant.now(clock));
         Item resultItem = itemRepository.save(item);
         return itemMapper.toPartialDTO(itemRepository.save(resultItem));
     }

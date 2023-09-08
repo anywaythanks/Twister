@@ -14,6 +14,7 @@ import com.github.anywaythanks.twisterresource.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @RegisterService
@@ -24,12 +25,12 @@ public class InventoryRegisterService {
     private final InventoryMapper inventoryMapper;
     private final GeneralAccountMapper generalAccountMapper;
     private final InventoryRepository inventoryRepository;
-
+    private final Clock clock;
     @Transactional
     public InventoryPartialResponseDto register(GeneralAccountNameRequestDto name) {
         GeneralAccountIdAndUuidDto accountId = generalAccountInformationService.getId(name);
         InventoryName persistenceName = inventoryNameRepository.save(InventoryName.builder().build());
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         GeneralAccount generalAccount = generalAccountMapper.toAccount(accountId);
         Inventory newInventory = Inventory.builder()
                 .name(persistenceName)

@@ -18,6 +18,7 @@ import com.github.anywaythanks.twisterresource.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @RegisterService
@@ -30,10 +31,10 @@ public class AccountRegisterService {
     private final MoneyRegisterService registerMoneyService;
     private final MoneyMapper moneyMapper;
     private final GeneralAccountMapper generalAccountMapper;
-
+    private final Clock clock;
     @Transactional
     public AccountPartialResponseDto register(AccountRegisterDto accountRegisterDto) {
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         AccountNumber number = (accountMapper.toNumber(accountRegisterDto));
         GeneralAccount generalAccount = generalAccountMapper.toAccount(accountRegisterDto.getGeneral());
         Account newAccount = Account.builder()

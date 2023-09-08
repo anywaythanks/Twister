@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.Instant;
 
 @RegisterService
@@ -25,12 +26,12 @@ public class ItemRegisterService {
     private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
     private final MoneyMapper moneyMapper;
-
+    private final Clock clock;
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto register(ItemRegisterDto registerDto) {
         Item item;
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         if (registerDto instanceof ItemMoneyRegisterDto itemMoney) {
             Money cost = moneyMapper.toMoney(itemMoney.getCost());
             item = ItemMoney.builder()
