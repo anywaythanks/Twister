@@ -18,9 +18,10 @@ public interface TwistMarkMapper {
     TwistMark toMark(TwistMarkFullDto fullDto);
 
     @InheritInverseConfiguration
+    @Mapping(target = "withConsider", ignore = true)
     TwistMarkFullDto toFull(TwistMark twistMark);
 
-    TwistMarkPutDto toPut(Boolean consider, GeneralAccountIdAndUuidDto account, Case twistCase);
+    TwistMarkPutDto toPut(GeneralAccountIdAndUuidDto account, Case twistCase);
 
     TwistMarkRegisterDto toRegister(TwistMarkPutDto putDto);
 }

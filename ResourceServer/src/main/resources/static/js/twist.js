@@ -19,10 +19,12 @@ $(function () {
     });
 
     $('.twist').click(function () {
+        console.log("click");
         if (!$('.twist').attr("ok")) {
             const case_name = $('.twist').attr('data-case-name');
             const account_number = $('.twist').attr('data-account-number');
-            $.post(`/me/${account_number}/twist/${case_name}`, function (data) {
+            const inventory_name = $('.twist').attr('data-inventory-name');
+            $.post(`/me/${account_number}/twist/${case_name}/${inventory_name}`, function (data) {
                     p['stopDivNumber'] = Number($(`#${data.caseName}`).attr("data-index"));
                     updateParamater();
                     rouletter.roulette('start');

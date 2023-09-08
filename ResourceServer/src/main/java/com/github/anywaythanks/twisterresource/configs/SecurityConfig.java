@@ -33,14 +33,12 @@ public class SecurityConfig {
             SpringAddonsJwtAuthenticationUserConverter authenticationConverter,
             HandlerMappingIntrospector mvcHandlerMappingIntrospector)
             throws Exception {
-        Logger logger = LoggerFactory.getLogger("filter");
         http.oauth2ResourceServer(resourceServer ->
                 resourceServer.jwt(jwtConfigurer ->
                         jwtConfigurer.jwtAuthenticationConverter(authenticationConverter)));
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.csrf(AbstractHttpConfigurer::disable);
         http.exceptionHandling(handeling -> handeling.authenticationEntryPoint((request, response, authException) -> {
-            logger.info(handeling.toString());
             response.addHeader(HttpHeaders.WWW_AUTHENTICATE, "Basic realm=\"Restricted Content\"");
             response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
         }));

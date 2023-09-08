@@ -3,7 +3,10 @@ package com.github.anywaythanks.twisterresource.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
@@ -15,6 +18,7 @@ import java.time.Instant;
 @Setter
 @SuperBuilder
 @Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Item {
     @Id
     @GeneratedValue(generator = "ITEM_ID_GENERATOR")
@@ -24,6 +28,7 @@ public abstract class Item {
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     String name;
     @NotBlank
     @Length(min = 1, max = 64)

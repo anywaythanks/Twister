@@ -31,7 +31,7 @@ public class Money {
     }
 
     public Money multiply(BigDecimal value) {
-        return new Money(value.multiply(value), moneyType);
+        return new Money(this.value.multiply(value), moneyType);
     }
 
     public Money subtract(Money money) {

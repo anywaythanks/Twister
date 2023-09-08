@@ -33,6 +33,8 @@ public interface AccountMapper {
 
     AccountNumber toNumber(AccountNumberRequestDto number);
 
+    AccountNumberRequestDto toNumberRequest(AccountNumber number);
+
     AccountNumber toNumber(AccountRegisterDto accountRegisterDto);
 
     @Mapping(source = "generalId", target = "general")

@@ -31,9 +31,12 @@ main > ul > li {
     flex-direction: column;
 }
 .price {
-    display: flex;
     align-items: center;
 }
+.cases span{
+    display: flex;
+}
+
 .cases {
     display: flex;
     padding-left: 0px;

@@ -16,6 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor(access = PROTECTED)
 @Getter
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 public class MoneyType {
     @Id
@@ -25,6 +26,7 @@ public class MoneyType {
     @NotBlank
     @Length(min = 3, max = 64)
     @Column(nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     String name;
 
     @NotBlank

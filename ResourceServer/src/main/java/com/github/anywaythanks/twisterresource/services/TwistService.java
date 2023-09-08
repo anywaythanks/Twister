@@ -12,7 +12,6 @@ import com.github.anywaythanks.twisterresource.models.dto.acase.CaseFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseNameRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountFullDto;
-import com.github.anywaythanks.twisterresource.models.dto.account.AccountIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.account.AccountNumberRequestDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountIdAndUuidDto;
 import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccountNameRequestDto;
@@ -43,6 +42,8 @@ public class TwistService {
     private final CaseSlotInformationService caseSlotInformationService;
     private final AccountInformationService accountInformationService;
     private final TwistRegisterService twistRegisterService;
+    private final TwistMarkMergeService twistMarkMergeService;
+    private final TwistMarkInformationService twistMarkInformationService;
 
     @Transactional
     public TwistPartialResponseDto twist(GeneralAccountNameRequestDto name,
@@ -55,7 +56,8 @@ public class TwistService {
         if (!twistedCase.getCooldown().isZero())
             throw new CooldownException();
         GeneralAccountIdAndUuidDto generalAccountIdDto = generalAccountInformationService.getId(name);
-        twistMarkPutService.put(twistMarkMapper.toPut(true, generalAccountIdDto, twistedCase));
+        twistMarkPutService.putIfAbsent(twistMarkMapper.toPut(generalAccountIdDto, twistedCase));
+        twistMarkMergeService.merge(twistMarkInformationService.getFull(generalAccountIdDto, caseIdDto).withConsider(true));
         CaseSlot<Item> wonSlot = twist(caseSlotInformationService
                 .getFullsOrdersPercent(caseIdDto)
                 .stream()

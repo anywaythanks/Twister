@@ -19,14 +19,11 @@ public class TwistMarkPutService {
     private final TwistMarkMergeService twistMarkMergeService;
 
     @Transactional
-    public void put(TwistMarkPutDto putDto) {
+    public void putIfAbsent(TwistMarkPutDto putDto) {
         Optional<TwistMark> optionalTwistMark = twistMarkRepository
                 .findFirstByGeneralAccountIdAndTwistCaseId(putDto.getAccount().getId(), putDto.getTwistCase().getId());
         if (optionalTwistMark.isEmpty()) {
             twistMarkRegisterService.register(twistMarkMapper.toRegister(putDto));
-        } else {
-            TwistMark twistMark = optionalTwistMark.get();
-            twistMarkMergeService.merge(twistMarkMapper.toFull(twistMark));
         }
     }
 }

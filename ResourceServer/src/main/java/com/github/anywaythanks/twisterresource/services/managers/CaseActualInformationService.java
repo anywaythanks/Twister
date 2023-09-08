@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class CaseActualInformationService {
     private final GeneralAccountInformationService generalAccountInformationService;
     private final CaseSlotInformationService caseSlotInformationService;
     private static final Sort.Order ORDER_DESC_CASE_ID = Sort.Order.desc("id");
+    private final Clock clock;
 
     private Case getCase(CaseNameRequestDto caseName) {
         return caseRepository.findByName(caseName.getName())
@@ -51,7 +53,7 @@ public class CaseActualInformationService {
     }
 
     private Duration subtractDuration(Instant lastDate, Duration cooldown) {
-        Duration duration = cooldown.minus(Duration.between(lastDate, Instant.now()));
+        Duration duration = cooldown.minus(Duration.between(lastDate, Instant.now(clock)));
         if (duration.isNegative()) return Duration.ZERO;
         return duration;
     }
@@ -87,14 +89,13 @@ public class CaseActualInformationService {
                 statistic.getMin(),
                 statistic.getMax(),
                 Sort.by(ORDER_DESC_CASE_ID));
-
         Iterator<CaseLastTwistResponseDto> datesIt = dates.iterator();
-        CaseLastTwistResponseDto date = datesIt.next();
+        CaseLastTwistResponseDto date = dates.isEmpty() ? null : datesIt.next();
         List<CaseLightPartialResponseDto> result = new ArrayList<>();
         for (Case aCase : pageCase) {
             Duration duration = Duration.ZERO;
             //Because orderBy are identical, id are located in the same places with "white" spots.
-            if (date.getId().compareTo(aCase.getId()) == 0) {
+            if (date != null && date.getId().compareTo(aCase.getId()) == 0) {
                 duration = subtractDuration(date.getLastTwist(), aCase.getCooldown());
                 if (datesIt.hasNext()) {
                     date = datesIt.next();

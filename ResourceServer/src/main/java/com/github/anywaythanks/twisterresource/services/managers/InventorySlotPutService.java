@@ -18,15 +18,11 @@ public class InventorySlotPutService {
     private final InventorySlotMergeService inventorySlotMergeService;
     private final SlotMapper slotMapper;
 
-    public void put(InventorySlotPutDto inventorySlotPutDto) {
+    public void putIfAbsent(InventorySlotPutDto inventorySlotPutDto) {
         Optional<InventorySlot<Item>> optionalInventorySlot = inventorySlotRepository.findFirstByInventoryIdAndItemId(
                 inventorySlotPutDto.getInventory().getId(), inventorySlotPutDto.getItem().getId());
         if (optionalInventorySlot.isEmpty()) {
             inventorySlotRegisterService.register(slotMapper.toInventoryRegister(inventorySlotPutDto));
-        } else {
-            InventorySlot<Item> slot = optionalInventorySlot.get();
-            slot.setQuantityItem(inventorySlotPutDto.getQuantity());
-            inventorySlotMergeService.merge(slotMapper.toInventoryFull(slot));
         }
     }
 }

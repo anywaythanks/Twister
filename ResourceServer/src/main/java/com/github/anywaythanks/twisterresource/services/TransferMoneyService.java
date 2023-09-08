@@ -31,7 +31,6 @@ public class TransferMoneyService {
     private final MoneyTypeInformationService moneyTypeInformationService;
     private final AccountMapper accountMapper;
     private final AccountMergeService mergeAccountService;
-    private final MoneyTypeMapper moneyTypeMapper;
 
     private void actionAccount(AccountFullDto accountFullDto, MoneyFullDto val,
                                Function<Money, Function<Money, Money>> action) {
@@ -42,7 +41,7 @@ public class TransferMoneyService {
             throw new InsufficientFundsException();
         }
         account.setAmount(newVal);
-        mergeAccountService.merge(accountFullDto);
+        mergeAccountService.merge(accountMapper.toFullDTO(account));
     }
 
     @Transactional
@@ -52,8 +51,7 @@ public class TransferMoneyService {
     }
 
     @Transactional
-    public void credit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number,
-                       MoneyFullDto credit) {
+    public void credit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number, MoneyFullDto credit) {
         AccountFullDto accountCredit = accountInformationService.getFull(name, number);
         actionAccount(accountCredit, credit, money -> money::subtract);
     }

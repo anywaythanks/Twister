@@ -32,7 +32,7 @@ public class HibernateActualCaseRepository implements ActualCaseRepository {
         Predicate p = cb.and(cb.greaterThanOrEqualTo(twistMark.get("twistCase").get("id"), startId),
                 cb.lessThanOrEqualTo(twistMark.get("twistCase").get("id"), endId));
         c.where(cb.and(cb.equal(twistMark.get("generalAccount").get("id"), generalAccountId), p, cb.isTrue(twistMark.get("consider"))));
-        c.groupBy(twistMark.get("generalAccount"));
+        c.groupBy(twistMark.get("generalAccount"), twistMark.get("twistCase").get("id"));
         if (!sort.isUnsorted()) {
             List<Order> orders = new ArrayList<>();
             for (Sort.Order order : sort) {

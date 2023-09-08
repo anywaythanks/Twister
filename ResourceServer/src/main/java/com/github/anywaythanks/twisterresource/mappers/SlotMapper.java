@@ -31,9 +31,7 @@ public interface SlotMapper {
     @Mapping(source = "quantity.quantity", target = "quantity")
     SlotFullDto toFull(SlotQuantityRequestDto quantity, SlotIdDto slot);
 
-    @Mapping(source = "inventorySlot.quantityItem", target = "quantity")
-    @Mapping(source = "inventorySlot.inventory", target = "inventory", resultType = InventoryIdDto.class)
-    InventorySlotPutDto toPut(InventorySlot<Item> inventorySlot);
+    InventorySlotPutDto toPut(InventorySlotActionDto inventorySlot);
 
     InventorySlotRegisterDto toInventoryRegister(InventorySlotPutDto inventorySlotPutDto);
 
@@ -43,13 +41,15 @@ public interface SlotMapper {
     @Mapping(source = "inventorySlot.quantityItem", target = "quantity")
     @Mapping(source = "inventorySlot.inventory", target = "inventory", resultType = InventoryIdDto.class)
     InventorySlotFullDto toInventoryFull(InventorySlot<Item> inventorySlot);
-
+    @Mapping(target = "withQuantity", ignore = true)
     InventorySlotActionDto toInventoryAction(InventoryIdDto inventory, SlotActionDto actionDto);
 
     @Mapping(source = "quantity.quantity", target = "quantity")
+    @Mapping(target = "withQuantity", ignore = true)
     SlotActionDto toAction(ItemFullDto item, SlotQuantityRequestDto quantity);
 
     @Mapping(source = "slot.quantityItem", target = "quantity")
+    @Mapping(target = "withQuantity", ignore = true)
     SlotActionDto toAction(Slot<Item> slot);
 
     @Mapping(source = "inventorySlotFull.quantity", target = "quantityItem")

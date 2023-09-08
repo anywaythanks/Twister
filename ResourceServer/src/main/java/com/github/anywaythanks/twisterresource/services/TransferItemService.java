@@ -9,9 +9,13 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryDebitResponseDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.inventory.InventoryNameRequestDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.ItemIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.InventorySlotActionDto;
+import com.github.anywaythanks.twisterresource.models.dto.slot.InventorySlotFullDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotActionDto;
 import com.github.anywaythanks.twisterresource.services.managers.InventoryInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.InventorySlotInformationService;
+import com.github.anywaythanks.twisterresource.services.managers.InventorySlotMergeService;
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotPutService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,13 +32,18 @@ public class TransferItemService {
     private final InventoryInformationService inventoryInformationService;
     private final InventorySlotPutService inventorySlotPutService;
     private final SlotMapper slotMapper;
+    private final InventorySlotInformationService inventorySlotInformationService;
+    private final InventorySlotMergeService inventorySlotMergeService;
 
     private void actionSlot(InventorySlotActionDto slotAction,
                             Function<Slot<?>, BiConsumer<Item, Integer>> action) {
         Item item = itemMapper.toItem(slotAction.getItem());
-        InventorySlot<Item> slot = slotMapper.toInventorySlot(slotAction);
+        ItemIdDto itemId = itemMapper.toIdDTO(item);
+        inventorySlotPutService.putIfAbsent(slotMapper.toPut(slotAction.withQuantity(0)));
+        InventorySlotFullDto slotDto = inventorySlotInformationService.getFull(slotAction.getInventory(), itemId);
+        InventorySlot<Item> slot = slotMapper.toInventorySlot(slotDto);
         action.apply(slot).accept(item, slotAction.getQuantity());
-        inventorySlotPutService.put(slotMapper.toPut(slot));
+        inventorySlotMergeService.merge(slotMapper.toInventoryFull(slot));
     }
 
     @Transactional

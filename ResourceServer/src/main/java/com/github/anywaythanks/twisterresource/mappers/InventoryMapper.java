@@ -15,6 +15,8 @@ public interface InventoryMapper {
 
     InventoryNameResponseDto toNameDTO(InventoryName name);
 
+    InventoryNameRequestDto toNameRequest(InventoryName name);
+
     InventoryName toName(InventoryNameRequestDto name);
 
     InventoryIdDto toIdDTO(Inventory inventory);

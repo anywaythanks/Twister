@@ -29,6 +29,8 @@ public interface GeneralAccountMapper {
 
     GeneralAccountName toName(GeneralAccountNameRequestDto name);
 
+    GeneralAccountNameRequestDto toNameRequest(GeneralAccountName name);
+
     GeneralAccountName toName(String name);
 
     @Mapping(source = "fullDto.uuid", target = "userUuid")
