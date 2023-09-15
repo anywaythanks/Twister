@@ -19,7 +19,7 @@ public class HibernateActualCaseRepository implements ActualCaseRepository {
     private EntityManager em;
 
     //select t.twistCase.id, t.updatedOn from TwistMark tm where t.generalAccount.id = #generalAccountId and
-    //(t.twistCase.id >= #startId and t.twistCase.id <= #endId) and t.consider groupBy t.generalAccount orderBy #sort
+    //(t.twistCase.id >= #startId and t.twistCase.id <= #endId) and t.consider orderBy #sort
     @Transactional(readOnly = true)
     public List<CaseLastTwistResponseDto> dates(Long generalAccountId, Long startId, Long endId, Sort sort) {
         if (startId < 0 || startId > endId) throw new IllegalArgumentException();
@@ -32,7 +32,6 @@ public class HibernateActualCaseRepository implements ActualCaseRepository {
         Predicate p = cb.and(cb.greaterThanOrEqualTo(twistMark.get("twistCase").get("id"), startId),
                 cb.lessThanOrEqualTo(twistMark.get("twistCase").get("id"), endId));
         c.where(cb.and(cb.equal(twistMark.get("generalAccount").get("id"), generalAccountId), p, cb.isTrue(twistMark.get("consider"))));
-        c.groupBy(twistMark.get("generalAccount"), twistMark.get("twistCase").get("id"));
         if (!sort.isUnsorted()) {
             List<Order> orders = new ArrayList<>();
             for (Sort.Order order : sort) {
