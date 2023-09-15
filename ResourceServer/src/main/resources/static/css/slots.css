@@ -1,0 +1,10 @@
+.slots {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+}
+.slots > .slot {
+    display: flex;
+}

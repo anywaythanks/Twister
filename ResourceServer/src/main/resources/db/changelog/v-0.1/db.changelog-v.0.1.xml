@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="money_type/table.xml" relativeToChangelogFile="true"/>
+    <include file="items/table.xml" relativeToChangelogFile="true"/>
+    <include file="item_money/table.xml" relativeToChangelogFile="true"/>
+    <include file="item_trash/table.xml" relativeToChangelogFile="true"/>
+    <include file="slot_seq/sequence.xml" relativeToChangelogFile="true"/>
+
+    <include file="general_account_name/table.xml" relativeToChangelogFile="true"/>
+    <include file="general_accounts/table.xml" relativeToChangelogFile="true"/>
+    <include file="account_number/table.xml" relativeToChangelogFile="true"/>
+    <include file="accounts/table.xml" relativeToChangelogFile="true"/>
+    <include file="inventory_name/table.xml" relativeToChangelogFile="true"/>
+    <include file="inventories/table.xml" relativeToChangelogFile="true"/>
+    <include file="inventory_slots/table.xml" relativeToChangelogFile="true"/>
+    <include file="inventory_slot_count_item/function.xml" relativeToChangelogFile="true"/>
+
+    <include file="cases/table.xml" relativeToChangelogFile="true"/>
+    <include file="case_slot_name/table.xml" relativeToChangelogFile="true"/>
+    <include file="case_slots/table.xml" relativeToChangelogFile="true"/>
+    <include file="case_slot_sum_percentage/function.xml" relativeToChangelogFile="true"/>
+    <include file="twist_marks/table.xml" relativeToChangelogFile="true"/>
+    <include file="twist_number/table.xml" relativeToChangelogFile="true"/>
+    <include file="twistes/table.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
