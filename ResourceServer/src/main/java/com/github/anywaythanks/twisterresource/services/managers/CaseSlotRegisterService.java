@@ -9,7 +9,7 @@ import com.github.anywaythanks.twisterresource.models.CaseSlotName;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.dto.acase.CaseIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.acase.slot.CaseSlotRegisterDto;
-import com.github.anywaythanks.twisterresource.repository.CaseSlotRepository;
+import com.github.anywaythanks.twisterresource.repository.CaseSlotSaveAllRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +18,13 @@ import java.util.List;
 @RegisterService
 @RequiredArgsConstructor
 public class CaseSlotRegisterService {
-    private final CaseSlotRepository caseSlotRepository;
+    private final CaseSlotSaveAllRepository caseSlotSaveAllRepository;
     private final ItemMapper itemMapper;
     private final CaseMapper caseMapper;
 
     @Transactional
-    public void register(CaseIdDto caseOwner, List<CaseSlotRegisterDto> slotsDto) {
-        Case owner = caseMapper.toCase(caseOwner);
+    public void register(CaseIdDto caseOwnerId, List<CaseSlotRegisterDto> slotsDto) {
+        Case owner = caseMapper.toCase(caseOwnerId);
         List<CaseSlot<Item>> slots = slotsDto.stream()
                 .map(caseSlot -> {
                     Item item = itemMapper.toItem(caseSlot.getItem());
@@ -37,6 +37,6 @@ public class CaseSlotRegisterService {
                             .build();
                 })
                 .toList();
-        caseSlotRepository.saveAll(slots);
+        caseSlotSaveAllRepository.saveAll(owner, slots);
     }
 }
