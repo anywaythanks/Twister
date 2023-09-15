@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 
 public interface Percentage {
     @Min(0)
-    @Max(1)
+    @Max(100)
     BigDecimal getPercentage();
 }
