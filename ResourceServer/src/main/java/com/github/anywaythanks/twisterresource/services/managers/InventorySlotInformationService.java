@@ -12,6 +12,7 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotIdDto;
 import com.github.anywaythanks.twisterresource.models.dto.slot.SlotPartialResponseDto;
 import com.github.anywaythanks.twisterresource.repository.InventorySlotRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import java.util.List;
 
