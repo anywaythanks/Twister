@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.RegisterService;
 import com.github.anywaythanks.twisterresource.exceptions.GeneralAccountExistsException;
 import com.github.anywaythanks.twisterresource.exceptions.NicknameUniqueException;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.Instant;
 
-@Service
+@RegisterService
 @Transactional
 @RequiredArgsConstructor
 public class GeneralAccountRegisterService {
