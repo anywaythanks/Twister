@@ -1,5 +1,7 @@
 $(function () {
     let p = {
+        speed: 20,
+        duration: 4,
         startCallback: function () {
             $('.twist').attr('disabled', 'true');
             $('.stop').removeAttr('disabled');
@@ -8,7 +10,7 @@ $(function () {
             $('.stop').attr('disabled', 'true');
         },
         stopCallback: function ($stopElm) {
-            $('.twist').attr('ok', 'true').html('ok').removeAttr('disabled');
+            $('.twist').attr('ok', 'true').html('<span>ok</span>').removeAttr('disabled');
             $('.stop').attr('disabled', 'true');
         }
     }
@@ -19,13 +21,14 @@ $(function () {
     });
 
     $('.twist').click(function () {
-        console.log("click");
+        // console.log("click");
         if (!$('.twist').attr("ok")) {
             const case_name = $('.twist').attr('data-case-name');
             const account_number = $('.twist').attr('data-account-number');
             const inventory_name = $('.twist').attr('data-inventory-name');
             $.post(`/me/${account_number}/twist/${case_name}/${inventory_name}`, function (data) {
-                    p['stopDivNumber'] = Number($(`#${data.caseName}`).attr("data-index"));
+                    p['stopDivNumber'] = Number($(`#${data.wonSlotName}`).attr("data-index"));
+                    // console.log(data);
                     updateParamater();
                     rouletter.roulette('start');
                 }
@@ -43,8 +46,8 @@ $(function () {
     }
     $('#speed').slider({
         min: 1,
-        max: 30,
-        value: 10,
+        max: 100,
+        value: 70,
         slide: function (event, ui) {
             updateSpeed(ui.value);
             updateParamater();
@@ -58,7 +61,7 @@ $(function () {
     $('#duration').slider({
         min: 2,
         max: 10,
-        value: 3,
+        value: 7,
         slide: function (event, ui) {
             updateDuration(ui.value);
             updateParamater();

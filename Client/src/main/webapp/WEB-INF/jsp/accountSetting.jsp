@@ -3,11 +3,13 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <c:import url="includes/css.jsp"/>
     <s:url value="${fileServerPath}/css" var="css_url"/>
     <link href="${css_url}/accountSetting.css" rel="stylesheet" />
+    <link href="${css_url}/button.css" rel="stylesheet"/>
     <title>Account setting</title>
 </head>
 <body>
@@ -21,7 +23,7 @@
             <sf:label path="nickname" type="nickname"
                       cssErrorClass="error">Никнейм</sf:label>:
             <sf:input path="nickname" cssErrorClass="error" minlength="3" maxlength="64"/><br/>
-            <form:button>Сохранить</form:button>
+            <form:button name="button-ui">Сохранить</form:button>
         </sf:form>
     </main>
     <c:import url="includes/footer.jsp"/>

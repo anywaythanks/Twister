@@ -1,7 +1,6 @@
 package com.example.twisterclient.services;
 
 import com.example.twisterclient.models.Case;
-import com.example.twisterclient.models.CaseSlot;
 import com.example.twisterclient.models.Page;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -9,19 +8,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.List;
-
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
 
 @Service
 public class LoadCaseService {
     private final WebClient webClient;
     private final GeneralAccountSession generalAccountSession;
-
+    private final TypesItemService typesItemService;
     public LoadCaseService(WebClient webClient,
-                           GeneralAccountSession generalAccountSession) {
+                           GeneralAccountSession generalAccountSession,
+                           TypesItemService typesItemService) {
         this.webClient = webClient;
         this.generalAccountSession = generalAccountSession;
+        this.typesItemService = typesItemService;
     }
 
     public void load(Model model, int page, int size, DefaultOidcUser user) {
@@ -54,6 +53,7 @@ public class LoadCaseService {
         }
         if (result != null && result.getPage() != null) result.setPage(result.getPage() + 1);
         model.addAttribute("page", result);
+        typesItemService.load(model);
     }
 
     public void load(Model model, String caseName, DefaultOidcUser user) {
@@ -81,5 +81,6 @@ public class LoadCaseService {
                     .block();
         }
         model.addAttribute("selectedCase", resultCase);
+        typesItemService.load(model);
     }
 }

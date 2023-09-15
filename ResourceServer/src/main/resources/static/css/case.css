@@ -1,7 +1,7 @@
 .case-line .slot {
     display: flex;
-    min-height: 8em;
-    min-width: 8em;
+    height: 40vw;
+    width: 40vw;
 }
 
 .case-line {
@@ -9,65 +9,80 @@
 }
 
 .case-window {
-    height: 8em;
+    height: 40vw;
+    width: 40vw;
     overflow: hidden;
-}
-
-button .price {
-    display: flex;
-    margin: 0.2em;
-    align-items: center;
-}
-
-.buttons button {
-    align-items: center;
-    appearance: none;
-    background-color: #FCFCFD;
-    border-radius: 0.2em;
-    border-width: 0;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: inline-flex;
-    justify-content: center;
-    line-height: 1;
-    list-style: none;
-    position: relative;
-    text-align: left;
-    text-decoration: none;
-    transition: box-shadow .15s, transform .15s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    will-change: box-shadow, transform;
-    font-size: 1.1em;
-}
-
-.buttons button:focus:enabled {
-    box-shadow: #D6D6E7 0 0 0 0.1em inset, rgba(45, 35, 66, 0.4) 0 0.2em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
-}
-
-.buttons button:hover {
-    box-shadow: rgba(45, 35, 66, 0.4) 0 0.3em 0.5em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
-    transform: translateY(-0.2em);
-}
-
-.buttons button:active:enabled {
-    box-shadow: #D6D6E7 0 3px 7px inset;
-    transform: translateY(0.2em);
-}
-
-.buttons button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
 }
 
 .buttons {
     display: flex;
 }
-.buttons button{
-    margin: 0.5em;
-    min-height: 1.7em;
-    min-width: 3em;
+
+.buttons button {
+    flex: 1;
+    height: 2.5em;
+}
+
+button .price {
+    display: flex;
+    align-items: center;
+}
+
+button > span {
+    font-size: 1.2em;
+}
+
+.price > img {
+    margin-left: 0.2em;
+    height: 1em;
+    width: 1em;
+}
+
+.case-form {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+.case-line > .item{
+    padding:6vw;
+    margin:6vw;
+    border-width: 0.4vw !important;
+}
+
+.case-line .item > span {
+    font-size: 4vw;
+}
+
+.slots {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.slots > .slot {
+    display: flex;
+    flex-direction: column;
+    margin-right: 1em;
+}
+.slots > .slot > .item{
+    padding: 1em;
+}
+.case-content{
+    display: flex;
+    justify-content: center;
+}
+
+.slot-content{
+    display: flex;
+    margin-left: 1em;
+    flex-direction: column;
+}
+.case-line .item {
+    padding: 1vw;
+    margin: 3vw;
 }

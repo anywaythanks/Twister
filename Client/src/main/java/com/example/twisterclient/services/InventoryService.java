@@ -28,7 +28,7 @@ public class InventoryService {
     }
 
     public void loadNames(Model model) {
-        if (generalAccountSession.getName() == null) throw new RuntimeException();//TODO
+        if (generalAccountSession.getName() == null) throw new IllegalArgumentException();//TODO
         var names = webClient
                 .get()
                 .uri("/api/general/{name}/inventory",
@@ -42,7 +42,7 @@ public class InventoryService {
     }
 
     public void load(Model model, String nameInventory) {
-        if (generalAccountSession.getName() == null) throw new RuntimeException();//TODO
+        if (generalAccountSession.getName() == null) throw new IllegalArgumentException();//TODO
         var inventory = webClient
                 .get()
                 .uri("/api/general/{name}/inventory/{nameInventory}",
@@ -57,7 +57,7 @@ public class InventoryService {
     }
 
     public void sell(String nameInventory, String accountNumber, String nameItem, SellItemDtoRequest sellItemDtoRequest) {
-        if (generalAccountSession.getName() == null) throw new RuntimeException();//TODO
+        if (generalAccountSession.getName() == null) throw new IllegalArgumentException();//TODO
         webClient.post()
                 .uri("/api/general/{name}/inventory/{nameInventory}/{nameItem}/sell/{accountNumber}",
                         generalAccountSession.getName().getName(), nameInventory, nameItem, accountNumber)

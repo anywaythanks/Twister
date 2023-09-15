@@ -1,5 +1,3 @@
-
-
 .cases > ul {
     display: flex;
     padding: 0;
@@ -8,6 +6,9 @@
 }
 .cases li.active,.cases li:hover:not(.disabled) {
     background-color: #f4f4f4;
+}
+.cases li{
+    transition: all 0.3s ease-out;
 }
 .border-case{
     padding: 0.5em;
@@ -33,13 +34,18 @@ main > ul > li {
 .price {
     align-items: center;
 }
+.price > img{
+    height: 1em;
+    width: 1em;
+    margin-left: 0.2em;
+}
 .cases span{
     display: flex;
 }
 
 .cases {
     display: flex;
-    padding-left: 0px;
+    padding-left: 0;
 }
 .cases > li {
     display: flex;

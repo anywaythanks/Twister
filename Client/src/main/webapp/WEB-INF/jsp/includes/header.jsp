@@ -38,7 +38,7 @@
                                         </s:url>
                                         <li><a href="${inventory_url}">Инвентарь</a></li>
                                     </c:forEach>
-                                    <li><a href="${transfers_url}">Переводы</a></li>
+<%--                                    <li><a href="${transfers_url}">Переводы</a></li>--%>
                                 </ul>
                             </li>
                             <c:forEach items="${accounts.values()}" var="account">
@@ -48,9 +48,7 @@
                                 <li id="account_<c:out value="${account.get(0).number}"/>">
                                     <span class="value"><fmt:formatNumber value="${account.get(0).amount.value}"
                                                                           minFractionDigits="0"/></span>
-                                    <span>
-                                        <img src="${icon_url}" alt="${account.get(0).amount.type.name}">
-                                    </span>
+                                    <img src="${icon_url}" alt="${account.get(0).amount.type.name}">
                                 </li>
                             </c:forEach>
                             <li class="exit"><a href="${logout_url}">Выйти</a></li>

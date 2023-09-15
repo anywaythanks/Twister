@@ -106,7 +106,7 @@
                 p.$dives = $roulette.contents('div');
                 p.divCount = p.$dives.length;
                 p.divHeight = p.$dives.eq(0).height();
-                $roulette.css({'height': (p.divHeight + 'px')});
+                // $roulette.css({'height': (p.divHeight + 'px')});
                 p.totalHeight = p.divCount * p.divHeight;
                 p.runUpDistance = 2 * p.divHeight;
                 $roulette.contents('div').remove();

@@ -3,15 +3,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<!DOCTYPE html>
 <html>
 <head>
     <c:import url="../includes/meta.jsp"/>
     <c:import url="../includes/css.jsp"/>
     <s:url value="${fileServerPath}/css" var="css_url"/>
     <s:url value="${fileServerPath}/js" var="js_url"/>
-    <link href="${css_url}/case.css" rel="stylesheet"/>
     <link href="${css_url}/item.css" rel="stylesheet"/>
+    <link href="${css_url}/button.css" rel="stylesheet"/>
+    <link href="${css_url}/case.css" rel="stylesheet"/>
     <script type="text/javascript" src="${js_url}/jquery.min.js"></script>
     <script type="text/javascript" src="${js_url}/jquery-ui.min.js"></script>
     <script type="text/javascript" src="${js_url}/roulette.js"></script>
@@ -24,40 +25,81 @@
 <div class="site-wrapper">
     <c:import url="../includes/header.jsp"/>
     <main>
-        <div class="case-form">
-            <div class="case-window">
-                <div class="case-line">
-                    <c:forEach items="${selectedCase.items}" var="slot" varStatus="loop">
-                        <div class="slot" id="<c:out value="${slot.name}"/>" data-index="${loop.index}">
-                            <div class="item <c:out value="${slot.item.type}"/>">
-                                <span class="name"><c:out value="${slot.item.visibleName}"/></span>
-                                <c:if test="${slot.quantity > 1}">
-                                    <span class="quantity"><c:out value="x${slot.quantity}"/></span>
-                                </c:if>
+        <div class="case-content">
+            <div class="case-form">
+
+                <div class="case-window">
+                    <div class="case-line">
+                        <c:forEach items="${selectedCase.items}" var="slot" varStatus="loop">
+                            <div class="slot" id="<c:out value="${slot.name}"/>" data-index="${loop.index}">
+                                <div class="item <c:out value="${slot.item.type}"/>">
+                                    <span class="name"><c:out value="${slot.item.visibleName}"/></span>
+                                    <c:if test="${slot.item.type == moneyItem}">
+                                        <s:url value="${fileServerPath}/{typePath}" var="icon_url">
+                                            <s:param name="typePath" value="${slot.item.cost.type.pathToIcon}"/>
+                                        </s:url>
+                                        <span class="cost">
+                                        <span class="value"><fmt:formatNumber value="${slot.item.cost.value}"
+                                                                              minFractionDigits="0"/></span>
+                                            <img src="${icon_url}" alt="${slot.item.cost.type.name}">
+                                        </span>
+                                    </c:if>
+                                    <c:if test="${slot.quantity > 1}">
+                                        <span class="quantity"><c:out value="x${slot.quantity}"/></span>
+                                    </c:if>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
-            </div>
-            <div class="buttons">
-                <s:url value="${fileServerPath}/{typePath}" var="icon_url">
-                    <s:param name="typePath" value="${selectedCase.price.type.pathToIcon}"/>
-                </s:url>
-                <button id="twist-button" class="twist"<c:choose>
-                    <c:when test="${general.name == null}"> disabled</c:when>
-                    <c:otherwise>data-account-number="<c:out
-                            value="${accounts.get(selectedCase.price.type).get(0).number}"/>"
-                        data-inventory-name="<c:out value="${names.get(0).name}"/>"
-                        data-case-name="<c:out value="${selectedCase.name}"/>"</c:otherwise>
-                </c:choose>>
+                <div class="buttons">
+                    <s:url value="${fileServerPath}/{typePath}" var="icon_url">
+                        <s:param name="typePath" value="${selectedCase.price.type.pathToIcon}"/>
+                    </s:url>
+                    <button id="twist-button" name="button-ui" class="twist"<c:choose>
+                        <c:when test="${general.name == null}"> disabled</c:when>
+                        <c:otherwise>data-account-number="<c:out
+                                value="${accounts.get(selectedCase.price.type).get(0).number}"/>"
+                            data-inventory-name="<c:out value="${names.get(0).name}"/>"
+                            data-case-name="<c:out value="${selectedCase.name}"/>"</c:otherwise>
+                    </c:choose>>
                 <span class="price">
                     <span class="value"><fmt:formatNumber value="${selectedCase.price.value}"
                                                           minFractionDigits="0"/></span>
                         <img src="${icon_url}" alt="${selectedCase.price.type.name}">
                 </span>
-                </button>
-                <button class="stop" disabled>стоп</button>
+                    </button>
+                    <button class="stop" name="button-ui" disabled><span class="stop">стоп</span></button>
+                </div>
             </div>
+        </div>
+        <div class="slot-content">
+            <details>
+                <summary>Список предметов</summary>
+                <div class="slots">
+                    <c:forEach items="${selectedCase.items}" var="slot" varStatus="loop">
+                        <div class="slot" id="<c:out value="${slot.name}"/>" data-index="${loop.index}">
+                            <div class="item <c:out value="${slot.item.type}"/>">
+                                <span class="name"><c:out value="${slot.item.visibleName}"/></span>
+                                <c:if test="${slot.item.type == moneyItem}">
+                                    <s:url value="${fileServerPath}/{typePath}" var="icon_url">
+                                        <s:param name="typePath" value="${slot.item.cost.type.pathToIcon}"/>
+                                    </s:url>
+                                    <span class="cost">
+                    <span class="value"><fmt:formatNumber value="${slot.item.cost.value}"
+                                                          minFractionDigits="0"/></span>
+                        <img src="${icon_url}" alt="${slot.item.cost.type.name}">
+                                </span>
+                                </c:if>
+                                <c:if test="${slot.quantity > 1}">
+                                    <span class="quantity"><c:out value="x${slot.quantity}"/></span>
+                                </c:if>
+                            </div>
+                            <span>Шанс: <fmt:formatNumber value="${slot.percentage}" minFractionDigits="0"/></span>
+                        </div>
+                    </c:forEach>
+                </div>
+            </details>
         </div>
         <c:if test="${selectedCase.cooldown != null and selectedCase.cooldown.seconds > 0}">
             <script>

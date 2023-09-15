@@ -1,0 +1,52 @@
+button[name="button-ui"] {
+    align-items: center;
+    appearance: none;
+    background-color: #FCFCFD;
+    border-radius: 0.2em;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 0.1em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 1.1em;
+}
+
+button[name="button-ui"] :focus:enabled {
+    box-shadow: #D6D6E7 0 0 0 0.1em inset, rgba(45, 35, 66, 0.4) 0 0.2em 0.3em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+}
+
+button[name="button-ui"]:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 0.3em 0.5em, rgba(45, 35, 66, 0.3) 0 0.5em 0.8em -0.2em, #D6D6E7 0 -0.2em 0 inset;
+    transform: translateY(-0.1em);
+}
+
+button[name="button-ui"]:active:enabled {
+    box-shadow: #D6D6E7 0 3px 7px inset;
+    transform: translateY(0.1em);
+}
+
+button[name="button-ui"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+button[name="button-ui"]  {
+    display: flex;
+}
+button[name="button-ui"] {
+    margin: 0.5em;
+    min-height: 1.7em;
+    min-width: 3em;
+}

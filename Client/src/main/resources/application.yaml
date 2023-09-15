@@ -26,7 +26,7 @@ spring:
         registration:
           keycloak-confidential-user:
             authorization-grant-type: authorization_code
-            client-name: a local Keycloak instance
+            client-name: Keycloak
             client-id: browser
             client-secret: ${keycloak-secret}
             provider: keycloak

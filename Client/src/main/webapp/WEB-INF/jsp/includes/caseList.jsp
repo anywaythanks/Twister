@@ -16,7 +16,7 @@
             <a class="border-case" id="border-case-<c:out value="${fCase.name}"/>" href="${case_url}">
                 <span class="case-name"><c:out value="${fCase.visibleName}"/></span>
                 <span class="price">
-                    <span class="value">Стоимость:<fmt:formatNumber value="${fCase.price.value}"
+                    <span class="value">Стоимость: <fmt:formatNumber value="${fCase.price.value}"
                                                                     minFractionDigits="0"/></span>
                         <img src="${icon_url}" id="money" class="${fCase.price.type.name}"
                              alt="${fCase.price.type.name}">
