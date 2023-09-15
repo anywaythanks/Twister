@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -16,7 +17,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 public class TwistMark {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = SEQUENCE, generator = "twist_marks_seq")
+    @SequenceGenerator(name = "twist_marks_seq", sequenceName = "twist_marks_id_seq")
     Long id;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @NotNull

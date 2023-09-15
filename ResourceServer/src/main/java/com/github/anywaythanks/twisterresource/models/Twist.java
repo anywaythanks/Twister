@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -19,8 +20,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 public class Twist<T extends Item> {
     @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = SEQUENCE, generator = "twist_seq")
+    @SequenceGenerator(name = "twist_seq", sequenceName = "twist_id_seq")
     Long id;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

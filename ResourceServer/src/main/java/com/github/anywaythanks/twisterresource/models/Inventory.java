@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -18,7 +19,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class Inventory {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = SEQUENCE, generator = "inventory_seq")
+    @SequenceGenerator(name = "inventory_seq", sequenceName = "inventory_id_seq")
     Long id;
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "name", nullable = false, unique = true)

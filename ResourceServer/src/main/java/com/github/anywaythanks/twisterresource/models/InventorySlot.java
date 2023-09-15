@@ -7,12 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Table(name = "inventory_slots")
 @NoArgsConstructor
 @Setter
-@SuperBuilder
 @Getter
+@SuperBuilder
 public class InventorySlot<T extends Item> extends Slot<T> {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

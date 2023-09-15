@@ -10,15 +10,18 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @Setter
-@SuperBuilder
 @Getter
+@SuperBuilder
 public abstract class Slot<T extends Item> {
     @Id
-    @GeneratedValue(generator = "SLOT_ID_GENERATOR")
+    @GeneratedValue(generator = "slot_seq")
+    @SequenceGenerator(name = "slot_seq", sequenceName = "slot_id_seq")
     Long id;
     @NotNull
     @ManyToOne(targetEntity = Item.class, optional = false)

@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import java.time.Duration;
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -21,7 +22,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 public class Case {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = SEQUENCE, generator = "case_seq")
+    @SequenceGenerator(name = "case_seq", sequenceName = "case_id_seq")
     Long id;
     @NotBlank
     @Length(min = 3, max = 64)

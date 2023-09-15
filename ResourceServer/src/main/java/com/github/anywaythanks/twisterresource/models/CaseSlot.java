@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Table(name = "case_slots")
 //@Check(constraints = "sum(percentage_wining)=1 group by case_id")
@@ -20,7 +22,7 @@ import java.math.BigDecimal;
 @SuperBuilder
 @Getter
 public class CaseSlot<T extends Item> extends Slot<T> {
-    @Range(min = 0, max = 1)
+    @Range(min = 0, max = 100)
     @Column(name = "percentage_wining", nullable = false)
     BigDecimal percentageWining;
     @OneToOne(cascade = CascadeType.ALL)

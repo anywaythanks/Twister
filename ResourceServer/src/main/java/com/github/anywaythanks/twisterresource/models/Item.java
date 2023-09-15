@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
@@ -19,9 +21,11 @@ import java.time.Instant;
 @SuperBuilder
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "items")
 public abstract class Item {
     @Id
-    @GeneratedValue(generator = "ITEM_ID_GENERATOR")
+    @GeneratedValue(strategy = SEQUENCE, generator = "item_seq")
+    @SequenceGenerator(name = "item_seq", sequenceName = "item_id_seq")
     @Setter
     Long id;
 

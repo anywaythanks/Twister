@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Table(name = "inventories_name")
+@Table(name = "inventory_name")
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = PROTECTED)
 @Builder

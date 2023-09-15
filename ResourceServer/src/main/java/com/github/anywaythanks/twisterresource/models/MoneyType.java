@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -20,8 +21,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Data
 public class MoneyType {
     @Id
-    @GeneratedValue
-    @Setter
+    @GeneratedValue(strategy = SEQUENCE, generator = "money_type_seq")
+    @SequenceGenerator(name = "money_type_seq", sequenceName = "money_type_id_seq")
     Integer id;
     @NotBlank
     @Length(min = 3, max = 64)

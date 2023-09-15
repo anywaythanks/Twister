@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
+import static jakarta.persistence.GenerationType.SEQUENCE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -20,8 +21,8 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 public class GeneralAccount {
     @Id
-    @GeneratedValue
-    @Setter
+    @GeneratedValue(strategy = SEQUENCE, generator = "general_account_seq")
+    @SequenceGenerator(name = "general_account_seq", sequenceName = "general_account_id_seq")
     Long id;
     @NotBlank
     @Column(name = "user_uuid", nullable = false, unique = true)
