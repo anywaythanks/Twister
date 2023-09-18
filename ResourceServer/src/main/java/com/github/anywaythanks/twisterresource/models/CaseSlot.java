@@ -10,8 +10,6 @@ import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
-
 @Entity
 @Table(name = "case_slots")
 //@Check(constraints = "sum(percentage_wining)=1 group by case_id")

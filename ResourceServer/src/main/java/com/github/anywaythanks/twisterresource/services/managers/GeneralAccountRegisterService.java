@@ -14,7 +14,6 @@ import com.github.anywaythanks.twisterresource.repository.GeneralAccountNameRepo
 import com.github.anywaythanks.twisterresource.repository.GeneralAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;

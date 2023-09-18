@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
-
 @Entity
 @Table(name = "inventory_slots")
 @NoArgsConstructor

@@ -4,8 +4,6 @@ import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -65,6 +63,7 @@ class SlotTest {
             assertEquals(slot.getQuantityItem(), 146);
         }
     }
+
     @Nested
     class Remove {
         @Test

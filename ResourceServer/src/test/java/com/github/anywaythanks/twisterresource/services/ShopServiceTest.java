@@ -72,6 +72,7 @@ class ShopServiceTest {
     SellItem<?> sellingItem;
     Inventory inventory;
     Clock clock = Clock.systemUTC();
+
     private record SellItem<T extends Item & SellingItem>(T item) {
 
     }
