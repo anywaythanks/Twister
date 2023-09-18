@@ -41,29 +41,13 @@ public class SecurityConfig {
                                         new MvcRequestMatcher(mvcHandlerMappingIntrospector, "/WEB-INF/jsp/**"))
                                 .permitAll()
                                 .anyRequest().authenticated())
-
                 .oauth2Login(Customizer.withDefaults()).logout(handler ->
                         handler
                                 .logoutUrl("/logout")
                                 .logoutSuccessHandler(keycloakLogoutHandler)
                                 .permitAll());
-        //.formLogin(Customizer.withDefaults());
-
+        http.requiresChannel(channelRequestMatcherRegistry ->
+                channelRequestMatcherRegistry.anyRequest().requiresSecure());
         return http.build();
-    }
-
-    //    @Bean
-    JwtDecoder jwtDecoder() {
-//        NimbusJwtDecoderJwkSupport jwtDecoder = (NimbusJwtDecoderJwkSupport)
-//                JwtDecoders.fromOidcIssuerLocation(issuerUri);
-//
-//        OAuth2TokenValidator<Jwt> audienceValidator = new    AudienceValidator(jHipsterProperties.getSecurity().getOauth2().getAudience());
-//        OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(issuerUri);
-//        OAuth2TokenValidator<Jwt> withAudience = new DelegatingOAuth2TokenValidator<>(withIssuer, audienceValidator);
-//
-//        jwtDecoder.setJwtValidator(withAudience);
-
-        //??
-        return null;
     }
 }

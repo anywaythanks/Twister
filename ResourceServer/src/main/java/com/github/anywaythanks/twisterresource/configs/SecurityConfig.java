@@ -55,6 +55,8 @@ public class SecurityConfig {
                                 new MvcRequestMatcher(mvcHandlerMappingIntrospector, "api/case/**"))
                         .hasAuthority("ADMIN")
                         .anyRequest().authenticated());
+        http.requiresChannel(channelRequestMatcherRegistry ->
+                channelRequestMatcherRegistry.anyRequest().requiresSecure());
         http.cors(cors -> {
             if (origins.length == 0) {
                 cors.disable();
