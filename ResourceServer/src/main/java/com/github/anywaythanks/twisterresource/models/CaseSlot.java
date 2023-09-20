@@ -20,7 +20,8 @@ import java.math.BigDecimal;
 @SuperBuilder
 @Getter
 public class CaseSlot<T extends Item> extends Slot<T> {
-    @Range(min = 0, max = 100)
+    public static final long MIN_PERCENTAGE = 0, MAX_PERCENTAGE = 100;
+    @Range(min = MIN_PERCENTAGE, max = MAX_PERCENTAGE)
     @Column(name = "percentage_wining", nullable = false)
     BigDecimal percentageWining;
     @OneToOne(cascade = CascadeType.ALL)

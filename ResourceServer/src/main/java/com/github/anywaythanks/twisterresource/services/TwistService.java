@@ -78,7 +78,7 @@ public class TwistService {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);//TODO
         }
-        BigDecimal dice = BigDecimal.valueOf(random.nextDouble());
+        BigDecimal dice = BigDecimal.valueOf(CaseSlot.MIN_PERCENTAGE + random.nextDouble() * CaseSlot.MAX_PERCENTAGE);
         for (var slot : collectionOrderedByPercentage) {
             wonSlot = slot;
             sum = sum.add(slot.getPercentageWining());
