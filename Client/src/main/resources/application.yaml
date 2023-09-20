@@ -1,9 +1,11 @@
+---
 scheme: http
 keycloak-port: 8180
 keycloak-realms: twister
 keycloak-issuer: ${scheme}://localhost:${keycloak-port}/realms/${keycloak-realms}
-keycloak-secret: pPJjW65hH7Qsb0zVqRThgjznA6IJKgxi
-file-server-path: http://localhost:9080/resources
+keycloak-secret: secret
+file-server-path: ${scheme}://localhost:9080/resources
+base-url: ${scheme}://localhost:9080
 
 logging:
   level:
@@ -15,6 +17,9 @@ server:
     enabled: false
   port: 8080
 spring:
+  config:
+    activate:
+      on-profile: develop
   lifecycle:
     timeout-per-shutdown-phase: 30s
   security:
@@ -28,6 +33,37 @@ spring:
             authorization-grant-type: authorization_code
             client-name: Keycloak
             client-id: browser
+            client-secret: ${keycloak-secret}
+            provider: keycloak
+            scope: openid,profile,email,offline_access
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+---
+scheme: https
+keycloak-port: 8443
+keycloak-issuer: ${scheme}://twister.fvds.ru:${keycloak-port}/realms/${keycloak-realms}
+file-server-path: ${scheme}://twister.fvds.ru:9443/server/resources
+base-url: ${scheme}://twister.fvds.ru:9443/server
+home-url: ${scheme}://twister.fvds.ru:9443/
+spring:
+  config:
+    activate:
+      on-profile: production
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak-issuer}
+        registration:
+          keycloak-confidential-user:
+            authorization-grant-type: authorization_code
+            client-name: Keycloak
+            client-id: ${client-id}
             client-secret: ${keycloak-secret}
             provider: keycloak
             scope: openid,profile,email,offline_access

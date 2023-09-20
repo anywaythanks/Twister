@@ -59,9 +59,9 @@ logging:
       hibernate: DEBUG
 ---
 scheme: https
-origins: http://localhost:9080, http://localhost:8080, http://localhost:8180
+origins: https://twister.fvds.ru, https://twister.fvds.ru:8443
 keycloak-port: 8443
-keycloak-issuer: ${scheme}://localhost:${keycloak-port}/realms/twister
+keycloak-issuer: ${scheme}://twister.fvds.ru:${keycloak-port}/realms/twister
 auth-props:
   issuers:
     - uri: ${keycloak-issuer}
@@ -70,7 +70,6 @@ auth-props:
         - jsonPath: $.realm_access.roles
         - jsonPath: $.resource_access.*.roles
 server:
-  port: 9080
   error:
     include-message: always
   ssl:
@@ -80,7 +79,7 @@ spring:
     activate:
       on-profile: production
   datasource:
-    jndi-name: jdbc/PostgressUsersDS
+    jndi-name: jdbc/PostgressResourceTwisterDS
   liquibase:
     enabled: true
     default-schema: public
