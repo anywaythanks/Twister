@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @EqualsAndHashCode
 public class CaseSlotRegisterDto implements Percentage, Item<ItemIdDto>, Quantity {
-    @NonNull BigDecimal percentage;
+    @NonNull BigDecimal winRate;
     @NonNull ItemIdDto item;
     @NonNull Integer quantity;
 }

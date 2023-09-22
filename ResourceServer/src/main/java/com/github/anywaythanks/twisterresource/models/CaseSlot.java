@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "case_slots")
-//@Check(constraints = "sum(percentage_wining)=1 group by case_id")
+//@Check(constraints = "sum(win_rate)=1 group by case_id")
 @NamedEntityGraph(name = "CaseSlot.detail",
         attributeNodes = @NamedAttributeNode("name"))
 @NoArgsConstructor
@@ -22,8 +22,8 @@ import java.math.BigDecimal;
 public class CaseSlot<T extends Item> extends Slot<T> {
     public static final long MIN_PERCENTAGE = 0, MAX_PERCENTAGE = 100;
     @Range(min = MIN_PERCENTAGE, max = MAX_PERCENTAGE)
-    @Column(name = "percentage_wining", nullable = false)
-    BigDecimal percentageWining;
+    @Column(name = "win_rate", nullable = false)
+    BigDecimal winRate;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "name", nullable = false)
     CaseSlotName name;

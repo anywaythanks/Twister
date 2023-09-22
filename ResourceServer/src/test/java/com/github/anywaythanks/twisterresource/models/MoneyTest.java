@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
-import com.github.anywaythanks.twisterresource.exceptions.MoneyNotTypeExceptions;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidMoneyTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class MoneyTest {
         void testTwoType() {
             Money money1 = Money.builder().moneyType(type1).value(BigDecimal.ZERO).build();
             Money money2 = Money.builder().moneyType(type2).value(BigDecimal.ZERO).build();
-            MoneyNotTypeExceptions exception = assertThrows(MoneyNotTypeExceptions.class,
+            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
                     () -> money1.add(money2));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }
@@ -71,7 +71,7 @@ class MoneyTest {
         void testTwoType() {
             Money money1 = Money.builder().moneyType(type1).value(BigDecimal.ZERO).build();
             Money money2 = Money.builder().moneyType(type2).value(BigDecimal.ZERO).build();
-            MoneyNotTypeExceptions exception = assertThrows(MoneyNotTypeExceptions.class,
+            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
                     () -> money1.subtract(money2));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }

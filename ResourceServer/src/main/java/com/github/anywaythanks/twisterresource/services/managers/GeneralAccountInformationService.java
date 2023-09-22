@@ -1,8 +1,8 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
 import com.github.anywaythanks.twisterresource.annotation.InformationService;
+import com.github.anywaythanks.twisterresource.exceptions.GeneralAccountNotRegisteredException;
 import com.github.anywaythanks.twisterresource.exceptions.NotFoundException;
-import com.github.anywaythanks.twisterresource.exceptions.NotRegisterGeneralAccount;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
@@ -47,7 +47,7 @@ public class GeneralAccountInformationService {
     @PreAuthorize("authentication.principal.uuid == #user.uuid")
     public GeneralAccountNameResponseDto getName(UserPrincipal user) {
         GeneralAccount generalAccount = generalAccountRepository.findByUserUuid(user.getUuid())
-                .orElseThrow(NotRegisterGeneralAccount::new);
+                .orElseThrow(GeneralAccountNotRegisteredException::new);
         return generalAccountMapper.toName(generalAccount);
     }
 

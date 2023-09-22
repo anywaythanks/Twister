@@ -17,6 +17,11 @@ public class SumPercentageEqValidator implements ConstraintValidator<SumEq, List
 
     @Override
     public boolean isValid(List<? extends Percentage> value, ConstraintValidatorContext context) {
-        return value.stream().map(Percentage::getPercentage).reduce(BigDecimal::add).orElseThrow().compareTo(eq) == 0;
+        return value
+                .stream()
+                .map(Percentage::getWinRate)
+                .reduce(BigDecimal::add)
+                .orElseThrow()
+                .compareTo(eq) == 0;
     }
 }

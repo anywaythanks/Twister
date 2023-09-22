@@ -1,11 +1,14 @@
 package com.example.twisterclient.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Money {
     public static class Type {
         String name;
+        @JsonProperty("path_to_icon")
         String pathToIcon;
 
         protected Type() {

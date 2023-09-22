@@ -18,7 +18,7 @@ import static lombok.AccessLevel.PRIVATE;
 @Getter
 @EqualsAndHashCode
 public class CaseSlotPartialResponseDto implements Percentage, Item<ItemPartialResponseDto>, Quantity, Name {
-    @NonNull BigDecimal percentage;
+    @NonNull BigDecimal winRate;
     @NonNull ItemPartialResponseDto item;
     @NonNull Integer quantity;
     @NonNull String name;

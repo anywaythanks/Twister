@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
-import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -34,7 +34,7 @@ public abstract class Slot<T extends Item> {
         if (quantity < 0)
             throw new IllegalArgumentException();
         if (!this.item.equals(item))
-            throw new ItemNotTypeException();
+            throw new InvalidItemTypeException();
         quantityItem += quantity;
     }
 
@@ -42,9 +42,7 @@ public abstract class Slot<T extends Item> {
         if (quantity < 0)
             throw new IllegalArgumentException();
         if (!this.item.equals(item))
-            throw new ItemNotTypeException();
-        if (quantityItem < quantity)
-            throw new RuntimeException();//TODO:throw
+            throw new InvalidItemTypeException();
         quantityItem -= quantity;
     }
 }

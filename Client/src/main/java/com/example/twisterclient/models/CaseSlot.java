@@ -1,10 +1,13 @@
 package com.example.twisterclient.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 public class CaseSlot {
     Item item;
     Long quantity;
+    @JsonProperty("win_rate")
     BigDecimal percentage;
     String name;
 

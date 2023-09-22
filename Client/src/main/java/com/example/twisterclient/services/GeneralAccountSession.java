@@ -46,7 +46,7 @@ public class GeneralAccountSession {
                     .bodyToMono(new ParameterizedTypeReference<GeneralAccountName>() {
                     })
                     .onErrorResume(WebClientResponseException.class,
-                            ex -> ex.getStatusCode() == HttpStatus.CONFLICT || ex.getStatusCode() == HttpStatus.UNAUTHORIZED ?
+                            ex -> ex.getStatusCode() == HttpStatus.NOT_FOUND || ex.getStatusCode() == HttpStatus.UNAUTHORIZED ?
                                     Mono.empty() : Mono.error(ex))
                     .block();
         }

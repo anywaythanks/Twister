@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
-import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class SlotTest {
                 item = item1;
                 quantityItem = 0;
             }};
-            ItemNotTypeException exception = assertThrows(ItemNotTypeException.class,
+            InvalidItemTypeException exception = assertThrows(InvalidItemTypeException.class,
                     () -> slot.addItems(item2, 0));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }
@@ -81,7 +81,7 @@ class SlotTest {
                 item = item1;
                 quantityItem = 0;
             }};
-            ItemNotTypeException exception = assertThrows(ItemNotTypeException.class,
+            InvalidItemTypeException exception = assertThrows(InvalidItemTypeException.class,
                     () -> slot.removeItems(item2, 0));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }

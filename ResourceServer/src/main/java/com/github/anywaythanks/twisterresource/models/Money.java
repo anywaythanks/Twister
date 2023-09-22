@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.models;
 
-import com.github.anywaythanks.twisterresource.exceptions.MoneyNotTypeExceptions;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidMoneyTypeException;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,7 +29,7 @@ public class Money {
 
     public Money add(Money money) {
         if (!money.getMoneyType().equals(moneyType))
-            throw new MoneyNotTypeExceptions();
+            throw new InvalidMoneyTypeException();
         return new Money(value.add(money.getValue()), moneyType);
     }
 
@@ -39,7 +39,7 @@ public class Money {
 
     public Money subtract(Money money) {
         if (!money.getMoneyType().equals(moneyType))
-            throw new MoneyNotTypeExceptions();
+            throw new InvalidMoneyTypeException();
         return new Money(value.subtract(money.getValue()), moneyType);
     }
 }

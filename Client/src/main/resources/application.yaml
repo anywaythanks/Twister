@@ -3,10 +3,10 @@ scheme: http
 keycloak-port: 8180
 keycloak-realms: twister
 keycloak-issuer: ${scheme}://localhost:${keycloak-port}/realms/${keycloak-realms}
-keycloak-secret: secret
+keycloak-secret: pPJjW65hH7Qsb0zVqRThgjznA6IJKgxi
 file-server-path: ${scheme}://localhost:9080/resources
 base-url: ${scheme}://localhost:9080
-
+home-url: ${scheme}://localhost:8080
 logging:
   level:
     org:

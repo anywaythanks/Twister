@@ -16,8 +16,8 @@ public class CaseSlotInformationService {
     private final CaseSlotRepository caseSlotRepository;
     private final SlotMapper slotMapper;
 
-    public List<CaseSlotFullDto> getFullsOrdersPercent(CaseIdDto caseIdDto) {
-        return caseSlotRepository.findAllByOwnerCaseIdOrderByPercentageWining(caseIdDto.getId())
+    public List<CaseSlotFullDto> getFullsOrdersWinRate(CaseIdDto caseIdDto) {
+        return caseSlotRepository.findAllByOwnerCaseIdOrderByWinRate(caseIdDto.getId())
                 .stream()
                 .map(slotMapper::toCaseSlotFull)
                 .toList();

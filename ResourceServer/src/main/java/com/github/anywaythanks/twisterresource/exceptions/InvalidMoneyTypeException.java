@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.CONFLICT)
-public class MoneyNotTypeExceptions extends RuntimeException {
-    public MoneyNotTypeExceptions() {
+public class InvalidMoneyTypeException extends RuntimeException {
+    public InvalidMoneyTypeException() {
         super("Invalid type specified.");
     }
 }

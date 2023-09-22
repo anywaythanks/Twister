@@ -59,7 +59,7 @@ public class TwistService {
         twistMarkPutService.putIfAbsent(twistMarkMapper.toPut(generalAccountIdDto, twistedCase));
         twistMarkMergeService.merge(twistMarkInformationService.getFull(generalAccountIdDto, caseIdDto).withConsider(true));
         CaseSlot<Item> wonSlot = twist(caseSlotInformationService
-                .getFullsOrdersPercent(caseIdDto)
+                .getFullsOrdersWinRate(caseIdDto)
                 .stream()
                 .map(slotMapper::toCaseSlot)
                 .toList());
@@ -69,8 +69,8 @@ public class TwistService {
         return twistRegisterService.register(caseFullDto, generalAccountIdDto, accountIdDto, slotMapper.toCaseSlotFull(wonSlot));
     }
 
-    private CaseSlot<Item> twist(Collection<CaseSlot<Item>> collectionOrderedByPercentage) {
-        CaseSlot<Item> wonSlot = collectionOrderedByPercentage.iterator().next();
+    private CaseSlot<Item> twist(Collection<CaseSlot<Item>> collectionOrderedByWinRate) {
+        CaseSlot<Item> wonSlot = collectionOrderedByWinRate.iterator().next();
         BigDecimal sum = BigDecimal.ZERO;
         SecureRandom random;
         try {
@@ -79,9 +79,9 @@ public class TwistService {
             throw new RuntimeException(e);//TODO
         }
         BigDecimal dice = BigDecimal.valueOf(CaseSlot.MIN_PERCENTAGE + random.nextDouble() * CaseSlot.MAX_PERCENTAGE);
-        for (var slot : collectionOrderedByPercentage) {
+        for (var slot : collectionOrderedByWinRate) {
             wonSlot = slot;
-            sum = sum.add(slot.getPercentageWining());
+            sum = sum.add(slot.getWinRate());
             if (sum.compareTo(dice) > 0) break;
         }
         return wonSlot;

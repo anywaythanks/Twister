@@ -20,7 +20,7 @@ import static lombok.AccessLevel.PRIVATE;
 @EqualsAndHashCode
 public class CaseSlotFullDto implements Percentage, Item<ItemFullDto>, Quantity, Name, Id, Case<CaseIdDto> {
     @NonNull Long id;
-    @NonNull BigDecimal percentage;
+    @NonNull BigDecimal winRate;
     @NonNull ItemFullDto item;
     @NonNull Integer quantity;
     @NonNull String name;

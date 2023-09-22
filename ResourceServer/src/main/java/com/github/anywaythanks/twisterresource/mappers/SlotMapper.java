@@ -61,7 +61,7 @@ public interface SlotMapper {
     InventorySlot<Item> toInventorySlot(InventorySlotActionDto slotAction);
 
     @Mapping(source = "caseSlot.name.name", target = "name")
-    @Mapping(source = "caseSlot.percentageWining", target = "percentage")
+    @Mapping(source = "caseSlot.winRate", target = "winRate")
     @Mapping(source = "caseSlot.quantityItem", target = "quantity")
     CaseSlotPartialResponseDto toCaseSlotPartial(CaseSlot<Item> caseSlot);
 
@@ -69,7 +69,7 @@ public interface SlotMapper {
     @Mapping(source = "caseSlot.name.name", target = "name")
     CaseSlotFullDto toCaseSlotFull(CaseSlot<Item> caseSlot);
 
-    @Mapping(source = "fullDto.percentage", target = "percentageWining")
+    @Mapping(source = "fullDto.winRate", target = "winRate")
     @Mapping(source = "fullDto.quantity", target = "quantityItem")
     CaseSlot<Item> toCaseSlot(CaseSlotFullDto fullDto);
 

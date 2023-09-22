@@ -1,11 +1,14 @@
 package com.example.twisterclient.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.Duration;
 import java.util.List;
 
 public class Case {
     Duration cooldown;
     String name;
+    @JsonProperty("visible_name")
     String visibleName;
     String description;
     Money price;

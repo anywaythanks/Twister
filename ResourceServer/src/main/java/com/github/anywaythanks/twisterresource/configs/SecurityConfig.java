@@ -44,7 +44,11 @@ public class SecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(
                                 new MvcRequestMatcher(mvcHandlerMappingIntrospector, "api/public/**"),
-                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "resources/**"))
+                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "resources/**"),
+                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "swagger-ui"),
+                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "swagger-ui/**"),
+                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "v3/api-docs/**"),
+                                new MvcRequestMatcher(mvcHandlerMappingIntrospector, "v3/api-docs"))
                         .permitAll()
                         .requestMatchers(
                                 new MvcRequestMatcher(mvcHandlerMappingIntrospector, "api/item"),
@@ -57,13 +61,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
         http.requiresChannel(channelRequestMatcherRegistry ->
                 channelRequestMatcherRegistry.anyRequest().requiresSecure());
-        http.cors(cors -> {
-            if (origins.length == 0) {
-                cors.disable();
-            } else {
-                cors.configurationSource(corsConfig((List.of(origins))));
-            }
-        });
+        http.cors(AbstractHttpConfigurer::disable);
         return http.build();
     }
 

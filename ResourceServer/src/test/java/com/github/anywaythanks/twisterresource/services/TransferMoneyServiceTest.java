@@ -2,7 +2,7 @@ package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.config.MapstructConfig;
 import com.github.anywaythanks.twisterresource.exceptions.InsufficientFundsException;
-import com.github.anywaythanks.twisterresource.exceptions.MoneyNotTypeExceptions;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidMoneyTypeException;
 import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
@@ -115,7 +115,7 @@ class TransferMoneyServiceTest {
             AccountDebitResponseDto debit = accountMapper.toDebitDTO(account);
             when(accountInformationService.getPublic(numberRequestDto)).thenReturn(debit);
             Money addition = Money.builder().moneyType(type2).value(BigDecimal.valueOf(10)).build();
-            MoneyNotTypeExceptions exception = assertThrows(MoneyNotTypeExceptions.class,
+            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
                     () -> transferMoneyService.debit(numberRequestDto, moneyMapper.toFull(addition)));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }
@@ -145,7 +145,7 @@ class TransferMoneyServiceTest {
             AccountFullDto full = accountMapper.toFullDTO(account);
             when(accountInformationService.getFull(generalName, numberRequestDto)).thenReturn(full);
             Money credited = Money.builder().moneyType(type2).value(BigDecimal.valueOf(10)).build();
-            MoneyNotTypeExceptions exception = assertThrows(MoneyNotTypeExceptions.class,
+            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
                     () -> transferMoneyService.credit(generalName, numberRequestDto, moneyMapper.toFull(credited)));
             assertEquals(exception.getMessage(), "Invalid type specified.");
         }

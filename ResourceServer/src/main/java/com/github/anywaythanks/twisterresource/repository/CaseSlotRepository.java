@@ -12,5 +12,5 @@ public interface CaseSlotRepository extends JpaRepository<CaseSlot<Item>, Long> 
     List<CaseSlot<Item>> findAllByOwnerCaseId(Long ownerCaseId);
 
     @EntityGraph(value = "CaseSlot.detail", type = EntityGraph.EntityGraphType.LOAD)
-    List<CaseSlot<Item>> findAllByOwnerCaseIdOrderByPercentageWining(Long ownerCaseId);
+    List<CaseSlot<Item>> findAllByOwnerCaseIdOrderByWinRate(Long ownerCaseId);
 }

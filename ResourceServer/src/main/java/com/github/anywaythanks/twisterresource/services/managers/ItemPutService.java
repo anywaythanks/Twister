@@ -1,6 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
-import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.models.Item;
@@ -39,7 +39,7 @@ public class ItemPutService {
                 item = itemMapper.toRegister(cost, name, createMoney);
             } else if (create instanceof ItemTrashCreateRequestDto createTrash) {
                 item = itemMapper.toRegister(createTrash, name);
-            } else throw new ItemNotTypeException();
+            } else throw new InvalidItemTypeException();
             return itemRegisterService.register(item);
         }
         Item item = optionalItem.get();

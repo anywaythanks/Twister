@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
 import com.github.anywaythanks.twisterresource.annotation.RegisterService;
-import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.models.Item;
@@ -49,7 +49,7 @@ public class ItemRegisterService {
                     .createdOn(now)
                     .modifiedBy(now)
                     .build();
-        } else throw new ItemNotTypeException();
+        } else throw new InvalidItemTypeException();
         Item resultItem = itemRepository.save(item);
         return itemMapper.toPartialDTO(itemRepository.save(resultItem));
     }

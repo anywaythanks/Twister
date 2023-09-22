@@ -1,7 +1,7 @@
 package com.github.anywaythanks.twisterresource.mappers;
 
 import com.github.anywaythanks.twisterresource.configs.MapstructConfig;
-import com.github.anywaythanks.twisterresource.exceptions.ItemNotTypeException;
+import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;
 import com.github.anywaythanks.twisterresource.models.ItemTrash;
@@ -80,26 +80,26 @@ public interface ItemMapper {
 
     @ObjectFactory
     default ItemPartialResponseDto getItemPartialResponseDto(Item item) {
-        throw new ItemNotTypeException();
+        throw new InvalidItemTypeException();
     }
 
     @ObjectFactory
     default ItemIdDto getItemIdDto(Item item) {
-        throw new ItemNotTypeException();
+        throw new InvalidItemTypeException();
     }
 
     @ObjectFactory
     default Item getItemDto(ItemIdDto item) {
-        throw new ItemNotTypeException();
+        throw new InvalidItemTypeException();
     }
 
     @ObjectFactory
     default ItemFullDto getItemFullDto(Item item) {
-        throw new ItemNotTypeException();
+        throw new InvalidItemTypeException();
     }
 
     @ObjectFactory
     default Item getItemDto(ItemFullDto item) {
-        throw new ItemNotTypeException();
+        throw new InvalidItemTypeException();
     }
 }

@@ -31,7 +31,7 @@ public class CaseSlotRegisterService {
                     return (CaseSlot<Item>) CaseSlot.builder()
                             .item(item)
                             .quantityItem(caseSlot.getQuantity())
-                            .percentageWining(caseSlot.getPercentage())
+                            .winRate(caseSlot.getWinRate())
                             .name(CaseSlotName.builder().build())
                             .ownerCase(owner)
                             .build();

@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services;
 
+import com.github.anywaythanks.twisterresource.exceptions.NotEnoughItemsException;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
 import com.github.anywaythanks.twisterresource.models.InventorySlot;
@@ -43,6 +44,8 @@ public class TransferItemService {
         InventorySlotFullDto slotDto = inventorySlotInformationService.getFull(slotAction.getInventory(), itemId);
         InventorySlot<Item> slot = slotMapper.toInventorySlot(slotDto);
         action.apply(slot).accept(item, slotAction.getQuantity());
+        if (slot.getQuantityItem() < 0)
+            throw new NotEnoughItemsException();
         inventorySlotMergeService.merge(slotMapper.toInventoryFull(slot));
     }
 

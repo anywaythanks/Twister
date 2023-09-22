@@ -1,5 +1,6 @@
 package com.example.twisterclient.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -16,6 +17,7 @@ import java.util.Objects;
 })
 public abstract class Item {
     String name;
+    @JsonProperty("visible_name")
     String visibleName;
     TypesItem type;
 

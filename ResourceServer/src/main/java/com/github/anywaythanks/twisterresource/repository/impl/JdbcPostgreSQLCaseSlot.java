@@ -45,14 +45,14 @@ public class JdbcPostgreSQLCaseSlot {
                     result.next();
                     long id = result.getLong(1);
                     try (PreparedStatement insert = connection.prepareStatement(
-                            "INSERT INTO " + tempTableName + " (ID, CASE_ID, ITEM_ID, NAME, PERCENTAGE_WINING, QUANTITY_ITEM) " +
+                            "INSERT INTO " + tempTableName + " (ID, CASE_ID, ITEM_ID, NAME, WIN_RATE, QUANTITY_ITEM) " +
                                     "VALUES (?, ?, ?, ?, ?, ?);"
                     )) {
                         insert.setLong(1, id);
                         insert.setLong(2, caseOwner.getId());
                         insert.setLong(3, slot.getItem().getId());
                         insert.setString(4, slot.getName().getName());
-                        insert.setBigDecimal(5, slot.getPercentageWining());
+                        insert.setBigDecimal(5, slot.getWinRate());
                         insert.setLong(6, slot.getQuantityItem());
                         insert.executeUpdate();
                     }
