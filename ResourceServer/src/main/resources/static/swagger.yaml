@@ -2,6 +2,31 @@ openapi: "3.0.3"
 info:
   title: "Twister Resource Server API"
   version: "0.0.1"
+servers:
+  - url: "{scheme}://{domain}:{port}/{context}"
+    description: Resource server
+    variables:
+      scheme:
+        enum:
+          - 'http'
+          - 'https'
+        default: 'https'
+      context:
+        enum:
+          - ''
+          - 'server'
+        default: 'server'
+      domain:
+        enum:
+          - 'localhost'
+          - 'twister.fvds.ru'
+        default: twister.fvds.ru
+      port:
+        enum:
+          - '9080'
+          - '8443'
+          - '9443'
+        default: '9443'
 components:
   securitySchemes:
     oAuthSample:
@@ -234,9 +259,9 @@ components:
           $ref: "#/components/schemas/MoneyPartialResponseDto"
         cooldown:
           type: string
-          format: iso8601
+          format: duration
           description: "Кулдаун с последней прокрутки пользователя"
-          example: P1S
+          example: 1
         name:
           description: "Имя кейса по которому его можно однозначно идентифицировать"
           type: "string"
@@ -272,9 +297,9 @@ components:
           $ref: "#/components/schemas/MoneyCreateRequestDto"
         cooldown:
           type: string
-          format: iso8601
+          format: duration
           description: "Кулдаун с последней прокрутки пользователя"
-          example: P1S
+          example: 1
         visible_name:
           description: "Имя видимое пользователю"
           type: "string"
@@ -331,9 +356,9 @@ components:
           $ref: "#/components/schemas/MoneyPartialResponseDto"
         cooldown:
           type: string
-          format: iso8601
+          format: duration
           description: "Кулдаун с последней прокрутки пользователя"
-          example: P1S
+          example: 1
         name:
           description: "Имя кейса по которому его можно однозначно идентифицировать"
           type: "string"
@@ -441,9 +466,9 @@ components:
           $ref: "#/components/schemas/MoneyPartialResponseDto"
         cooldown:
           type: string
-          format: iso8601
+          format: duration
           description: "Кулдаун с последней прокрутки пользователя"
-          example: P0S
+          example: 0
         name:
           description: "Имя кейса по которому его можно однозначно идентифицировать"
           type: "string"
@@ -519,6 +544,24 @@ components:
       required:
         - name
       properties:
+        name:
+          description: "Имя аккаунта по которому его можно однозначно идентифицировать"
+          type: "string"
+          maxLength: 64
+          minLength: 1
+          example: "name"
+    GeneralAccountPublicResponseDto:
+      type: "object"
+      required:
+        - nickname
+        - name
+      properties:
+        nickname:
+          description: "Уникальный никнейм аккаунта видимый всем"
+          type: "string"
+          maxLength: 64
+          minLength: 1
+          example: "name"
         name:
           description: "Имя аккаунта по которому его можно однозначно идентифицировать"
           type: "string"
@@ -770,181 +813,6 @@ security:
       - write
       - read
 paths:
-  /api/money/type:
-    get:
-      tags:
-        - money type
-      summary: "GET api/money/type"
-      description: "Получить все существующие типы денег.<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "listMoneyTypes"
-      security:
-        - oAuthSample:
-            - read
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/MoneyTypePartialResponseDto"
-  /api/money/type/{name}:
-    put:
-      tags:
-        - money type
-      summary: "PUT api/money/type/{name}"
-      description: "Поместить новый или существующий тип денег.<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "putMoneyType"
-      security:
-        - oAuthSample:
-            - read
-            - write
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          description: "Имя типа по которому его можно однозначно идентифицировать"
-          schema:
-            type: "string"
-            maxLength: 64
-            minLength: 1
-        - name: "content-type"
-          in: "header"
-          required: false
-          schema:
-            type: "string"
-            enum:
-              - "application/json"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/MoneyTypeCreateRequestDto"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/MoneyTypePartialResponseDto"
-    get:
-      tags:
-        - money type
-      summary: "GET api/money/type/{name}"
-      description: "Получить конкретный тип денег.<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "getMoneyType"
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          schema:
-            description: "Имя типа по которому его можно однозначно идентифицировать"
-            type: "string"
-            maxLength: 64
-            minLength: 1
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/MoneyTypePartialResponseDto"
-        "404":
-          description: "Тип не найден"
-          content:
-            'application/json':
-              schema:
-                oneOf:
-                  - $ref: "#/components/schemas/NotFoundException"
-  /api/item/{name}:
-    get:
-      tags:
-        - item
-      summary: "GET api/item/{name}"
-      description: "Получить конкретный предмет<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "get"
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          description: "Имя предмета по которому его можно однозначно идентифицировать"
-          schema:
-            type: "string"
-            maxLength: 64
-            minLength: 1
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/ItemPartialResponseDto"
-        "404":
-          description: "Предмет не найден"
-          content:
-            'application/json':
-              schema:
-                oneOf:
-                  - $ref: "#/components/schemas/NotFoundException"
-    put:
-      tags:
-        - item
-      summary: "PUT api/item/{name}"
-      operationId: "put"
-      description: "Поместить новый или существующий предмет.<br>**Это API доступно только для роли `ADMIN`**"
-      security:
-        - oAuthSample:
-            - read
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          schema:
-            description: "Имя типа по которому его можно однозначно идентифицировать"
-            type: "string"
-            maxLength: 64
-            minLength: 1
-        - name: "content-type"
-          in: "header"
-          required: false
-          schema:
-            type: "string"
-            enum:
-              - "application/json"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ItemCreateRequestDto"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/ItemPartialResponseDto"
-  /api/item:
-    get:
-      tags:
-        - item
-      summary: "GET api/item"
-      description: "Получить все существующие предметы<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "listItems"
-      security:
-        - oAuthSample:
-            - read
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/ItemPartialResponseDto"
   /api/public/money/type:
     get:
       tags:
@@ -952,7 +820,7 @@ paths:
       summary: "GET api/public/money/type"
       description: "Получить все существующие типы денег."
       operationId: "listMoneyTypes"
-      security: []
+      security: [ ]
       responses:
         "200":
           description: "OK"
@@ -968,7 +836,7 @@ paths:
         - public money type
       summary: "GET api/public/money/type/{name}"
       description: "Получить конкретный тип денег."
-      security: []
+      security: [ ]
       operationId: "getMoneyType"
       parameters:
         - name: "name"
@@ -999,7 +867,7 @@ paths:
         - public item
       summary: "GET api/public/item"
       operationId: "listItems"
-      security: []
+      security: [ ]
       description: "Получить все существующие предметы"
       responses:
         "200":
@@ -1016,7 +884,7 @@ paths:
         - public item
       summary: "GET api/public/item/{name}"
       operationId: "get"
-      security: []
+      security: [ ]
       description: "Получить конкретный предмет"
       parameters:
         - name: "name"
@@ -1041,82 +909,10 @@ paths:
               schema:
                 oneOf:
                   - $ref: "#/components/schemas/NotFoundException"
-  /api/case/{name}:
-    put:
-      tags:
-        - case
-      security:
-        - oAuthSample:
-            - read
-            - write
-      summary: "PUT api/case/{name}"
-      description: "Поместить новый или существующий кейс.<br>На данный момент невозможно изменение слотов.<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "putCase"
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          description: "Имя кейса по которому его можно однозначно идентифицировать"
-          schema:
-            type: "string"
-            maxLength: 64
-            minLength: 1
-        - name: "content-type"
-          in: "header"
-          required: false
-          schema:
-            type: "string"
-            enum:
-              - "application/json"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CaseCreateRequestDto"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/CasePartialResponseDto"
-    get:
-      tags:
-        - case
-      security:
-        - oAuthSample:
-            - read
-      summary: "GET api/case/{name}"
-      description: "Получить полную информацию по конкретному кейсу<br>**Это API доступно только для роли `ADMIN`**"
-      operationId: "info"
-      parameters:
-        - name: "name"
-          in: "path"
-          required: true
-          schema:
-            description: "Имя кейса по которому его можно однозначно идентифицировать"
-            type: "string"
-            maxLength: 64
-            minLength: 1
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                $ref: "#/components/schemas/CaseItemsPartialResponseDto"
-        "404":
-          description: "Тип не найден"
-          content:
-            'application/json':
-              schema:
-                oneOf:
-                  - $ref: "#/components/schemas/NotFoundException"
   /api/public/case:
     get:
       description: "Получить страницу кейсов"
-      security: []
+      security: [ ]
       tags:
         - public case
       summary: "GET api/public/case"
@@ -1153,7 +949,7 @@ paths:
   /api/public/case/{name}:
     get:
       description: "Получить информацию об конкретном кейсе"
-      security: []
+      security: [ ]
       tags:
         - public case
       summary: "GET api/public/case/{name}"
@@ -1281,7 +1077,7 @@ paths:
     get:
       tags:
         - public general
-      security: []
+      security: [ ]
       description: "Получить публичные данные аккаунта"
       summary: "GET api/public/general/{name}"
       operationId: "infoPublic"
@@ -2019,3 +1815,279 @@ paths:
                   - $ref: "#/components/schemas/InsufficientFundsException"
                   - $ref: "#/components/schemas/InvalidMoneyTypeException"
                   - $ref: "#/components/schemas/CooldownException"
+
+  /api/money/type:
+    get:
+      tags:
+        - money type
+      summary: "GET api/money/type"
+      description: "Получить все существующие типы денег.<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "listMoneyTypes"
+      security:
+        - oAuthSample:
+            - read
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/MoneyTypePartialResponseDto"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+  /api/money/type/{name}:
+    put:
+      tags:
+        - money type
+      summary: "PUT api/money/type/{name}"
+      description: "Поместить новый или существующий тип денег.<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "putMoneyType"
+      security:
+        - oAuthSample:
+            - read
+            - write
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          description: "Имя типа по которому его можно однозначно идентифицировать"
+          schema:
+            type: "string"
+            maxLength: 64
+            minLength: 1
+        - name: "content-type"
+          in: "header"
+          required: false
+          schema:
+            type: "string"
+            enum:
+              - "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MoneyTypeCreateRequestDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/MoneyTypePartialResponseDto"
+    get:
+      tags:
+        - money type
+      summary: "GET api/money/type/{name}"
+      description: "Получить конкретный тип денег.<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "getMoneyType"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          schema:
+            description: "Имя типа по которому его можно однозначно идентифицировать"
+            type: "string"
+            maxLength: 64
+            minLength: 1
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/MoneyTypePartialResponseDto"
+        "404":
+          description: "Тип не найден"
+          content:
+            'application/json':
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/NotFoundException"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+  /api/item/{name}:
+    get:
+      tags:
+        - item
+      summary: "GET api/item/{name}"
+      description: "Получить конкретный предмет<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "get"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          description: "Имя предмета по которому его можно однозначно идентифицировать"
+          schema:
+            type: "string"
+            maxLength: 64
+            minLength: 1
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/ItemPartialResponseDto"
+        "404":
+          description: "Предмет не найден"
+          content:
+            'application/json':
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/NotFoundException"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+    put:
+      tags:
+        - item
+      summary: "PUT api/item/{name}"
+      operationId: "put"
+      description: "Поместить новый или существующий предмет.<br>**Это API доступно только для роли `ADMIN`**"
+      security:
+        - oAuthSample:
+            - read
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          schema:
+            description: "Имя типа по которому его можно однозначно идентифицировать"
+            type: "string"
+            maxLength: 64
+            minLength: 1
+        - name: "content-type"
+          in: "header"
+          required: false
+          schema:
+            type: "string"
+            enum:
+              - "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemCreateRequestDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/ItemPartialResponseDto"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+        "404":
+          description: "Тип денег не найден"
+          content:
+            'application/json':
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/NotFoundException"
+  /api/item:
+    get:
+      tags:
+        - item
+      summary: "GET api/item"
+      description: "Получить все существующие предметы<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "listItems"
+      security:
+        - oAuthSample:
+            - read
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/ItemPartialResponseDto"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+  /api/case/{name}:
+    put:
+      tags:
+        - case
+      security:
+        - oAuthSample:
+            - read
+            - write
+      summary: "PUT api/case/{name}"
+      description: "Поместить новый или существующий кейс.<br>На данный момент невозможно изменение слотов.<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "putCase"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          description: "Имя кейса по которому его можно однозначно идентифицировать"
+          schema:
+            type: "string"
+            maxLength: 64
+            minLength: 1
+        - name: "content-type"
+          in: "header"
+          required: false
+          schema:
+            type: "string"
+            enum:
+              - "application/json"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CaseCreateRequestDto"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/CasePartialResponseDto"
+        "403":
+          description: "У вас нет роли `ADMIN`."
+        "404":
+          description: "Предмет не найден"
+          content:
+            'application/json':
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/NotFoundException"
+    get:
+      tags:
+        - case
+      security:
+        - oAuthSample:
+            - read
+      summary: "GET api/case/{name}"
+      description: "Получить полную информацию по конкретному кейсу<br>**Это API доступно только для роли `ADMIN`**"
+      operationId: "info"
+      parameters:
+        - name: "name"
+          in: "path"
+          required: true
+          schema:
+            description: "Имя кейса по которому его можно однозначно идентифицировать"
+            type: "string"
+            maxLength: 64
+            minLength: 1
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/CaseItemsPartialResponseDto"
+        "404":
+          description: "Тип не найден"
+          content:
+            'application/json':
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/NotFoundException"
+        "403":
+          description: "У вас нет роли `ADMIN`."

@@ -61,7 +61,13 @@ public class SecurityConfig {
                         .anyRequest().authenticated());
         http.requiresChannel(channelRequestMatcherRegistry ->
                 channelRequestMatcherRegistry.anyRequest().requiresSecure());
-        http.cors(AbstractHttpConfigurer::disable);
+        http.cors(cors -> {
+            if (origins.length == 0) {
+                cors.disable();
+            } else {
+                cors.configurationSource(corsConfig((List.of(origins))));
+            }
+        });
         return http.build();
     }
 

@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.mappers.TwistMarkMapper;
 import com.github.anywaythanks.twisterresource.models.TwistMark;
 import com.github.anywaythanks.twisterresource.models.dto.twistMark.TwistMarkPutDto;
@@ -10,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class TwistMarkPutService {
     private final TwistMarkMapper twistMarkMapper;
