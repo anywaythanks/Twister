@@ -99,7 +99,6 @@ class CaseActualInformationServiceTest {
 
     List<Case> generateCases(Supplier<Long> generatorId, Comparator<Case> sortBy, TemporalUnit unit, long... cooldowns) {
         Money price = Money.builder().moneyType(type).value(BigDecimal.ZERO).build();
-        Money delta = Money.builder().moneyType(type).value(BigDecimal.ONE).build();
 
         return Arrays.stream(cooldowns)
                 .mapToObj(cooldown -> {
@@ -112,7 +111,7 @@ class CaseActualInformationServiceTest {
                             .createdOn(Instant.now(clock))
                             .modifiedBy(Instant.now(clock).plus(10, SECONDS))
                             .description("" + random.nextInt(1000))
-                            .price(price.add(delta))
+                            .price(price)
                             .build();
                 })
                 .sorted(sortBy)

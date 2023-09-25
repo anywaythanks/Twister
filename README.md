@@ -1,5 +1,5 @@
 # Twister
-Service with OAuth2 authorization. With the ability to store and transfer play money and items, as well as the possibility of issuing and remitting play money through twists.
+Service with OAuth2 authorization. With the ability to store and transfer in-game money and items. And also the possibility of issuing game items and, in turn, remission of money through twists.
 
 > [!NOTE]
 > 
