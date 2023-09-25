@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
 import com.github.anywaythanks.twisterresource.models.InventorySlot;
 import com.github.anywaythanks.twisterresource.models.Item;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class InventorySlotPutService {
     private final InventorySlotRepository inventorySlotRepository;

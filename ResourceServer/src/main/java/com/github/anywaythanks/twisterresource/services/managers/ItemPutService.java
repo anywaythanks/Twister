@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import com.github.anywaythanks.twisterresource.mappers.ItemMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class ItemPutService {
     private final ItemRepository itemRepository;

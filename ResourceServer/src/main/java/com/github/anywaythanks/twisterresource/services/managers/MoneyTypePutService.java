@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.mappers.MoneyTypeMapper;
 import com.github.anywaythanks.twisterresource.models.MoneyType;
 import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeCreateRequestDto;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class MoneyTypePutService {
     private final MoneyTypeRepository moneyTypeRepository;

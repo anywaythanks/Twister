@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
 import com.github.anywaythanks.twisterresource.models.GeneralAccountName;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class GeneralAccountPutService {
     private final GeneralAccountRepository generalAccountRepository;

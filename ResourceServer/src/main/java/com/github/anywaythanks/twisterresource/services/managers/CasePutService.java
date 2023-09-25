@@ -1,5 +1,6 @@
 package com.github.anywaythanks.twisterresource.services.managers;
 
+import com.github.anywaythanks.twisterresource.annotation.PutService;
 import com.github.anywaythanks.twisterresource.mappers.CaseMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
 import com.github.anywaythanks.twisterresource.mappers.SlotMapper;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@PutService
 @RequiredArgsConstructor
 public class CasePutService {
     private final CaseRepository caseRepository;
