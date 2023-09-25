@@ -2,7 +2,6 @@ package com.github.anywaythanks.twisterresource.services;
 
 import com.github.anywaythanks.twisterresource.config.MapstructConfig;
 import com.github.anywaythanks.twisterresource.exceptions.InsufficientFundsException;
-import com.github.anywaythanks.twisterresource.exceptions.InvalidMoneyTypeException;
 import com.github.anywaythanks.twisterresource.mappers.AccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.GeneralAccountMapper;
 import com.github.anywaythanks.twisterresource.mappers.MoneyMapper;
@@ -14,6 +13,7 @@ import com.github.anywaythanks.twisterresource.models.dto.general.GeneralAccount
 import com.github.anywaythanks.twisterresource.services.managers.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.AccountMergeService;
 import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.utils.MoneyUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,6 +47,8 @@ class TransferMoneyServiceTest {
     MoneyTypeInformationService moneyTypeInformationService;
     @Mock
     AccountMergeService mergeAccountService;
+    @Mock
+    MoneyUtils moneyUtils;
     @Mock
     AccountInformationService accountInformationService;
     TransferMoneyService transferMoneyService;
@@ -98,7 +100,7 @@ class TransferMoneyServiceTest {
     }
 
     void initMocks() {
-        transferMoneyService = new TransferMoneyService(accountInformationService, moneyMapper, moneyTypeInformationService, accountMapper, mergeAccountService);
+        transferMoneyService = new TransferMoneyService(accountInformationService, moneyMapper, moneyTypeInformationService, accountMapper, mergeAccountService, moneyUtils);
     }
 
     @BeforeEach
@@ -110,26 +112,22 @@ class TransferMoneyServiceTest {
     @Nested
     class Debit {
         @Test
-        void debitDiffType() {
-            AccountNumberRequestDto numberRequestDto = accountMapper.toNumberRequest(account.getNumber());
-            AccountDebitResponseDto debit = accountMapper.toDebitDTO(account);
-            when(accountInformationService.getPublic(numberRequestDto)).thenReturn(debit);
-            Money addition = Money.builder().moneyType(type2).value(BigDecimal.valueOf(10)).build();
-            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
-                    () -> transferMoneyService.debit(numberRequestDto, moneyMapper.toFull(addition)));
-            assertEquals(exception.getMessage(), "Invalid type specified.");
-        }
-
-        @Test
         void debit() {
             AccountNumberRequestDto numberRequestDto = accountMapper.toNumberRequest(account.getNumber());
             AccountDebitResponseDto debit = accountMapper.toDebitDTO(account);
             when(accountInformationService.getPublic(numberRequestDto)).thenReturn(debit);
-            Money addition = Money.builder().moneyType(type1).value(BigDecimal.valueOf(10)).build();
-
+            Money addition = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(10))
+                    .build();
+            Money sum = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(825))
+                    .build();
+            when(moneyUtils.add(account.getAmount(), addition)).thenReturn(sum);
             transferMoneyService.debit(numberRequestDto, moneyMapper.toFull(addition));
 
-            account.setAmount(Money.builder().moneyType(type1).value(BigDecimal.valueOf(825)).build());
+            account.setAmount(sum);
             AccountFullDto accountFullDto = accountMapper.toFullDTO(account);
             verify(mergeAccountService, times(1)).merge(accountFullDto);
         }
@@ -137,18 +135,6 @@ class TransferMoneyServiceTest {
 
     @Nested
     class Credit {
-        @Test
-        void creditDiffType() {
-            GeneralAccountNameRequestDto generalName = generalAccountMapper
-                    .toNameRequest(account.getGeneralAccount().getName());
-            AccountNumberRequestDto numberRequestDto = accountMapper.toNumberRequest(account.getNumber());
-            AccountFullDto full = accountMapper.toFullDTO(account);
-            when(accountInformationService.getFull(generalName, numberRequestDto)).thenReturn(full);
-            Money credited = Money.builder().moneyType(type2).value(BigDecimal.valueOf(10)).build();
-            InvalidMoneyTypeException exception = assertThrows(InvalidMoneyTypeException.class,
-                    () -> transferMoneyService.credit(generalName, numberRequestDto, moneyMapper.toFull(credited)));
-            assertEquals(exception.getMessage(), "Invalid type specified.");
-        }
 
         @Test
         void creditInsufficientFunds() {
@@ -157,7 +143,15 @@ class TransferMoneyServiceTest {
             AccountNumberRequestDto numberRequestDto = accountMapper.toNumberRequest(account.getNumber());
             AccountFullDto full = accountMapper.toFullDTO(account);
             when(accountInformationService.getFull(generalName, numberRequestDto)).thenReturn(full);
-            Money credited = Money.builder().moneyType(type1).value(BigDecimal.valueOf(1000)).build();
+            Money credited = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(1000))
+                    .build();
+            Money diff = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(-185))
+                    .build();
+            when(moneyUtils.subtract(account.getAmount(), credited)).thenReturn(diff);
             InsufficientFundsException exception = assertThrows(InsufficientFundsException.class,
                     () -> transferMoneyService.credit(generalName, numberRequestDto, moneyMapper.toFull(credited)));
             assertEquals(exception.getMessage(), "Insufficient funds on the account.");
@@ -170,11 +164,18 @@ class TransferMoneyServiceTest {
             AccountNumberRequestDto numberRequestDto = accountMapper.toNumberRequest(account.getNumber());
             AccountFullDto full = accountMapper.toFullDTO(account);
             when(accountInformationService.getFull(generalName, numberRequestDto)).thenReturn(full);
-            Money credited = Money.builder().moneyType(type1).value(BigDecimal.valueOf(10)).build();
-
+            Money credited = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(10))
+                    .build();
+            Money diff = Money.builder()
+                    .moneyType(type1)
+                    .value(BigDecimal.valueOf(805))
+                    .build();
+            when(moneyUtils.subtract(account.getAmount(), credited)).thenReturn(diff);
             transferMoneyService.credit(generalName, numberRequestDto, moneyMapper.toFull(credited));
 
-            account.setAmount(Money.builder().moneyType(type1).value(BigDecimal.valueOf(805)).build());
+            account.setAmount(diff);
             AccountFullDto accountFullDto = accountMapper.toFullDTO(account);
             verify(mergeAccountService, times(1)).merge(accountFullDto);
         }

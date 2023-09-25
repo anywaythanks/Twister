@@ -19,6 +19,7 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityReque
 import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import com.github.anywaythanks.twisterresource.services.managers.ItemInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.utils.MoneyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,8 @@ public class ShopService {
     private final ItemInformationService itemInformationService;
     private final ItemMapper itemMapper;
 
+    private final MoneyUtils moneyUtils;
+
     @Transactional
     public void sell(GeneralAccountNameRequestDto name,
                      InventoryNameRequestDto nameInventory,
@@ -45,7 +48,7 @@ public class ShopService {
         ItemFullDto fullDto = itemInformationService.getFull(nameItem);
         Item item = itemMapper.toItem(fullDto);
         if (item instanceof SellingItem sellingItem) {
-            Money costAllItems = sellingItem.getCost().multiply(BigDecimal.valueOf(quantity.getQuantity()));
+            Money costAllItems = moneyUtils.multiply(sellingItem.getCost(), BigDecimal.valueOf(quantity.getQuantity()));
             transferItemService.remove(name, nameInventory, slotMapper.toAction(fullDto, quantity));
             transferMoneyService.debit(number, moneyMapper.toFull(costAllItems));
         } else throw new NoSellingItemException();

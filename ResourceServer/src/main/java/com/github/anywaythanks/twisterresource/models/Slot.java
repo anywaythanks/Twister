@@ -1,12 +1,11 @@
 package com.github.anywaythanks.twisterresource.models;
 
-import com.github.anywaythanks.twisterresource.exceptions.InvalidItemTypeException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -16,6 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @Getter
 @SuperBuilder
+@EqualsAndHashCode
 public abstract class Slot<T extends Item> {
     @Id
     @GeneratedValue(generator = "slot_seq")
@@ -29,20 +29,4 @@ public abstract class Slot<T extends Item> {
     @Min(0)
     @Column(name = "quantity_item", nullable = false)
     Integer quantityItem;
-
-    public void addItems(@NonNull Item item, int quantity) {
-        if (quantity < 0)
-            throw new IllegalArgumentException();
-        if (!this.item.equals(item))
-            throw new InvalidItemTypeException();
-        quantityItem += quantity;
-    }
-
-    public void removeItems(@NonNull Item item, int quantity) {
-        if (quantity < 0)
-            throw new IllegalArgumentException();
-        if (!this.item.equals(item))
-            throw new InvalidItemTypeException();
-        quantityItem -= quantity;
-    }
 }

@@ -19,6 +19,7 @@ import com.github.anywaythanks.twisterresource.services.managers.InventoryInform
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotMergeService;
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotPutService;
+import com.github.anywaythanks.twisterresource.services.utils.SlotUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,6 @@ import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -58,6 +58,8 @@ class TransferItemServiceTest {
     InventorySlotInformationService inventorySlotInformationService;
     @Mock
     InventorySlotMergeService inventorySlotMergeService;
+    @Mock
+    SlotUtils slotUtils;
     TransferItemService transferItemService;
     InventorySlot<Item> inventorySlot;
     Clock clock = Clock.systemUTC();
@@ -118,7 +120,7 @@ class TransferItemServiceTest {
         InventorySlotFullDto slotFull = slotMapper.toInventoryFull(inventorySlot);
 
         when(inventorySlotInformationService.getFull(inventoryId, itemId)).thenReturn(slotFull);
-        transferItemService = new TransferItemService(itemMapper, inventoryInformationService, inventorySlotPutService, slotMapper, inventorySlotInformationService, inventorySlotMergeService);
+        transferItemService = new TransferItemService(itemMapper, inventoryInformationService, inventorySlotPutService, slotMapper, inventorySlotInformationService, inventorySlotMergeService, slotUtils);
     }
 
     @BeforeEach
@@ -130,17 +132,6 @@ class TransferItemServiceTest {
     @Nested
     class Add {
         @Test
-        void negateAdd() {
-            InventoryNameRequestDto inventoryName = inventoryMapper.toNameRequest(inventorySlot.getInventory().getName());
-            SlotActionDto addition = slotMapper.toAction(inventorySlot).withQuantity(-3);
-            InventoryDebitResponseDto debit = inventoryMapper.toDebitDTO(inventorySlot.getInventory());
-
-            when(inventoryInformationService.getDebit(inventoryName)).thenReturn(debit);
-
-            assertThrows(IllegalArgumentException.class, () -> transferItemService.add(inventoryName, addition));
-        }
-
-        @Test
         void add() {
             InventoryNameRequestDto inventoryName = inventoryMapper.toNameRequest(inventorySlot.getInventory().getName());
             SlotActionDto addition = slotMapper.toAction(inventorySlot).withQuantity(3);
@@ -150,31 +141,17 @@ class TransferItemServiceTest {
             InventorySlotActionDto inventorySlotPut = slotMapper.toInventoryAction(inventoryId, slotPut);
 
             when(inventoryInformationService.getDebit(inventoryName)).thenReturn(debit);
-
             transferItemService.add(inventoryName, addition);
 
             InOrder save = inOrder(inventorySlotPutService, inventorySlotMergeService);
             save.verify(inventorySlotPutService, times(1)).putIfAbsent(slotMapper.toPut(inventorySlotPut));
-            inventorySlot.setQuantityItem(12);
+            verify(slotUtils, times(1)).addItems(inventorySlot, inventorySlot.getItem(), 3);
             save.verify(inventorySlotMergeService, times(1)).merge(slotMapper.toInventoryFull(inventorySlot));
         }
     }
 
     @Nested
     class Remove {
-        @Test
-        void negateRemove() {
-            GeneralAccountNameRequestDto accountName =
-                    generalAccountMapper.toNameRequest(inventorySlot.getInventory().getGeneralAccount().getName());
-            InventoryNameRequestDto inventoryName = inventoryMapper.toNameRequest(inventorySlot.getInventory().getName());
-            SlotActionDto removed = slotMapper.toAction(inventorySlot).withQuantity(-3);
-            InventoryIdDto inventoryId = inventoryMapper.toIdDTO(inventorySlot.getInventory());
-
-            when(inventoryInformationService.getInventoryId(accountName, inventoryName)).thenReturn(inventoryId);
-
-            assertThrows(IllegalArgumentException.class, () -> transferItemService.remove(accountName, inventoryName, removed));
-        }
-
         @Test
         void remove() {
             GeneralAccountNameRequestDto accountName =
@@ -191,7 +168,7 @@ class TransferItemServiceTest {
             InventorySlotActionDto inventorySlotPut = slotMapper.toInventoryAction(inventoryId, slotPut);
             InOrder save = inOrder(inventorySlotPutService, inventorySlotMergeService);
             save.verify(inventorySlotPutService, times(1)).putIfAbsent(slotMapper.toPut(inventorySlotPut));
-            inventorySlot.setQuantityItem(6);
+            verify(slotUtils, times(1)).removeItems(inventorySlot, inventorySlot.getItem(), 3);
             save.verify(inventorySlotMergeService, times(1)).merge(slotMapper.toInventoryFull(inventorySlot));
         }
     }

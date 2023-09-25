@@ -18,6 +18,7 @@ import com.github.anywaythanks.twisterresource.services.managers.InventoryInform
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotMergeService;
 import com.github.anywaythanks.twisterresource.services.managers.InventorySlotPutService;
+import com.github.anywaythanks.twisterresource.services.utils.SlotUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +36,7 @@ public class TransferItemService {
     private final SlotMapper slotMapper;
     private final InventorySlotInformationService inventorySlotInformationService;
     private final InventorySlotMergeService inventorySlotMergeService;
+    private final SlotUtils slotUtils;
 
     private void actionSlot(InventorySlotActionDto slotAction,
                             Function<Slot<?>, BiConsumer<Item, Integer>> action) {
@@ -52,14 +54,14 @@ public class TransferItemService {
     @Transactional
     public void add(InventoryNameRequestDto name, SlotActionDto actionDto) {
         InventoryDebitResponseDto debit = inventoryInformationService.getDebit(name);
-        actionSlot(slotMapper.toInventoryAction(debit, actionDto), slot -> slot::addItems);
+        actionSlot(slotMapper.toInventoryAction(debit, actionDto), slot -> (i, q) -> slotUtils.addItems(slot, i, q));
     }
 
     @Transactional
     public void remove(GeneralAccountNameRequestDto name, InventoryNameRequestDto nameInventory,
                        SlotActionDto actionDto) {
         InventoryIdDto credit = inventoryInformationService.getInventoryId(name, nameInventory);
-        actionSlot(slotMapper.toInventoryAction(credit, actionDto), slot -> slot::removeItems);
+        actionSlot(slotMapper.toInventoryAction(credit, actionDto), slot -> (i, q) -> slotUtils.removeItems(slot, i, q));
     }
 
     @Transactional

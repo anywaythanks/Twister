@@ -15,12 +15,13 @@ import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeFu
 import com.github.anywaythanks.twisterresource.services.managers.AccountInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.AccountMergeService;
 import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.utils.MoneyUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 @Service
 @RequiredArgsConstructor
@@ -30,12 +31,13 @@ public class TransferMoneyService {
     private final MoneyTypeInformationService moneyTypeInformationService;
     private final AccountMapper accountMapper;
     private final AccountMergeService mergeAccountService;
+    private final MoneyUtils moneyUtils;
 
     private void actionAccount(AccountFullDto accountFullDto, MoneyFullDto val,
-                               Function<Money, Function<Money, Money>> action) {
+                               BiFunction<Money, Money, Money> action) {
         Account account = accountMapper.toAccount(accountFullDto);
         Money actionVal = moneyMapper.toMoney(val);
-        Money newVal = action.apply(account.getAmount()).apply(actionVal);
+        Money newVal = action.apply(account.getAmount(), actionVal);
         if (newVal.getValue().compareTo(BigDecimal.ZERO) < 0) {
             throw new InsufficientFundsException();
         }
@@ -46,13 +48,13 @@ public class TransferMoneyService {
     @Transactional
     public void debit(AccountNumberRequestDto number, MoneyFullDto debit) {
         AccountDebitResponseDto accountDebit = accountInformationService.getPublic(number);
-        actionAccount(accountDebit, debit, money -> money::add);
+        actionAccount(accountDebit, debit, moneyUtils::add);
     }
 
     @Transactional
     public void credit(GeneralAccountNameRequestDto name, AccountNumberRequestDto number, MoneyFullDto credit) {
         AccountFullDto accountCredit = accountInformationService.getFull(name, number);
-        actionAccount(accountCredit, credit, money -> money::subtract);
+        actionAccount(accountCredit, credit, moneyUtils::subtract);
     }
 
     @Transactional

@@ -18,6 +18,7 @@ import com.github.anywaythanks.twisterresource.models.dto.slot.SlotQuantityReque
 import com.github.anywaythanks.twisterresource.models.interfaces.SellingItem;
 import com.github.anywaythanks.twisterresource.services.managers.ItemInformationService;
 import com.github.anywaythanks.twisterresource.services.managers.MoneyTypeInformationService;
+import com.github.anywaythanks.twisterresource.services.utils.MoneyUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -65,6 +66,8 @@ class ShopServiceTest {
     MoneyTypeInformationService moneyTypeInformationService;
     @Mock
     ItemInformationService itemInformationService;
+    @Mock
+    MoneyUtils moneyUtils;
     Item noSellingItem;
     Account account;
     MoneyType type;
@@ -144,7 +147,7 @@ class ShopServiceTest {
     }
 
     void initMocks() {
-        shopService = new ShopService(transferMoneyService, transferItemService, moneyMapper, slotMapper, moneyTypeInformationService, itemInformationService, itemMapper);
+        shopService = new ShopService(transferMoneyService, transferItemService, moneyMapper, slotMapper, moneyTypeInformationService, itemInformationService, itemMapper, moneyUtils);
     }
 
     @BeforeEach
@@ -176,7 +179,9 @@ class ShopServiceTest {
         void sell() {
             ItemNameRequestDto itemName = itemMapper.toNameDTO(sellingItem.item());
             ItemFullDto itemFull = itemMapper.toFullItem(sellingItem.item());
+            Money multiplied = Money.builder().moneyType(type).value(BigDecimal.valueOf(60)).build();
             when(itemInformationService.getFull(itemName)).thenReturn(itemFull);
+            when(moneyUtils.multiply(sellingItem.item().getCost(), BigDecimal.valueOf(4))).thenReturn(multiplied);
 
             GeneralAccountNameRequestDto generalName = generalAccountMapper
                     .toNameRequest(account.getGeneralAccount().getName());
@@ -184,8 +189,7 @@ class ShopServiceTest {
             AccountNumberRequestDto accountNumber = accountMapper.toNumberRequest(account.getNumber());
             shopService.sell(generalName, inventoryName, itemName, accountNumber, new SlotQuantityRequestDto(4));
 
-            Money result = Money.builder().moneyType(type).value(BigDecimal.valueOf(60)).build();
-            MoneyFullDto resultDto = moneyMapper.toFull(result);
+            MoneyFullDto resultDto = moneyMapper.toFull(multiplied);
             SlotActionDto resultSlot = slotMapper.toAction(itemFull, new SlotQuantityRequestDto(4));
             InOrder order = inOrder(transferItemService, transferMoneyService);
             order.verify(transferItemService, times(1)).remove(generalName, inventoryName, resultSlot);
