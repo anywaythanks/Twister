@@ -22,6 +22,6 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public abstract class ItemCreateRequestDto implements VisibleName {
+public sealed abstract class ItemCreateRequestDto implements VisibleName permits ItemMoneyCreateRequestDto, ItemTrashCreateRequestDto {
     @NonNull String visibleName;
 }

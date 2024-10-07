@@ -13,7 +13,7 @@ import static lombok.AccessLevel.PRIVATE;
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class ItemMoneyRegisterDto extends ItemRegisterDto implements Cost<MoneyFullDto> {
+public non-sealed class ItemMoneyRegisterDto extends ItemRegisterDto implements Cost<MoneyFullDto> {
     @NonNull MoneyFullDto cost;
 
     public ItemMoneyRegisterDto(@NonNull String name, @NonNull String visibleName, @NonNull MoneyFullDto cost) {

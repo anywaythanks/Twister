@@ -1,9 +1,11 @@
 package com.github.anywaythanks.twisterresource.exceptions;
 
 import com.github.anywaythanks.twisterresource.models.GeneralAccount;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@Getter
 @ResponseStatus(value = HttpStatus.CONFLICT)
 public class GeneralAccountExistsException extends UniqueException {
     private final GeneralAccount generalAccount;
@@ -17,7 +19,4 @@ public class GeneralAccountExistsException extends UniqueException {
         this.generalAccount = generalAccount;
     }
 
-    public GeneralAccount getGeneralAccount() {
-        return generalAccount;
-    }
 }

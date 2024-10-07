@@ -8,10 +8,9 @@ import com.github.anywaythanks.twisterresource.models.Item;
 import com.github.anywaythanks.twisterresource.models.ItemMoney;
 import com.github.anywaythanks.twisterresource.models.ItemTrash;
 import com.github.anywaythanks.twisterresource.models.Money;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemMoneyRegisterDto;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemPartialResponseDto;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemRegisterDto;
-import com.github.anywaythanks.twisterresource.models.dto.item.ItemTrashRegisterDto;
+import com.github.anywaythanks.twisterresource.models.dto.item.*;
+import com.github.anywaythanks.twisterresource.models.dto.money.MoneyFullDto;
+import com.github.anywaythanks.twisterresource.models.dto.money.type.MoneyTypeFullDto;
 import com.github.anywaythanks.twisterresource.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,25 +30,22 @@ public class ItemRegisterService {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional
     public ItemPartialResponseDto register(ItemRegisterDto registerDto) {
-        Item item;
         Instant now = Instant.now(clock);
-        if (registerDto instanceof ItemMoneyRegisterDto itemMoney) {
-            Money cost = moneyMapper.toMoney(itemMoney.getCost());
-            item = ItemMoney.builder()
+        Item item = switch (registerDto) {
+            case ItemMoneyRegisterDto itemMoney -> ItemMoney.builder()
                     .name(itemMoney.getName())
                     .visibleName(itemMoney.getVisibleName())
                     .createdOn(now)
                     .modifiedBy(now)
-                    .cost(cost)
+                    .cost(moneyMapper.toMoney(itemMoney.getCost()))
                     .build();
-        } else if (registerDto instanceof ItemTrashRegisterDto itemTrash) {
-            item = ItemTrash.builder()
+            case ItemTrashRegisterDto itemTrash -> ItemTrash.builder()
                     .name(itemTrash.getName())
                     .visibleName(itemTrash.getVisibleName())
                     .createdOn(now)
                     .modifiedBy(now)
                     .build();
-        } else throw new InvalidItemTypeException();
+        };
         Item resultItem = itemRepository.save(item);
         return itemMapper.toPartialDTO(itemRepository.save(resultItem));
     }

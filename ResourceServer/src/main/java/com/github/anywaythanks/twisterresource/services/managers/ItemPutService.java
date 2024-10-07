@@ -33,27 +33,30 @@ public class ItemPutService {
     public ItemPartialResponseDto put(ItemNameRequestDto name, ItemCreateRequestDto create) {
         Optional<Item> optionalItem = itemRepository.findByName(name.getName());
         if (optionalItem.isEmpty()) {
-            ItemRegisterDto item;
-            if (create instanceof ItemMoneyCreateRequestDto createMoney) {
-                MoneyTypeFullDto type = moneyTypeInformationService.getFull(createMoney.getCost().getType());
-                MoneyFullDto cost = moneyMapper.toFull(type, createMoney.getCost());
-                item = itemMapper.toRegister(cost, name, createMoney);
-            } else if (create instanceof ItemTrashCreateRequestDto createTrash) {
-                item = itemMapper.toRegister(createTrash, name);
-            } else throw new InvalidItemTypeException();
+            ItemRegisterDto item = switch (create) {
+                case ItemMoneyCreateRequestDto createMoney -> {
+                    MoneyTypeFullDto type = moneyTypeInformationService.getFull(createMoney.getCost().getType());
+                    MoneyFullDto cost = moneyMapper.toFull(type, createMoney.getCost());
+                    yield itemMapper.toRegister(cost, name, createMoney);
+                }
+                case ItemTrashCreateRequestDto createTrash -> itemMapper.toRegister(createTrash, name);
+            };
             return itemRegisterService.register(item);
         }
         Item item = optionalItem.get();
-        if (create instanceof ItemMoneyCreateRequestDto createMoney) {
-            if (item instanceof ItemMoney itemMoney) {
+        record Items(Item item, ItemCreateRequestDto create) {
+        }
+
+        switch (new Items(item, create)) {
+            case Items(ItemMoney itemMoney, ItemMoneyCreateRequestDto createMoney) -> {
                 MoneyTypeFullDto type = moneyTypeInformationService.getFull(createMoney.getCost().getType());
                 MoneyFullDto cost = moneyMapper.toFull(type, createMoney.getCost());
                 itemMoney.setCost(moneyMapper.toMoney(cost));
                 itemMoney.setVisibleName(createMoney.getVisibleName());
             }
-        } else if (create instanceof ItemTrashCreateRequestDto createTrash) {
-            if (item instanceof ItemTrash itemTrash) {
-                itemTrash.setVisibleName(createTrash.getVisibleName());
+            case Items(ItemTrash itemTrash, ItemTrashCreateRequestDto createTrash) ->
+                    itemTrash.setVisibleName(createTrash.getVisibleName());
+            default -> {
             }
         }
         return itemMergeService.merge(itemMapper.toFullItem(item));

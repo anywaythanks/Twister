@@ -4,7 +4,7 @@ import com.github.anywaythanks.twisterresource.annotation.RegisterDto;
 import lombok.NonNull;
 
 @RegisterDto
-public class ItemTrashRegisterDto extends ItemRegisterDto {
+public non-sealed class ItemTrashRegisterDto extends ItemRegisterDto {
     public ItemTrashRegisterDto(@NonNull String name, @NonNull String visibleName) {
         super(name, visibleName);
     }

@@ -38,22 +38,22 @@ public class CasePutService {
     public CasePartialResponseDto put(CaseNameRequestDto name, CaseCreateRequestDto create) {
         MoneyTypeFullDto typeFull = moneyTypeInformationService.getFull(create.getPrice().getType());
         MoneyFullDto price = moneyMapper.toFull(typeFull, create.getPrice());
-        Optional<Case> optionalCase = caseRepository.findByName(name.getName());
-        if (optionalCase.isEmpty()) {
-            List<CaseSlotRegisterDto> items = create.getItems()
-                    .stream()
-                    .map(slot -> {
-                        ItemIdDto itemId = itemInformationService.getId(slot.getItem());
-                        return slotMapper.toCaseRegister(itemId, slot);
-                    })
-                    .toList();
-            return caseRegisterService.register(caseMapper.toRegister(items, name, price, create));
-        }
-        Case mergedCase = optionalCase.get();
-        mergedCase.setVisibleName(create.getVisibleName());
-        mergedCase.setDescription(create.getDescription());
-        mergedCase.setPrice(moneyMapper.toMoney(price));
-        mergedCase.setCooldown(create.getCooldown());
-        return caseMergeService.merge(caseMapper.toFull(mergedCase));
+        return caseRepository.findByName(name.getName())
+                .flatMap(mergedCase -> {
+                    mergedCase.setVisibleName(create.getVisibleName());
+                    mergedCase.setDescription(create.getDescription());
+                    mergedCase.setPrice(moneyMapper.toMoney(price));
+                    mergedCase.setCooldown(create.getCooldown());
+                    return Optional.of(caseMergeService.merge(caseMapper.toFull(mergedCase)));
+                }).orElseGet(() -> {
+                    List<CaseSlotRegisterDto> items = create.getItems()
+                            .stream()
+                            .map(slot -> {
+                                ItemIdDto itemId = itemInformationService.getId(slot.getItem());
+                                return slotMapper.toCaseRegister(itemId, slot);
+                            })
+                            .toList();
+                    return caseRegisterService.register(caseMapper.toRegister(items, name, price, create));
+                });
     }
 }

@@ -46,6 +46,7 @@ public class SecurityConfig {
                                 .logoutUrl("/logout")
                                 .logoutSuccessHandler(keycloakLogoutHandler)
                                 .permitAll());
+
         http.requiresChannel(channelRequestMatcherRegistry ->
                 channelRequestMatcherRegistry.anyRequest().requiresSecure());
         return http.build();

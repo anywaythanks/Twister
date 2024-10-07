@@ -8,7 +8,7 @@ import static lombok.AccessLevel.PROTECTED;
 
 @CreateRequestDto
 @NoArgsConstructor(access = PROTECTED)
-public class ItemTrashCreateRequestDto extends ItemCreateRequestDto {
+public non-sealed class ItemTrashCreateRequestDto extends ItemCreateRequestDto {
     public ItemTrashCreateRequestDto(@NonNull String visibleName) {
         super(visibleName);
     }

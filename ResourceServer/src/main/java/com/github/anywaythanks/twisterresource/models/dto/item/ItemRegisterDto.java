@@ -14,7 +14,7 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @Getter
 @EqualsAndHashCode
-public abstract class ItemRegisterDto implements Name, VisibleName {
+public sealed abstract  class ItemRegisterDto implements Name, VisibleName permits ItemMoneyRegisterDto, ItemTrashRegisterDto {
     @NonNull String name;
     @NonNull String visibleName;
 }

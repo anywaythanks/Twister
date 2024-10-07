@@ -16,7 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class ItemMoneyCreateRequestDto extends ItemCreateRequestDto implements Cost<MoneyCreateRequestDto> {
+public non-sealed class ItemMoneyCreateRequestDto extends ItemCreateRequestDto implements Cost<MoneyCreateRequestDto> {
     @NonNull MoneyCreateRequestDto cost;
 
     public ItemMoneyCreateRequestDto(@NonNull String visibleName, @NonNull MoneyCreateRequestDto cost) {
