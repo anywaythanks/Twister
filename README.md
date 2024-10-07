@@ -3,8 +3,8 @@ Service with OAuth2 authorization. With the ability to store and transfer in-gam
 
 > [!NOTE]
 > 
-> Demo: https://twister.fvds.ru:9443/
+> Demo: [twister.fvds.ru](http://twister.fvds.ru)
 > 
-> OpenAPI: https://twister.fvds.ru:9443/server/swagger-ui/index.html#
+> OpenAPI: [twister.fvds.ru/server/swagger-ui/index.html#](http://twister.fvds.ru/server/swagger-ui/index.html#)
 >
 > Wiki: https://github.com/anywaythanks/Twister/wiki

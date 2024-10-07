@@ -44,9 +44,9 @@ spring:
 scheme: https
 keycloak-port: 8443
 keycloak-issuer: ${scheme}://twister.fvds.ru:${keycloak-port}/realms/${keycloak-realms}
-file-server-path: ${scheme}://twister.fvds.ru:9443/server/resources
-base-url: ${scheme}://twister.fvds.ru:9443/server
-home-url: ${scheme}://twister.fvds.ru:9443/
+file-server-path: ${scheme}://twister.fvds.ru/server/resources
+base-url: ${scheme}://twister.fvds.ru/server
+home-url: ${scheme}://twister.fvds.ru/
 spring:
   config:
     activate:

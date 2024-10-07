@@ -23,10 +23,11 @@ servers:
         default: twister.fvds.ru
       port:
         enum:
+          - '443'
           - '9080'
           - '8443'
           - '9443'
-        default: '9443'
+        default: '443'
 components:
   securitySchemes:
     oAuthSample:
